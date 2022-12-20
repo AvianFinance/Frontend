@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalVideo from 'react-modal-video';
+// import ModalVideo from 'react-modal-video'; issue with npm depricated
 
 const Promo = () => {
 	const [videoModal, setvideoModal] = useState(false);
