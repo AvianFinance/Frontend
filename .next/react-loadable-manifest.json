@@ -1,1 +1,18 @@
-{}
+{
+  "../node_modules/@wagmi/connectors/dist/coinbaseWallet.js -> @coinbase/wallet-sdk": {
+    "id": "../node_modules/@wagmi/connectors/dist/coinbaseWallet.js -> @coinbase/wallet-sdk",
+    "files": []
+  },
+  "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/ethereum-provider": {
+    "id": "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/ethereum-provider",
+    "files": []
+  },
+  "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/qrcode-modal": {
+    "id": "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/qrcode-modal",
+    "files": []
+  },
+  "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/universal-provider": {
+    "id": "../node_modules/@wagmi/connectors/dist/walletConnect.js -> @walletconnect/universal-provider",
+    "files": []
+  }
+}

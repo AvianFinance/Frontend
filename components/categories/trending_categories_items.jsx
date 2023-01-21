@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { tranding_category_filter } from '../../data/categories_data';
-import CategoryItem from './categoryItem';
+import UserNFTs from './usernfts';
 import { trendingCategoryData } from '../../data/categories_data';
 import Tippy from '@tippyjs/react';
 import Recently_added_dropdown from '../dropdown/recently_added_dropdown';
@@ -106,7 +106,7 @@ const Trending_categories_items = () => {
 			</div>
 
 			{/* <!-- Grid --> */}
-			<CategoryItem />
+			<UserNFTs />
 		</>
 	);
 };

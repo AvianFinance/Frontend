@@ -7,6 +7,7 @@ const initialState = {
 	trendingCategoryItemData: [],
 	sortedtrendingCategoryItemData: [],
 	collectiondata: [],
+	collectionsdata: [],
 	sortedCollectionData: [],
 	renkingData: [],
 	filteredRenkingData: [],
@@ -49,8 +50,10 @@ export const counterSlice = createSlice({
 		bidsModalHide: (state) => {
 			state.bidsModal = false;
 		},
-		buyModalShow: (state) => {
+		buyModalShow: (state, payload) => {
+			console.log("slicedddd")
 			state.buyModal = true;
+			state.collectionsdata = payload.payload;
 		},
 		buyModalHide: (state) => {
 			state.buyModal = false;
