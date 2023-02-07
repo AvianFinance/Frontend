@@ -7,6 +7,7 @@ import Trending_categories_items from '../categories/trending_categories_items';
 
 import 'react-tabs/style/react-tabs.css';
 import Explore_collection_item from '../collectrions/explore_collection_item';
+import Usernftitems from "../../components/categories/userNFT_items"
 
 const User_items = () => {
 	const [itemActive, setItemActive] = useState(1);
@@ -87,7 +88,7 @@ const User_items = () => {
 						<TabPanel>
 							<div>
 								{/* <!-- Filter --> */}
-								<Trending_categories_items />
+								<Usernftitems />
 							</div>
 						</TabPanel>
 						<TabPanel>

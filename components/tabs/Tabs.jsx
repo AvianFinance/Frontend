@@ -6,19 +6,20 @@ import Activity_tab from './Activity_tab';
 import Price_history from './Price_history';
 import 'react-tabs/style/react-tabs.css';
 
-const ItemsTabs = () => {
+const ItemsTabs = (nftdata) => {
+	console.log(nftdata)
 	const [tabsActive, setTabsActive] = useState(1);
 	const tabsHeadText = [
-		{
-			id: 1,
-			text: 'Offers',
-			icon: 'offers',
-		},
-		{
-			id: 2,
-			text: 'properties',
-			icon: 'properties',
-		},
+		// {
+		// 	id: 1,
+		// 	text: 'Offers',
+		// 	icon: 'offers',
+		// },
+		// {
+		// 	id: 2,
+		// 	text: 'properties',
+		// 	icon: 'properties',
+		// },
 		{
 			id: 3,
 			text: 'details',
@@ -29,11 +30,11 @@ const ItemsTabs = () => {
 			text: 'activities',
 			icon: 'activity',
 		},
-		{
-			id: 5,
-			text: 'price history',
-			icon: 'price',
-		},
+		// {
+		// 	id: 5,
+		// 	text: 'price history',
+		// 	icon: 'price',
+		// },
 	];
 	return (
 		<>
@@ -63,12 +64,12 @@ const ItemsTabs = () => {
 						})}
 					</TabList>
 
-					<TabPanel className="tab-content">
+					{/* <TabPanel className="tab-content">
 						<OfferTab />
 					</TabPanel>
 					<TabPanel>
 						<Properties />
-					</TabPanel>
+					</TabPanel> */}
 					<TabPanel>
 						{/* <!-- Details --> */}
 						<div
@@ -107,9 +108,9 @@ const ItemsTabs = () => {
 					<TabPanel>
 						<Activity_tab />
 					</TabPanel>
-					<TabPanel>
+					{/* <TabPanel>
 						<Price_history classes="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-t-2lg rounded-b-2lg rounded-tl-none border bg-white p-6" />
-					</TabPanel>
+					</TabPanel> */}
 				</Tabs>
 			</div>
 		</>
