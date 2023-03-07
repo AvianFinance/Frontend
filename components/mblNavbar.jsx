@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { closeMblMenu } from '../redux/counterSlice';
+import { explorecollections } from '../redux/counterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import UserId from './userId';
@@ -11,8 +11,12 @@ import {
 	useDisconnect,
 	useEnsAvatar,
 	useEnsName,
+	fetchBalance,
 } from 'wagmi'
+
 import { isMounted } from "../scripts/isMounted"
+import getbalance from "../scripts/fetchbalance"
+import { closeMblMenu } from '../redux/counterSlice';
 
 const MblNavbar = ({ theme }) => {
 	const mountedcontent = isMounted
@@ -23,6 +27,7 @@ const MblNavbar = ({ theme }) => {
 	const router = useRouter();
 	const [navItemValue, setNavItemValue] = useState(1);
 	const [navText, setnavText] = useState('');
+	const [balance, setbalance] = useState('');
 
 	const handleItemDropdown = (e) => {
 		const target = e.target.closest('li');
@@ -35,11 +40,19 @@ const MblNavbar = ({ theme }) => {
 	};
 
 	useEffect(() => {
+		if (address){
+			getbalance(address)
+				.then((res)=>{
+					setbalance(Number(res.formatted).toFixed(2)+" "+res.symbol)
+				})
+		}
+		
 		window.addEventListener('resize', () => {
 			if (window.innerWidth >= 1024) {
 				dispatch(closeMblMenu());
 			}
 		});
+		console.log(router.asPath)
 
 		if (router.asPath === '/') {
 			localStorage.setItem('navItemValue', 1);
@@ -344,7 +357,7 @@ const MblNavbar = ({ theme }) => {
 			<div className="t-0 dark:bg-jacarta-800 fixed left-0 z-10 flex w-full items-center justify-between bg-white p-6 lg:hidden">
 				{/* <!-- Mobile Logo --> */}
 
-				<Link href="/">
+				<Link href="home/home_5">
 					<a>
 						<img
 							src="/images/logo.png"
@@ -549,10 +562,10 @@ const MblNavbar = ({ theme }) => {
 							</i>
 						</button>
 						<ul
-							className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col grid-rows-5 gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
+							className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col  gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
 							aria-labelledby="navDropdown-1"
 						>
-							<li>
+							{/* <li>
 								<Link href="/collection/explore_collection">
 									<a
 										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
@@ -578,13 +591,13 @@ const MblNavbar = ({ theme }) => {
 										</span>
 									</a>
 								</Link>
-							</li>
+							</li> */}
 							<li>
 								<Link href="/collection/explore_collection">
 									<a
 										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
 										onClick={() => {
-											dispatch(closeMblMenu());
+											dispatch(explorecollections("rent"));
 											localStorage.setItem('navItemValue', 31);
 										}}
 									>
@@ -601,7 +614,7 @@ const MblNavbar = ({ theme }) => {
 											</svg>
 										</span>
 										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Art
+											Rent
 										</span>
 									</a>
 								</Link>
@@ -611,7 +624,7 @@ const MblNavbar = ({ theme }) => {
 									<a
 										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
 										onClick={() => {
-											dispatch(closeMblMenu());
+											dispatch(explorecollections("buy"));
 											localStorage.setItem('navItemValue', 31);
 										}}
 									>
@@ -628,196 +641,7 @@ const MblNavbar = ({ theme }) => {
 											</svg>
 										</span>
 										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Collectibles
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#F2EEFF] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#8358FF]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M5 15v4h4v2H3v-6h2zm16 0v6h-6v-2h4v-4h2zm-8.001-9l4.4 11h-2.155l-1.201-3h-4.09l-1.199 3H6.6l4.399-11h2zm-1 2.885L10.752 12h2.492l-1.245-3.115zM9 3v2H5v4H3V3h6zm12 0v6h-2V5h-4V3h6z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Domain Names
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#FFEEFA] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#F35BC7]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M12 13.535V3h8v3h-6v11a4 4 0 1 1-2-3.465z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Music
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#EAF2FE] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#428AF8]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M2 6c0-.552.455-1 .992-1h18.016c.548 0 .992.445.992 1v14c0 .552-.455 1-.992 1H2.992A.994.994 0 0 1 2 20V6zm2 1v12h16V7H4zm10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2a5 5 0 1 1 0-10 5 5 0 0 1 0 10zM4 2h6v2H4V2z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Photography
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#EBEDFF] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#737EF2]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm.366 11.366l-3.469 6.01a8.053 8.053 0 0 0 4.459.51 9.937 9.937 0 0 1 .784-5.494l-1.774-1.026zm3.518 2.031a7.956 7.956 0 0 0-.587 3.894 8.022 8.022 0 0 0 3.077-2.456l-2.49-1.438zm-7.025-4.055a9.95 9.95 0 0 1-4.365 3.428 8.01 8.01 0 0 0 2.671 3.604l3.469-6.008-1.775-1.024zm11.103-.13l-.258.12a7.947 7.947 0 0 0-2.82 2.333l2.492 1.439a7.975 7.975 0 0 0 .586-3.893zM4 12c0 .266.013.53.038.789a7.95 7.95 0 0 0 3.078-2.454L4.624 8.897A7.975 7.975 0 0 0 4 12zm12.835-6.374l-3.469 6.008 1.775 1.025a9.95 9.95 0 0 1 4.366-3.43 8.015 8.015 0 0 0-2.419-3.402l-.253-.201zM12 4c-.463 0-.916.04-1.357.115a9.928 9.928 0 0 1-.784 5.494l1.775 1.025 3.469-6.01A7.975 7.975 0 0 0 12 4zm-3.297.71l-.191.088a8.033 8.033 0 0 0-2.886 2.367l2.49 1.438a7.956 7.956 0 0 0 .587-3.893z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Sports
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#F5FFED] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#8DD059]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M2 3.993A1 1 0 0 1 2.992 3h18.016c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V3.993zM4 5v14h16V5H4zm2 2h6v6H6V7zm2 2v2h2V9H8zm-2 6h12v2H6v-2zm8-8h4v2h-4V7zm0 4h4v2h-4v-2z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Trading Cards
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#FFEEEE] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#EF3D3D]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M22 7h1v10h-1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v3zm-2 10h-6a5 5 0 0 1 0-10h6V5H4v14h16v-2zm1-2V9h-7a3 3 0 0 0 0 6h7zm-7-4h3v2h-3v-2z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Utility
-										</span>
-									</a>
-								</Link>
-							</li>
-							<li>
-								<Link href="/collection/explore_collection">
-									<a
-										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-										onClick={() => {
-											dispatch(closeMblMenu());
-											localStorage.setItem('navItemValue', 31);
-										}}
-									>
-										<span className="mr-3 rounded-xl bg-[#EEFCFF] p-[0.375rem]">
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												width="24"
-												height="24"
-												className="h-4 w-4 fill-[#46C7E3]"
-											>
-												<path fill="none" d="M0 0h24v24H0z"></path>
-												<path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2.29-2.333A17.9 17.9 0 0 1 8.027 13H4.062a8.008 8.008 0 0 0 5.648 6.667zM10.03 13c.151 2.439.848 4.73 1.97 6.752A15.905 15.905 0 0 0 13.97 13h-3.94zm9.908 0h-3.965a17.9 17.9 0 0 1-1.683 6.667A8.008 8.008 0 0 0 19.938 13zM4.062 11h3.965A17.9 17.9 0 0 1 9.71 4.333 8.008 8.008 0 0 0 4.062 11zm5.969 0h3.938A15.905 15.905 0 0 0 12 4.248 15.905 15.905 0 0 0 10.03 11zm4.259-6.667A17.9 17.9 0 0 1 15.973 11h3.965a8.008 8.008 0 0 0-5.648-6.667z"></path>
-											</svg>
-										</span>
-										<span className="font-display text-jacarta-700 text-sm dark:text-white">
-											Virtual Worlds
+											Buy
 										</span>
 									</a>
 								</Link>
@@ -1027,8 +851,9 @@ const MblNavbar = ({ theme }) => {
 							</svg>
 						</button>
 					)}
-
-					{isConnected ? <div
+					
+					{isConnected ?
+					<div
 						className={
 							profileShow
 								? 'dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl show lg:visible lg:opacity-100'
@@ -1036,10 +861,10 @@ const MblNavbar = ({ theme }) => {
 						}
 						onMouseEnter={() => setProfileShow(true)}
 						onMouseLeave={() => setProfileShow(false)}
-					>
+					>	
 						<UserId
 							classes="js-copy-clipboard font-display text-jacarta-700 my-4 flex select-none items-center whitespace-nowrap px-5 leading-none dark:text-white"
-							userId= {mountedcontent ? address : null}
+							userId={mountedcontent ? address : null}
 							shortId={true}
 						/>
 
@@ -1051,7 +876,7 @@ const MblNavbar = ({ theme }) => {
 								<svg className="icon icon-ETH -ml-1 mr-1 h-[1.125rem] w-[1.125rem]">
 									<use xlinkHref="/icons.svg#icon-ETH"></use>
 								</svg>
-								<span className="text-green text-lg font-bold">10 ETH</span>
+								<span className="text-green text-lg font-bold">{mountedcontent ? balance : null}</span>
 							</div>
 						</div>
 						<Link href="/user/avatar_6">
@@ -1105,7 +930,7 @@ const MblNavbar = ({ theme }) => {
 								</span>
 							</a>
 						</Link>
-					</div> : null }
+					</div> : null}
 				</div>
 
 				{/* <!-- Dark Mode --> */}

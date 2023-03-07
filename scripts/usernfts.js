@@ -2,7 +2,6 @@ import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 
 const getnfts = async (address) => {
-  console.log(address)
 
   const chain = EvmChain.FUJI;
  

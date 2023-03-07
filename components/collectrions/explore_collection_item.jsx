@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Feature_collections_data from '../../data/Feature_collections_data';
 
+
 const Explore_collection_item = ({ itemFor }) => {
 	const { sortedCollectionData } = useSelector((state) => state.counter);
 

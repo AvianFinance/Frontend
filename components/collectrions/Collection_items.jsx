@@ -8,7 +8,7 @@ import FilterCategoryItem from '../categories/filterCategoryItem';
 import 'react-tabs/style/react-tabs.css';
 import { collection_activity_item_data } from '../../data/collection_data';
 
-const Collection_items = () => {
+const Collection_items = ({collection, isloading}) => {
 	const [itemsTabs, setItemsTabs] = useState(1);
 	const [categoryItemData, setCategoryItemData] = useState(trendingCategoryData);
 
@@ -24,6 +24,7 @@ const Collection_items = () => {
 			icon: 'activities',
 		},
 	];
+
 	return (
 		<>
 			<section className="relative py-24">
@@ -61,9 +62,10 @@ const Collection_items = () => {
 						</TabList>
 
 						<TabPanel>
+							{isloading ? 
 							<div>
-								<FilterCategoryItem />
-							</div>
+								<FilterCategoryItem collection={collection}/>
+							</div> : null }
 						</TabPanel>
 						<TabPanel>
 							<Activity_item />

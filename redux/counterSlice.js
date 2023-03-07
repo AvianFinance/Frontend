@@ -7,6 +7,7 @@ const initialState = {
 	trendingCategoryItemData: [],
 	sortedtrendingCategoryItemData: [],
 	collectiondata: [],
+	collectionsdata: null,
 	sortedCollectionData: [],
 	renkingData: [],
 	filteredRenkingData: [],
@@ -15,6 +16,11 @@ const initialState = {
 	buyModal: false,
 	propartiesModalValue: false,
 	trendingCategorySorText: '',
+	exploretype: '',
+	listbuymodal: false,
+	listrentmodal: false,
+	listcontent: null,
+	listrentalcontent: null
 };
 
 export const counterSlice = createSlice({
@@ -27,7 +33,10 @@ export const counterSlice = createSlice({
 		closeMblMenu: (state) => {
 			state.mblMenu = false;
 		},
-
+		explorecollections: (state, payload) => {
+			state.mblMenu = false;
+			state.exploretype = payload.payload;
+		},
 		openDropdown: (state) => {
 			state.dropdown = true;
 		},
@@ -46,14 +55,34 @@ export const counterSlice = createSlice({
 		bidsModalShow: (state) => {
 			state.bidsModal = true;
 		},
+		listbuyModalShow: (state, payload) => {
+			console.log(payload.payload)
+			state.listbuymodal = true;
+			state.listcontent = payload.payload
+		},
+		listrentModalShow: (state, payload) => {
+			console.log(payload.payload)
+			state.listrentmodal = true;
+			state.listrentalcontent = payload.payload
+		},
 		bidsModalHide: (state) => {
 			state.bidsModal = false;
 		},
-		buyModalShow: (state) => {
+		buyModalShow: (state, payload) => {
 			state.buyModal = true;
+			state.collectionsdata = payload.payload;
 		},
 		buyModalHide: (state) => {
 			state.buyModal = false;
+			state.collectionsdata = null;
+		},
+		buylistModalHide: (state) => {
+			state.listbuymodal = false;
+			state.listcontent = null
+		},
+		rentlistModalHide: (state) => {
+			state.listrentmodal = false;
+			state.listrentalcontent = null
 		},
 		showPropatiesModal: (state) => {
 			state.propartiesModalValue = true;
@@ -112,7 +141,6 @@ export const counterSlice = createSlice({
 		},
 		updateCollectionData: (state, action) => {
 			const text = action.payload;
-			console.log(text);
 			if (text === 'trending') {
 				const tampItem = state.collectiondata.filter((item) => item.trending);
 				state.sortedCollectionData = tampItem;
@@ -181,6 +209,11 @@ export const {
 	updateRenkingData,
 	updateRenkingDataByBlockchain,
 	updateRenkingDataByPostdate,
+	explorecollections,
+	listbuyModalShow,
+	listrentModalShow,
+	buylistModalHide,
+	rentlistModalHide
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

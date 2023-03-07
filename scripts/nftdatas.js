@@ -2,19 +2,17 @@
 import Moralis from "moralis";
 import { EvmChain } from '@moralisweb3/common-evm-utils';
 
-const nftdatas = async () => {
+const nftdatas = async (address, tokenId) => {
     const chain = EvmChain.FUJI;
+    console.log(address)
+    console.log(tokenId)
 
-    const address = "0xA5e80F4980878b7C2c23D6fA002358A47d0060a3"
     if (!Moralis.Core.isStarted) {
         await Moralis.start({
             apiKey: '7vrliQAzsM0MKcL8wHIQMPAGnUGzWTLwxWYPoyHciUGeRR2z1vlwbxw3oX3NpGsd',
             // ...and any other configuration
         });
     }
-    
-    console.log(Moralis.EvmApi)
-    let tokenId = '19'
 
     const response = await Moralis.EvmApi.nft.getNFTMetadata({
         address,
@@ -27,6 +25,7 @@ const nftdatas = async () => {
         tokenId,
         chain,
     });
+
 
     let tokenUriRes
 	try {

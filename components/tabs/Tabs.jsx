@@ -7,7 +7,6 @@ import Price_history from './Price_history';
 import 'react-tabs/style/react-tabs.css';
 
 const ItemsTabs = (nftdata) => {
-	console.log(nftdata)
 	const [tabsActive, setTabsActive] = useState(1);
 	const tabsHeadText = [
 		// {
@@ -36,6 +35,7 @@ const ItemsTabs = (nftdata) => {
 		// 	icon: 'price',
 		// },
 	];
+	console.log(nftdata)
 	return (
 		<>
 			<div className="scrollbar-custom mt-14 overflow-x-auto rounded-lg">
@@ -72,6 +72,7 @@ const ItemsTabs = (nftdata) => {
 					</TabPanel> */}
 					<TabPanel>
 						{/* <!-- Details --> */}
+						{nftdata !== null ? 
 						<div
 							className="tab-pane fade"
 							id="details"
@@ -82,7 +83,7 @@ const ItemsTabs = (nftdata) => {
 								<div className="mb-2 flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Contract Address:</span>
 									<a href="#" className="text-accent">
-										0x1cBB182322Aee8ce9F4F1f98d7460173ee30Af1F
+										{nftdata.nftdata.jsnresponse.token_address}
 									</a>
 								</div>
 								<div className="mb-2 flex items-center">
@@ -91,19 +92,51 @@ const ItemsTabs = (nftdata) => {
 										className="js-copy-clipboard text-jacarta-700 cursor-pointer select-none dark:text-white"
 										data-tippy-content="Copy"
 									>
-										7714
+										{nftdata.nftdata.jsnresponse.token_id} 
 									</span>
 								</div>
 								<div className="mb-2 flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Token Standard:</span>
-									<span className="text-jacarta-700 dark:text-white">ERC-721</span>
+									<span className="text-jacarta-700 dark:text-white">{nftdata.nftdata.jsnresponse.contract_type} </span>
 								</div>
 								<div className="flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Blockchain:</span>
-									<span className="text-jacarta-700 dark:text-white">Ethereum</span>
+									<span className="text-jacarta-700 dark:text-white">Avalanche</span>
 								</div>
 							</div>
+						</div> :
+						<div
+						className="tab-pane fade"
+						id="details"
+						role="tabpanel"
+						aria-labelledby="details-tab"
+					>
+						<div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-t-2lg rounded-b-2lg rounded-tl-none border bg-white p-6 md:p-10">
+							<div className="mb-2 flex items-center">
+								<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Contract Address:</span>
+								<a href="#" className="text-accent">
+									0x1cBB182322Aee8ce9F4F1f98d7460173ee30Af1F
+								</a>
+							</div>
+							<div className="mb-2 flex items-center">
+								<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Token ID:</span>
+								<span
+									className="js-copy-clipboard text-jacarta-700 cursor-pointer select-none dark:text-white"
+									data-tippy-content="Copy"
+								>
+									7714
+								</span>
+							</div>
+							<div className="mb-2 flex items-center">
+								<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Token Standard:</span>
+								<span className="text-jacarta-700 dark:text-white">ERC-721</span>
+							</div>
+							<div className="flex items-center">
+								<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Blockchain:</span>
+								<span className="text-jacarta-700 dark:text-white">Ethereum</span>
+							</div>
 						</div>
+					</div>}
 					</TabPanel>
 					<TabPanel>
 						<Activity_tab />

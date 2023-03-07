@@ -11,8 +11,6 @@ const Single_post = () => {
 	const router = useRouter();
 	const pid = router.query.single_post;
 
-	console.log(pid);
-
 	return (
 		<div>
 			<Meta title={`${pid} || Xhibiter | NFT Marketplace Next.js Template`} />

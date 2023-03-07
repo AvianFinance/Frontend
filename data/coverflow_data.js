@@ -108,14 +108,14 @@ export const coverflow_data = [
 
 export const hero_5_data = [
   {
-    img: "/images/products/item_16_2lg.jpg",
+    img: "/images/products/item_16_2lg.jpeg",
     title: "Etherium NFT Launching Lab",
     authorImage: "/images/avatars/avatar_18_rounded.gif",
     authorName: "051_Hart",
     id: "0Etherium NFT Launching Lab",
   },
   {
-    img: "/images/products/item_12_2lg.jpg",
+    img: "/images/products/item_12_2lg.jpeg",
     title: "Oceania \\\\ OVERSEER 017",
     authorImage: "/images/avatars/avatar_22_rounded.jpg",
     authorName: "MadeByM1KE",
@@ -123,7 +123,7 @@ export const hero_5_data = [
 
     subItem: [
       {
-        img: "/images/products/item_13_lg.jpg",
+        img: "/images/products/item_13_lg.jpeg",
         title: "Light Bars",
         authorImage: "/images/avatars/avatar_17_rounded.jpg",
         authorName: "Wow Frens",
