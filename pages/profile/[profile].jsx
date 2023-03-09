@@ -23,8 +23,6 @@ const Edit_user = () => {
 	const { address, isConnected } = useAccount()
 	const [profilePhoto, setProfilePhoto] = useState({value: "", errorVal:""});
 	const [coverePhoto, setCoverePhoto] = useState({value: "", errorVal:""});
-	const [preview, setPreview] = useState();
-	const [coverPreview, setCoverPreview] = useState();
 	const [userName, setuserName] = useState({value:"",errorVal:""})
 	const [bio, setBio] = useState({value:"",errorVal:""})
 	const [email, setemail] = useState({value:"",errorVal:""})
@@ -61,14 +59,14 @@ const Edit_user = () => {
 	};
 
 	const handleProfilePhoto = async (e) => {
-		const file = await uploadtoPinata(e.target.files[0])
+		let file = await uploadtoPinata(e.target.files[0])
 		setProfilePhoto(file);
 		console.log({value: file, errorVal:""})
 	};
 
 	const handleCoverPhoto = async (e) => {
-		const file = await uploadtoPinata(e.target.files[0])
-		setCoverePhoto(file);
+		let file = await uploadtoPinata(e.target.files[0])
+		setCoverePhoto({value: file, errorVal:""});
 		console.log({value: file, errorVal:""})
 	};
 
@@ -98,6 +96,7 @@ const Edit_user = () => {
 	};
 
 	const submit = (e) => {
+		
 		let obj ={
 			name : userName.value,
 			bio: bio.value,
@@ -105,9 +104,11 @@ const Edit_user = () => {
 			twitterLink: twitter.value,
 			instaLink: instagram.value,
 			site: website.value,
-			coverImage: profilePhoto.value,
-			profileImage: coverePhoto.value
+			coverImage: coverePhoto.value,
+			profileImage: profilePhoto.value
 		}
+
+		console.log(obj)
 
 		updateUser(address, obj)
 			.then((response) => {
