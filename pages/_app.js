@@ -14,6 +14,7 @@ import { WagmiConfig, createClient, configureChains } from 'wagmi'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import NonSSRWrapper from "../components/NonSSRWrapper"
 
 const { chains, provider, webSocketProvider } = configureChains(
     [avalancheFuji, avalanche],
@@ -32,7 +33,7 @@ const client = createClient({
 	webSocketProvider,
 })
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }) {
 	const router = useRouter();
 	const pid = router.asPath;
 	const scrollRef = useRef({
@@ -50,11 +51,12 @@ function MyApp({ Component, pageProps }) {
 	return (
 		<>
 			<Meta title="Home 1 || Xhibiter | NFT Marketplace Next.js Template" />
-
-			<WagmiConfig client={client}>
+			
+			<WagmiConfig client={client} suppressHydrationWarning="true">
 				<Provider store={store}>
 					<ThemeProvider enableSystem={true} attribute="class">
 						{/* <MetaMaskProvider> */}
+							<NonSSRWrapper> 
 							<UserContext.Provider value={{ scrollRef: scrollRef }} suppressHydrationWarning="true">
 								{pid === '/login' ? (
 									<Component {...pageProps} />
@@ -64,6 +66,8 @@ function MyApp({ Component, pageProps }) {
 									</Layout>
 								)}
 							</UserContext.Provider>
+							</NonSSRWrapper>
+							
 						{/* </MetaMaskProvider> */}
 					</ThemeProvider>
 				</Provider>
@@ -88,4 +92,4 @@ function MyApp({ Component, pageProps }) {
 	);
 }
 
-export default MyApp;
+export default App;
