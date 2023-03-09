@@ -139,7 +139,7 @@ const Edit_user = () => {
 				{/* <!-- Banner --> */}
 				<div className="relative">
 					<img
-						src={coverePhoto ? coverePhoto : '/images/user/banner.jpg'}
+						src={coverePhoto ? coverePhoto.value : '/images/user/banner.jpg'}
 						// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
 						alt="banner"
 						className="h-[18.75rem] w-full object-cover"

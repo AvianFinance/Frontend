@@ -46,14 +46,17 @@ const User = () => {
 	useEffect(() => {
 		console.log("should redirect to home page")
 		// console.log(address)
+		if(!isConnected){
+			router.push('/')
+		}
 		getUser(address)
 			.then((response) => {
-				// console.log(response.data)
+				console.log(response.data)
 				setUserData(response.data)
 			})
 	}, [isConnected, address]);
 
-	// console.log(UserData)
+	console.log(UserData)
 	if(UserData){
 		return (
 			<>
@@ -62,24 +65,32 @@ const User = () => {
 				{user_data
 					.filter((item) => item.id === pid)
 					.map((item) => {
-						const { id, image, title, userId, text, joinYear, icon, coverPhoto } = item;
+						const { id, image, title, userId, profileImage, coverImage, icon, coverPhoto } = item;
+						console.log(profileImage)
+						console.log(coverImage)
 						return (
 							<div className="pt-[5.5rem] lg:pt-24" key={id}>
 								{/* <!-- Banner --> */}
 								<div className="relative h-[18.75rem]">
-									<Image src={coverPhoto} alt="banner" layout="fill" objectFit="cover" />
+									<img
+										src={UserData.coverImage ? UserData.coverImage : '/images/user/banner.jpg'}
+										// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
+										alt="banner"
+										className="h-[18.75rem] w-full object-cover"
+									/>
 								</div>
 								{/* <!-- end banner --> */}
 								<section className="dark:bg-jacarta-800 bg-light-base relative pb-12 pt-28">
 									{/* <!-- Avatar --> */}
 									<div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
 										<figure className="relative h-40 w-40 dark:border-jacarta-600 rounded-xl border-[5px] border-white">
-											<Image
-												src={image}
-												alt={title}
-												layout="fill"
-												objectFit="contain"
+											<img
+												src={UserData.profileImage ? UserData.profileImage : '/images/user/user_avatar.gif'}
+												// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
+												alt="collection avatar"
 												className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
+												height={140}
+												width={140}
 											/>
 											<div
 												className="dark:border-jacarta-600 bg-green absolute -right-3 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"

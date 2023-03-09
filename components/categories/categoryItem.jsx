@@ -33,13 +33,11 @@ const CategoryItem = (collection) => {
           const id = item._id
           const image = item.uri
           const title = item.name
-          let price
-          if(type === "buy") {
-            console.log(exploretype)
+          let price = 0
+          if(type === "buy" && item.price !== null) {
             price = parseInt((item.price.hex) * Math.pow(10, -16), 16).toString()
           } 
-          if(type === "rent") {
-            console.log(exploretype)
+          if(type === "rent" && item.pricePerDay !== null) {
             price = parseInt((item.pricePerDay.hex) * Math.pow(10, -16), 16).toString()
           }
           const likes = 100
