@@ -25,22 +25,22 @@ const User_items = () => {
 
 	useEffect(() => {
 		console.log(address)
-		getListed(address)
-			.then((response) => {
-				console.log(response)
-				// let listednfts = []
-				// response.data.map((data) => collectednfts.push( {
-				// 	tokenUriRes : {
-				// 		description : data.desc,
-				// 		image : data.uri,
-				// 		name : data.name,
-				// 		token: data.token_type
-				// 	},
-				// 	token_address : data.coll_addr,
-				// 	token_id : data.token_id
-				// }))
-				// setlisted(listednfts)
-			})
+		// getListed(address)
+		// 	.then((response) => {
+		// 		console.log(response)
+		// 		// let listednfts = []
+		// 		// response.data.map((data) => collectednfts.push( {
+		// 		// 	tokenUriRes : {
+		// 		// 		description : data.desc,
+		// 		// 		image : data.uri,
+		// 		// 		name : data.name,
+		// 		// 		token: data.token_type
+		// 		// 	},
+		// 		// 	token_address : data.coll_addr,
+		// 		// 	token_id : data.token_id
+		// 		// }))
+		// 		// setlisted(listednfts)
+		// 	})
 		getcollected(address)
 			.then((response) => {
 				console.log(response)
@@ -50,7 +50,8 @@ const User_items = () => {
 						description : data.desc,
 						image : data.uri,
 						name : data.name,
-						token: data.token_type
+						token: data.token_type,
+						listed_status: data.listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id
@@ -59,13 +60,15 @@ const User_items = () => {
 			})
 			getowned(address)
 			.then((response) => {
+				console.log(response)
 				let ownednfts =[]
 				response.data.map((data) => ownednfts.push( {
 					tokenUriRes : {
 						description : data.desc,
 						image : data.uri,
 						name : data.name,
-						token: data.token_type
+						token: data.token_type,
+						listed_status: data.listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id

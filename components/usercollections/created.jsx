@@ -22,14 +22,18 @@ const Created = (collectedNFT) => {
           let image
           let title
           let tokentype
+          let listed_status
           if(item.tokenUriRes){
             image = item.tokenUriRes.image 
             title = item.tokenUriRes.name
             tokentype = item.tokenUriRes.token
+            listed_status = item.tokenUriRes.listed_status
           } else {
             image = "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
             title = "Unknown"
+            listed_status = true
           }
+          console.log(listed_status)
           const itemLink = image
             .split("/")
             .slice(-1)
@@ -101,20 +105,22 @@ const Created = (collectedNFT) => {
                   </span>
                 </div> */}
 
-                <div className="mt-8 flex items-center justify-between">
-                  <button
-                    className="text-accent font-display text-sm font-semibold"
-                    onClick={() => dispatch(listrentModalShow(item))}
-                  >
-                    Sell Now
-                  </button>
-                  {tokentype ==="ERC4907" ? <button
-                    className="text-accent font-display text-sm font-semibold"
-                    onClick={() => dispatch(listbuyModalShow(item))}
-                  >
-                    Rent Now
-                  </button> : null}
-                </div>
+                {!listed_status ? 
+                  <div className="mt-8 flex items-center justify-between">
+                    <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listrentModalShow(item))}
+                    >
+                      Sell Now
+                    </button>
+                    {tokentype ==="ERC4907" ? <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listbuyModalShow(item))}
+                    >
+                      Rent Now
+                    </button> : null}
+                  </div> : null
+                }
               </div>
             </article>
           );
