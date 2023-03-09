@@ -16,14 +16,13 @@ import {
 } from 'wagmi'
 import { isMounted } from "../../scripts/isMounted"
 import { getUser, updateUser} from "../../api/user"
+import axios from 'axios';
 
 const Edit_user = () => {
 	const mountedcontent = isMounted
 	const { address, isConnected } = useAccount()
-	const [profilePhoto, setProfilePhoto] = useState();
-	const [coverePhoto, setCoverePhoto] = useState();
-	const [preview, setPreview] = useState();
-	const [coverPreview, setCoverPreview] = useState();
+	const [profilePhoto, setProfilePhoto] = useState({value: "", errorVal:""});
+	const [coverePhoto, setCoverePhoto] = useState({value: "", errorVal:""});
 	const [userName, setuserName] = useState({value:"",errorVal:""})
 	const [bio, setBio] = useState({value:"",errorVal:""})
 	const [email, setemail] = useState({value:"",errorVal:""})
@@ -31,22 +30,44 @@ const Edit_user = () => {
 	const [instagram, setinstagram] = useState({value:"",errorVal:""})
 	const [website, setwebsite] = useState({value:"",errorVal:""})
 
-	const handleProfilePhoto = (e) => {
-		const file = e.target.files[0];
-		if (file && file.type.substr(0, 5) === 'image') {
-			setProfilePhoto(file);
-		} else {
-			setProfilePhoto(null);
+	const uploadtoPinata = async (fileImg) => {
+		console.log(fileImg)
+		try {
+		  const formData = new FormData();
+		  formData.append("file", fileImg, fileImg.name);
+		  let url = "https://api.pinata.cloud/pinning/pinFileToIPFS"
+		  const resFile = await axios.post(   
+			  url,
+			  formData,
+			  {
+				maxContentLength: "Infinity",
+				headers: {
+					"Content-Type": `multipart/form-data;boundary=${formData._boundary}`,
+					'pinata_api_key': "668b0b44d1e4a05bc600",
+					'pinata_secret_api_key': "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71" ,
+	
+				}
+			  }
+		  );
+		  const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+		  return ImgHash
+		} catch (error) {
+		  console.log("Error sending File to IPFS: ")
+		  console.log(error)
 		}
+
 	};
 
-	const handleCoverPhoto = (e) => {
-		const file = e.target.files[0];
-		if (file && file.type.substr(0, 5) === 'image') {
-			setCoverePhoto(file);
-		} else {
-			setCoverePhoto(null);
-		}
+	const handleProfilePhoto = async (e) => {
+		let file = await uploadtoPinata(e.target.files[0])
+		setProfilePhoto(file);
+		console.log({value: file, errorVal:""})
+	};
+
+	const handleCoverPhoto = async (e) => {
+		let file = await uploadtoPinata(e.target.files[0])
+		setCoverePhoto({value: file, errorVal:""});
+		console.log({value: file, errorVal:""})
 	};
 
 	const handleChange = (e, item) => {
@@ -75,6 +96,7 @@ const Edit_user = () => {
 	};
 
 	const submit = (e) => {
+		
 		let obj ={
 			name : userName.value,
 			bio: bio.value,
@@ -82,9 +104,11 @@ const Edit_user = () => {
 			twitterLink: twitter.value,
 			instaLink: instagram.value,
 			site: website.value,
-			coverImage: "https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg",
-			profileImage: "https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"
+			coverImage: coverePhoto.value,
+			profileImage: profilePhoto.value
 		}
+
+		console.log(obj)
 
 		updateUser(address, obj)
 			.then((response) => {
@@ -93,39 +117,18 @@ const Edit_user = () => {
 	};
 
 	useEffect(() => {
-		if (profilePhoto) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setPreview(reader.result);
-			};
-			reader.readAsDataURL(profilePhoto);
-		} else {
-			setPreview(null);
-		}
-	}, [profilePhoto]);
-
-	useEffect(() => {
-		if (coverePhoto) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setCoverPreview(reader.result);
-			};
-			reader.readAsDataURL(coverePhoto);
-		} else {
-			setCoverPreview(null);
-		}
-	}, [coverePhoto]);
-
-	useEffect(() => {
 		console.log("should redirect to home page")
 		getUser(address)
 			.then((response) => {
+				console.log(response)
 				setuserName({value:response.data.name,errorVal:""})
 				setBio({value:response.data.bio,errorVal:""})
 				setemail({value:response.data.email,errorVal:""})
 				settwitter({value:response.data.twitterLink,errorVal:""})
 				setinstagram({value:response.data.instaLink,errorVal:""})
 				setwebsite({value:response.data.site,errorVal:""})
+				setProfilePhoto({value:response.data.profileImage,errorVal:""})
+				setCoverePhoto({value:response.data.coverImage,errorVal:""})
 			})
 	}, [isConnected, address]);
 
@@ -136,7 +139,7 @@ const Edit_user = () => {
 				{/* <!-- Banner --> */}
 				<div className="relative">
 					<img
-						src={coverPreview ? coverPreview : '/images/user/banner.jpg'}
+						src={coverePhoto ? coverePhoto : '/images/user/banner.jpg'}
 						// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
 						alt="banner"
 						className="h-[18.75rem] w-full object-cover"
@@ -306,8 +309,8 @@ const Edit_user = () => {
 							<div className="flex space-x-5 md:w-1/2 md:pl-8">
 								<form className="shrink-0">
 									<figure className="relative inline-block">
-										<Image
-											src={preview ? preview : '/images/user/user_avatar.gif'}
+										<img
+											src={profilePhoto ? profilePhoto.value : '/images/user/user_avatar.gif'}
 											// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
 											alt="collection avatar"
 											className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
