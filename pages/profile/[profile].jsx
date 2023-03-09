@@ -1,16 +1,35 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import Tippy from '@tippyjs/react';
+import Link from 'next/link';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Image from 'next/image';
 import UserId from '../../components/userId';
 import Head from 'next/head';
 import Meta from '../../components/Meta';
+import {
+	useAccount,
+	useConnect,
+	useDisconnect,
+	useEnsAvatar,
+	useEnsName,
+} from 'wagmi'
+import { isMounted } from "../../scripts/isMounted"
+import { getUser, updateUser} from "../../api/user"
 
 const Edit_user = () => {
+	const mountedcontent = isMounted
+	const { address, isConnected } = useAccount()
 	const [profilePhoto, setProfilePhoto] = useState();
 	const [coverePhoto, setCoverePhoto] = useState();
 	const [preview, setPreview] = useState();
 	const [coverPreview, setCoverPreview] = useState();
+	const [userName, setuserName] = useState({value:"",errorVal:""})
+	const [bio, setBio] = useState({value:"",errorVal:""})
+	const [email, setemail] = useState({value:"",errorVal:""})
+	const [twitter, settwitter] = useState({value:"",errorVal:""})
+	const [instagram, setinstagram] = useState({value:"",errorVal:""})
+	const [website, setwebsite] = useState({value:"",errorVal:""})
 
 	const handleProfilePhoto = (e) => {
 		const file = e.target.files[0];
@@ -28,6 +47,49 @@ const Edit_user = () => {
 		} else {
 			setCoverePhoto(null);
 		}
+	};
+
+	const handleChange = (e, item) => {
+		switch(item) {
+			case "userName":
+				setuserName({value: e.target.value, errorVal:""})
+				break;
+			case "bio":
+				setBio({value: e.target.value, errorVal:""})
+				break;
+			case "email":
+				setemail({value: e.target.value, errorVal:""})
+				break;
+			case 'twitter':
+				settwitter({value: e.target.value, errorVal:""})
+				break;
+			case 'instagram':
+				setinstagram({value: e.target.value, errorVal:""})
+				break;
+			case "website":
+				setwebsite({value: e.target.value, errorVal:""})
+				break;
+			default:
+			  console.log(item)
+		}
+	};
+
+	const submit = (e) => {
+		let obj ={
+			name : userName.value,
+			bio: bio.value,
+			email: email.value, 
+			twitterLink: twitter.value,
+			instaLink: instagram.value,
+			site: website.value,
+			coverImage: "https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg",
+			profileImage: "https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"
+		}
+
+		updateUser(address, obj)
+			.then((response) => {
+				console.log(response)
+			})
 	};
 
 	useEffect(() => {
@@ -54,6 +116,19 @@ const Edit_user = () => {
 		}
 	}, [coverePhoto]);
 
+	useEffect(() => {
+		console.log("should redirect to home page")
+		getUser(address)
+			.then((response) => {
+				setuserName({value:response.data.name,errorVal:""})
+				setBio({value:response.data.bio,errorVal:""})
+				setemail({value:response.data.email,errorVal:""})
+				settwitter({value:response.data.twitterLink,errorVal:""})
+				setinstagram({value:response.data.instaLink,errorVal:""})
+				setwebsite({value:response.data.site,errorVal:""})
+			})
+	}, [isConnected, address]);
+
 	return (
 		<div>
 			<Meta title="Profile || Xhibiter | NFT Marketplace Next.js Template" />
@@ -62,6 +137,7 @@ const Edit_user = () => {
 				<div className="relative">
 					<img
 						src={coverPreview ? coverPreview : '/images/user/banner.jpg'}
+						// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
 						alt="banner"
 						className="h-[18.75rem] w-full object-cover"
 					/>
@@ -72,6 +148,7 @@ const Edit_user = () => {
 								accept="image/*"
 								className="absolute inset-0 cursor-pointer opacity-0"
 								onChange={(e) => handleCoverPhoto(e)}
+								
 							/>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +185,9 @@ const Edit_user = () => {
 										id="profile-username"
 										className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 hover:ring-2 dark:text-white px-3"
 										placeholder="Enter username"
+										onChange={(e) => handleChange(e, "userName")}
 										required
+										value={userName.value}
 									/>
 								</div>
 								<div className="mb-6">
@@ -119,7 +198,9 @@ const Edit_user = () => {
 										id="profile-bio"
 										className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 hover:ring-2 dark:text-white px-3"
 										required
+										onChange={(e) => handleChange(e, "bio")}
 										placeholder="Tell the world your story!"
+										value={bio.value}
 									></textarea>
 								</div>
 								<div className="mb-6">
@@ -131,7 +212,9 @@ const Edit_user = () => {
 										id="profile-email"
 										className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 hover:ring-2 dark:text-white px-3"
 										placeholder="Enter email"
+										onChange={(e) => handleChange(e, "email")}
 										required
+										value={email.value}
 									/>
 								</div>
 								<div className="mb-6">
@@ -156,6 +239,8 @@ const Edit_user = () => {
 											id="profile-twitter"
 											className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-t-lg py-3 pl-10 hover:ring-2 focus:ring-inset dark:text-white"
 											placeholder="@twittername"
+											onChange={(e) => handleChange(e, "twitter")}
+											value={twitter.value}
 										/>
 									</div>
 									<div className="relative">
@@ -176,6 +261,8 @@ const Edit_user = () => {
 											id="profile-instagram"
 											className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 -mt-px w-full py-3 pl-10 hover:ring-2 focus:ring-inset dark:text-white"
 											placeholder="instagramname"
+											onChange={(e) => handleChange(e, "instagram")}
+											value={instagram.value}
 										/>
 									</div>
 									<div className="relative">
@@ -194,9 +281,12 @@ const Edit_user = () => {
 											id="profile-website"
 											className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 -mt-px w-full rounded-b-lg py-3 pl-10 hover:ring-2 focus:ring-inset dark:text-white"
 											placeholder="yoursitename.com"
+											onChange={(e) => handleChange(e, "website")}
+											value={website.value}
 										/>
 									</div>
 								</div>
+								{isMounted ?
 								<div className="mb-6">
 									<label className="font-display text-jacarta-700 mb-1 block text-sm dark:text-white">
 										Wallet Address
@@ -204,10 +294,11 @@ const Edit_user = () => {
 
 									<UserId
 										classes="js-copy-clipboard dark:bg-jacarta-700 border-jacarta-100 hover:bg-jacarta-50 dark:border-jacarta-600 dark:text-jacarta-300 flex w-full select-none items-center rounded-lg border bg-white py-3 px-4"
-										userId="0x7a9fe22691c811ea339401bbb2leb"
+										userId={mountedcontent ? address : "32423423"}
+										shortId={true}
 									/>
-								</div>
-								<button className="bg-accent shadow-accent-volume hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all">
+								</div> : null}
+								<button onClick={submit} className="bg-accent shadow-accent-volume hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all">
 									Update Profile
 								</button>
 							</div>
@@ -217,6 +308,7 @@ const Edit_user = () => {
 									<figure className="relative inline-block">
 										<Image
 											src={preview ? preview : '/images/user/user_avatar.gif'}
+											// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
 											alt="collection avatar"
 											className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
 											height={140}

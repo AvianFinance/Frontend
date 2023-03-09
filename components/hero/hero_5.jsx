@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { hero_5_data } from '../../data/coverflow_data';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Hero_5 = () => {
 	return (
@@ -51,7 +52,13 @@ const Hero_5 = () => {
 									</a>
 								</Link>
 								<Link href="/collection/explore_collection">
-									<a className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
+									<a 
+										className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+										onClick={() => {
+											dispatch(explorecollections("buy"));
+											localStorage.setItem('navItemValue', 31);
+										}}
+									>
 										Explore
 									</a>
 								</Link>
@@ -74,6 +81,8 @@ const Hero_5 = () => {
 										.toString()
 										.replace('_2lg.jpg', '')
 										.replace('.gif', '');
+
+									console.log(itemLink)
 									return (
 										<div
 											className={

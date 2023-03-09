@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { collection_item_data } from '../../data/collection_data';
 import Auctions_dropdown from '../../components/dropdown/Auctions_dropdown';
 import Social_dropdown from '../../components/dropdown/Social_dropdown';
 import Collection_items from '../../components/collectrions/Collection_items';
+import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import Meta from '../../components/Meta';
+import { getbuycollection, getrentalcollection } from "../../api/buynft"
 
 const Collection = () => {
 	const [likesImage, setLikesImage] = useState(false);
+	const { exploretype } = useSelector((state) => state.counter);
 	const router = useRouter();
 	const pid = router.query.collection;
+	const [isloading, setisLoading] = useState(false)
+	const [collection, setcollection] = useState([])
 
 	const handleLikes = () => {
 		if (!likesImage) {
@@ -21,6 +26,25 @@ const Collection = () => {
 			setLikesImage(false);
 		}
 	};
+
+	useEffect(() => {
+		if(pid && exploretype==="rent"){
+			getrentalcollection(pid)
+				.then((response) => {
+					console.log(response.data)
+					setcollection(response.data)
+					setisLoading(true)
+				})
+		} 
+		if(pid && exploretype==="buy"){
+			getbuycollection(pid)
+				.then((response) => {
+					console.log(response.data)
+					setcollection(response.data)
+					setisLoading(true)
+				})
+		} 
+	},[pid, exploretype]);
 
 	return (
 		<>
@@ -140,7 +164,8 @@ const Collection = () => {
 
 				{/* <!-- end profile --> */}
 			</div>
-			<Collection_items />
+
+			<Collection_items collection={collection} isloading={isloading}/>
 		</>
 	);
 };

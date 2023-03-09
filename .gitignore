@@ -1,1 +1,4 @@
 node_modules
+.next
+.next/cache/webpack/server-development/index.pack
+.next/static/chunks/pages/_app.js

@@ -9,7 +9,31 @@ import Meta from '../components/Meta';
 import UserContext from '../components/UserContext';
 import { useEffect, useRef } from 'react';
 
-function MyApp({ Component, pageProps }) {
+import { avalanche, avalancheFuji } from '@wagmi/core/chains'
+import { WagmiConfig, createClient, configureChains } from 'wagmi'
+import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import NonSSRWrapper from "../components/NonSSRWrapper"
+
+const { chains, provider, webSocketProvider } = configureChains(
+    [avalancheFuji, avalanche],
+    [
+      infuraProvider({ apiKey: 'a7f7989fbb424a1989511ec922db7b38' }),
+      publicProvider(),
+    ],
+)
+
+const client = createClient({
+	autoConnect: true,
+	connectors: [
+	  new MetaMaskConnector({ chains })
+	],
+	provider,
+	webSocketProvider,
+})
+
+function App({ Component, pageProps }) {
 	const router = useRouter();
 	const pid = router.asPath;
 	const scrollRef = useRef({
@@ -27,8 +51,29 @@ function MyApp({ Component, pageProps }) {
 	return (
 		<>
 			<Meta title="Home 1 || Xhibiter | NFT Marketplace Next.js Template" />
+			
+			<WagmiConfig client={client} suppressHydrationWarning="true">
+				<Provider store={store}>
+					<ThemeProvider enableSystem={true} attribute="class">
+						{/* <MetaMaskProvider> */}
+							<NonSSRWrapper> 
+							<UserContext.Provider value={{ scrollRef: scrollRef }} suppressHydrationWarning="true">
+								{pid === '/login' ? (
+									<Component {...pageProps} />
+								) : (
+									<Layout>
+										<Component {...pageProps} />
+									</Layout>
+								)}
+							</UserContext.Provider>
+							</NonSSRWrapper>
+							
+						{/* </MetaMaskProvider> */}
+					</ThemeProvider>
+				</Provider>
+			</WagmiConfig>
 
-			<Provider store={store}>
+			{/* <Provider store={store}>
 				<ThemeProvider enableSystem={true} attribute="class">
 					<MetaMaskProvider>
 						<UserContext.Provider value={{ scrollRef: scrollRef }}>
@@ -42,9 +87,9 @@ function MyApp({ Component, pageProps }) {
 						</UserContext.Provider>
 					</MetaMaskProvider>
 				</ThemeProvider>
-			</Provider>
+			</Provider> */}
 		</>
 	);
 }
 
-export default MyApp;
+export default App;
