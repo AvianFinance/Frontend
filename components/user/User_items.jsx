@@ -15,16 +15,16 @@ import { isMounted } from "../../scripts/isMounted"
 import usernfts from "../../scripts/usernfts"
 import { getcollected, getowned, getcollections, getListed} from "../../api/profile"
 
-const User_items = () => {
+const User_items = (user_address) => {
 	const mountedcontent = isMounted
 	const { address, isConnected } = useAccount()
 	const [collectedNFT, setCollectedNFT] = useState([])
 	const [ownednft, setOwnedNFT] = useState([])
 	const [collections, setcollections] = useState([])
 	const [listed, setlisted] = useState([])
-
+	console.log(user_address.user_address)
 	useEffect(() => {
-		console.log(address)
+		console.log(user_address.user_address)
 		// getListed(address)
 		// 	.then((response) => {
 		// 		console.log(response)
@@ -41,7 +41,7 @@ const User_items = () => {
 		// 		// }))
 		// 		// setlisted(listednfts)
 		// 	})
-		getcollected(address)
+		getcollected(user_address.user_address)
 			.then((response) => {
 				console.log(response)
 				let collectednfts = []
@@ -58,7 +58,7 @@ const User_items = () => {
 				}))
 				setCollectedNFT(collectednfts)
 			})
-			getowned(address)
+			getowned(user_address.user_address)
 			.then((response) => {
 				console.log(response)
 				let ownednfts =[]
@@ -75,12 +75,12 @@ const User_items = () => {
 				}))
 				setOwnedNFT(ownednfts)
 			})
-			getcollections(address)
+			getcollections(user_address.user_address)
 			.then((response) => {
 				// console.log(response)
 				setcollections(response.data)
 			})
-	}, [address]);
+	}, [user_address]);
 
 	const [itemActive, setItemActive] = useState(1);
 	const tabItem = [
