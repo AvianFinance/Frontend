@@ -20,13 +20,30 @@ const initialState = {
 	listbuymodal: false,
 	listrentmodal: false,
 	listcontent: null,
-	listrentalcontent: null
+	listrentalcontent: null,
+	toaster: false,
+	toastertype: null,
+	toastermessage: null
 };
 
 export const counterSlice = createSlice({
 	name: 'counter',
 	initialState,
 	reducers: {
+		showToast: (state, payload) => {
+			console.log(state.toaster)
+			state.toaster = true;
+			state.toastertype = payload.payload[0];
+			state.toastermessage = payload.payload[1];
+			console.log(state.toaster)
+			console.log(state.toastertype)
+			console.log(state.toastermessage)
+		},
+		hideToast: (state, payload) => {
+			state.toaster = false;
+			state.toastertype = null;
+			state.toastermessage = null;
+		},
 		openMblMenu: (state) => {
 			state.mblMenu = true;
 		},
@@ -213,7 +230,9 @@ export const {
 	listbuyModalShow,
 	listrentModalShow,
 	buylistModalHide,
-	rentlistModalHide
+	rentlistModalHide,
+	showToast,
+	hideToast
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

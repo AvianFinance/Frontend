@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
 import {useNavigate} from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import Link from 'next/link';
@@ -17,9 +18,11 @@ import {
 import { isMounted } from "../../scripts/isMounted"
 import { getUser, updateUser} from "../../api/user"
 import axios from 'axios';
+import { showToast } from '../../redux/counterSlice';
 
 const Edit_user = () => {
 	const mountedcontent = isMounted
+	const dispatch = useDispatch();
 	const { address, isConnected } = useAccount()
 	const [profilePhoto, setProfilePhoto] = useState({value: "", errorVal:""});
 	const [coverePhoto, setCoverePhoto] = useState({value: "", errorVal:""});
@@ -95,25 +98,31 @@ const Edit_user = () => {
 		}
 	};
 
-	const submit = (e) => {
+	const submit = async (e) => {
 		
-		let obj ={
-			name : userName.value,
-			bio: bio.value,
-			email: email.value, 
-			twitterLink: twitter.value,
-			instaLink: instagram.value,
-			site: website.value,
-			coverImage: coverePhoto.value,
-			profileImage: profilePhoto.value
+		try {
+			let obj ={
+				name : userName.value,
+				bio: bio.value,
+				email: email.value, 
+				twitterLink: twitter.value,
+				instaLink: instagram.value,
+				site: website.value,
+				coverImage: coverePhoto.value,
+				profileImage: profilePhoto.value
+			}
+	
+			console.log(obj)
+	
+			await updateUser(address, obj)
+				.then((response) => {
+					console.log(response)
+				})
+			dispatch(showToast(["success","Profile Updated!"]))
+		} catch(error){
+			dispatch(showToast(["error",error.message]))
+      		console.log(error.message)
 		}
-
-		console.log(obj)
-
-		updateUser(address, obj)
-			.then((response) => {
-				console.log(response)
-			})
 	};
 
 	useEffect(() => {

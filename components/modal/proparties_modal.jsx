@@ -47,8 +47,8 @@ const Proparties_modal = () => {
 		let obj
 	};
 
-	const saveData = (data) => {
-		createcollection(data)
+	const saveData = async (data) => {
+		await createcollection(data)
 			.then((response) => {
 				console.log(response)
 			})

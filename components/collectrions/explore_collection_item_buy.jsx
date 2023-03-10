@@ -7,7 +7,7 @@ import { buyModalHide } from "../../redux/counterSlice";
 const Explore_collection_item = ({itemFor, collections}) => {
 	const { sortedCollectionData, exploretype } = useSelector((state) => state.counter);
 	console.log("data are---------------------------------", sortedCollectionData)
-	const [itemData, setItemData] = useState([]);
+	const [itemData, setItemData] = useState(null);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		console.log("first useeffect")
@@ -27,7 +27,7 @@ const Explore_collection_item = ({itemFor, collections}) => {
 		setItemData(collections);
 	},[exploretype, collections]);
 	console.log(itemData)
-	if(itemData.length>0){
+	if(itemData !== null){
 		return (
 			<>
 				{itemData.map((item) => {
@@ -39,7 +39,13 @@ const Explore_collection_item = ({itemFor, collections}) => {
 					const userImage = "/images/avatars/owner_5.png"
 					const title = item.name
 					const itemsCount = item.count
-					const userName = "NFT stars"
+					let userName = "Unknown"
+					if(item.createdUserName !== null) {
+						userName = item.createdUserName
+					} 
+					if(item.createdUserImage !== null) {
+						userImage = item.createdUserImage
+					}
 					return (
 						<article key={id}>
 							<div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
@@ -91,13 +97,13 @@ const Explore_collection_item = ({itemFor, collections}) => {
 		
 								<div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
 									<div className="flex flex-wrap items-center">
-										<Link href="/user/avatar_6">
+										<Link href={"/user/"+item.createdBy.toString()}>
 											<a className="mr-2 shrink-0">
 												<img src={userImage} alt="owner" className="h-5 w-5 rounded-full" />
 											</a>
 										</Link>
 										<span className="dark:text-jacarta-400 mr-1">by</span>
-										<Link href="/user/avatar_6">
+										<Link href={"/user/"+item.createdBy.toString()}>
 											<a className="text-accent">
 												<span>{userName}</span>
 											</a>
@@ -114,7 +120,7 @@ const Explore_collection_item = ({itemFor, collections}) => {
 	} else {
 		return (
 			<>
-				{itemData.map((item) => {
+				{Feature_collections_data.map((item) => {
 					const {
 						id,
 						bigImage,

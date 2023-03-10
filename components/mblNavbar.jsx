@@ -265,7 +265,7 @@ const MblNavbar = ({ theme }) => {
 		{
 			id: 17,
 			text: 'User',
-			href: '/user/avatar_6',
+			href: '/user',
 			New: false,
 		},
 		{
@@ -883,7 +883,7 @@ const MblNavbar = ({ theme }) => {
 								<span className="text-green text-lg font-bold">{mountedcontent ? balance : null}</span>
 							</div>
 						</div>
-						<Link href="/user/avatar_6">
+						<Link href={"/user/"+address.toString()}>
 							<a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -917,7 +917,7 @@ const MblNavbar = ({ theme }) => {
 								</span>
 							</a>
 						</Link>
-						<Link href="/login">
+						<Link href="/">
 							<a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"

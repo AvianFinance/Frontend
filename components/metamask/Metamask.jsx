@@ -19,6 +19,7 @@ import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
 
 import { amplace_token, rime_token, rime_rent }  from "../../utils/contracts";
 import { registerUser } from "../../api/user"
+import { showToast, buyModalHide, buylistModalHide, rentlistModalHide } from '../../redux/counterSlice';
 
 const Metamask_comp_text = () => {
 	const mountedcontent = isMounted
@@ -200,40 +201,46 @@ const ListSell = (priceforday, listcontent) => {
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	
 	const listNFTsell = async () => {
-		const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
-			amplace_token,
-			AvianMarket.abi,
-			signer
-		);
-		let nftContracts
-		if(priceforday.listcontent.tokenUriRes.amplace_token==="ERC721"){
-			nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-				priceforday.listcontent.token_address,
-				RimeToken.abi,
+		dispatch(buylistModalHide())
+		try {
+			const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
+				amplace_token,
+				AvianMarket.abi,
 				signer
 			);
-		} else {
-			nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-				priceforday.listcontent.token_address,
-				RimeRent.abi,
-				signer
-			);	
-		}
-		
+			let nftContracts
+			if(priceforday.listcontent.tokenUriRes.amplace_token==="ERC721"){
+				nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
+					priceforday.listcontent.token_address,
+					RimeToken.abi,
+					signer
+				);
+			} else {
+				nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
+					priceforday.listcontent.token_address,
+					RimeRent.abi,
+					signer
+				);	
+			}
+			
 
-		console.log(priceforday.listcontent.tokenUriRes.amplace_token)
+			console.log(priceforday.listcontent.tokenUriRes.amplace_token)
 
-		let tokenID = priceforday.listcontent.token_id
-		console.log("Approving Marketplace as operator of NFT...")
+			let tokenID = priceforday.listcontent.token_id
+			console.log("Approving Marketplace as operator of NFT...")
 
-		const approvalTx = await nftContracts.approve(_marketplace.address, tokenID)
-		await approvalTx.wait(1)
+			const approvalTx = await nftContracts.approve(_marketplace.address, tokenID)
+			await approvalTx.wait(1)
 
-		let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
+			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
 
-		const tx = await _marketplace.listItem(nftContracts.address, tokenID , price)
+			const tx = await _marketplace.listItem(nftContracts.address, tokenID , price)
 
-		console.log("listed")
+			console.log("listed")
+			dispatch(showToast(["success","NFT Listed!"]))
+		} catch(error){
+			dispatch(showToast(["error",error]))
+		}	
 	}
 
 	if (isConnected) {
@@ -291,25 +298,31 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
     );
 
 	const listNFTrental = async () => {
-		console.log(priceforday.listrentalcontent)
-		let tokenID = priceforday.listrentalcontent.token_id
-		let n_days = priceforday.numofDays
+		dispatch(rentlistModalHide())
+		try{
+			console.log(priceforday.listrentalcontent)
+			let tokenID = priceforday.listrentalcontent.token_id
+			let n_days = priceforday.numofDays
 
-		let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
+			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
 
-		const approvalTx = await nftrentalsContracts.approve(_marketplace.address,  tokenID)
-		await approvalTx.wait(1)
+			const approvalTx = await nftrentalsContracts.approve(_marketplace.address,  tokenID)
+			await approvalTx.wait(1)
 
-		const listingFee = (await _marketplace.getListingFee()).toString();
-		let sDate = Math.floor(Date.now()/1000) + (60*60);
-        let eDate = sDate + (n_days*24*60*60);
+			const listingFee = (await _marketplace.getListingFee()).toString();
+			let sDate = Math.floor(Date.now()/1000) + (60*60);
+			let eDate = sDate + (n_days*24*60*60);
 
-		console.log("Listing NFT...")
-		const tx = await _marketplace.listNFT(nftrentalsContracts.address, tokenID, price, sDate, eDate,{
-		    value: listingFee,
-		})
+			console.log("Listing NFT...")
+			const tx = await _marketplace.listNFT(nftrentalsContracts.address, tokenID, price, sDate, eDate,{
+				value: listingFee,
+			})
 
-		console.log("listed")
+			console.log("listed")
+			dispatch(showToast(["success","NFT Listed!"]))
+		} catch(error){
+			dispatch(showToast(["error",error]))
+		}	
 	}
 
 	if (isConnected) {
@@ -357,6 +370,7 @@ const PayRental = (payload, numofDays) => {
 	const { connect, connectors, error, isLoading, pendingConnector } =
 		useConnect()
 	const { disconnect } = useDisconnect()
+	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const { exploretype } = useSelector((state) => state.counter);
 
@@ -379,10 +393,10 @@ const PayRental = (payload, numofDays) => {
     );
 	
 	const buyNFT = async () => {
-		
+		dispatch(buyModalHide())
 		if(exploretype==="buy"){
 			try {
-				const tx =  _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
+				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: parseInt((payload.payload.price.hex), 16).toString(),
 				})
 	
@@ -406,17 +420,18 @@ const PayRental = (payload, numofDays) => {
 					console.log("Bought")
 			
 				})
-			} catch(error) {
-				console.log(error)
-			}
+				dispatch(showToast(["success","NFT Bought!"]))
+			} catch(error){
+				dispatch(showToast(["error",error]))
+			}	
 
 		} else {
 			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString()))
 			// console.log((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString())
-			console.log(payload.payload.coll_addr)
-			console.log(payload.payload.token_id.toString())
-			console.log(parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays)
-			console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()))
+			// console.log(payload.payload.coll_addr)
+			// console.log(payload.payload.token_id.toString())
+			// console.log(parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays)
+			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()))
 			try{
 				const tx =  await _marketplace.rentNFT(payload.payload.coll_addr, payload.payload.token_id.toString(),  payload.numofDays, {
 					value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
@@ -439,12 +454,12 @@ const PayRental = (payload, numofDays) => {
 
 					console.log("Bought")
 			
-				})
-
-				console.log(tx)
-			} catch(error) {
+				})			
+				dispatch(showToast(["success","NFT Rented!"]))
+			} catch(error){
 				console.log(error)
-			}		
+				dispatch(showToast(["error",error]))
+			}				
 		}
 	}
 
@@ -496,6 +511,7 @@ const Confirm_checkout = (payload) => {
 	const { connect, connectors, error, isLoading, pendingConnector } =
 		useConnect()
 	const { disconnect } = useDisconnect()
+	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const { exploretype } = useSelector((state) => state.counter);
 
@@ -517,43 +533,48 @@ const Confirm_checkout = (payload) => {
         provider
     );
 	
-	const buyNFT = () => {
+	const buyNFT = async () => {
+		dispatch(buyModalHide())
 		if(exploretype==="buy"){
-			const tx =  _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
-				value: parseInt((payload.payload.price.hex), 16).toString(),
-			})
-			console.log(parseInt((payload.payload.price.hex), 16).toString())
-			const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
-
-			const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
-		
-			console.log("listening.........")
-		
-			mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
-		
-				let transferEvent ={
-					buyer: buyer,
-					nftAddress: nftAddress,
-					tokenId: tokenId,
-					price: price,
-				}
-
-				console.log("Bought")
-		
-			})
-
+			try{
+				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
+					value: parseInt((payload.payload.price.hex), 16).toString(),
+				})
+				console.log(parseInt((payload.payload.price.hex), 16).toString())
+				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
+	
+				const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
+			
+				console.log("listening.........")
+			
+				mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
+			
+					let transferEvent ={
+						buyer: buyer,
+						nftAddress: nftAddress,
+						tokenId: tokenId,
+						price: price,
+					}
+	
+					console.log("Bought")
+			
+				})
+				dispatch(showToast(["success","NFT Bought!"]))
+			} catch(error){
+				dispatch(showToast(["error",error]))
+			}	
 		} else {
 			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString()))
 			// console.log((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString())
-			const tx =  _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
-				value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
-			})
-			
+			try {
+				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
+					value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
+				})
+				dispatch(showToast(["success","NFT Bought!"]))
+			} catch(error){
+				dispatch(showToast(["error",error]))
+			}			
 		}
-		
-
-		
-		
 	}
 
 	useEffect(() => {

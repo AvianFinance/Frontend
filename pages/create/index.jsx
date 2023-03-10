@@ -19,6 +19,7 @@ import {
 import { getCollections, mintNft, uploadIPFS } from "../../api/mint"
 import axios from 'axios';
 import { ethers } from "ethers";
+import { showToast } from '../../redux/counterSlice';
 
 import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
 import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
@@ -67,16 +68,6 @@ const Create = () => {
   }
 
   const handleChange = async (fileImg) => {
-    // let obj ={
-		// 	nftName : name.value,
-		// 	nftDescription : description.value,
-    //   image : e.target.files[0],
-		// }
-    // uploadIPFS(obj)
-		// 	.then((response) => {
-		// 		console.log(response)
-		// 	})
-    console.log("entered")
     console.log(fileImg)
     try {
       const formData = new FormData();
@@ -99,44 +90,42 @@ const Create = () => {
       const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       console.log(ImgHash);    
       setIPFS({value: ImgHash, errorVal:""})
+      dispatch(showToast(["success","Image Uploaded to IPFS"]))
     } catch (error) {
-      console.log("Error sending File to IPFS: ")
-      console.log(error)
+      dispatch(showToast(["error",error.message]))
+      console.log(error.message)
     }
-    console.log("ended")
-    
-
   };
 
-  const sendMetadata = async (IPFSHash, nft_title, nft_desc, tokenId) => {
+  // const sendMetadata = async (IPFSHash, nft_title, nft_desc, tokenId) => {
 
-    const API_KEY = "668b0b44d1e4a05bc600"
-    const API_SECRET = "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71"
-    const JSONBody = {
-        name: nft_title,
-        tokenId: tokenId,
-        image: `https://gateway.pinata.cloud/ipfs/${IPFSHash}/`,
-        description: nft_desc,
-        attributes: []
-    }
-    const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-    const response = await axios.post(
-        url,
-        JSONBody,
-        {
-            maxContentLength: "Infinity",
-            headers: {
-                'pinata_api_key': API_KEY,
-                'pinata_secret_api_key': API_SECRET
+  //   const API_KEY = "668b0b44d1e4a05bc600"
+  //   const API_SECRET = "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71"
+  //   const JSONBody = {
+  //       name: nft_title,
+  //       tokenId: tokenId,
+  //       image: `https://gateway.pinata.cloud/ipfs/${IPFSHash}/`,
+  //       description: nft_desc,
+  //       attributes: []
+  //   }
+  //   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+  //   const response = await axios.post(
+  //       url,
+  //       JSONBody,
+  //       {
+  //           maxContentLength: "Infinity",
+  //           headers: {
+  //               'pinata_api_key': API_KEY,
+  //               'pinata_secret_api_key': API_SECRET
 
-            }
-        }
-    ).catch(function (error) {
-        console.log(error.response.data.error)
-    })
-    console.log(response.data.IpfsHash)
-    return response.data.IpfsHash
-  }
+  //           }
+  //       }
+  //   ).catch(function (error) {
+  //       console.log(error.response.data.error)
+  //   })
+  //   console.log(response.data.IpfsHash)
+  //   return response.data.IpfsHash
+  // }
 
   useEffect(() => {
 		console.log("should redirect to home page")
@@ -164,25 +153,28 @@ const Create = () => {
 	};
 
   const submit = async (e) => {
-    let obj ={
-			nftName : name.value,
-			nftDescription : description.value,
-      uri : ipfs.value,
-      coll_addr : activeItem
-		}
-    console.log(obj)
-
-    let responseipfs
-
-		await uploadIPFS(obj)
-			.then((response) => {
-				responseipfs = response.data
-			})
-
-    // console.log(parseInt((responseipfs.tokenCounter.hex), 16))
-    
-    await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
-
+    try{
+      let obj ={
+        nftName : name.value,
+        nftDescription : description.value,
+        uri : ipfs.value,
+        coll_addr : activeItem
+      }
+      console.log(obj)
+  
+      let responseipfs
+  
+      await uploadIPFS(obj)
+        .then((response) => {
+          responseipfs = response.data
+        })
+  
+      await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
+      dispatch(showToast(["success","NFT Minted!"]))
+    } catch(error){
+      dispatch(showToast(["error",error.message]))
+      console.log(error.message)
+    }
   }
 
   const mintToken = async (ipfsUrl,token,contractaddress, responseipfs) => {
