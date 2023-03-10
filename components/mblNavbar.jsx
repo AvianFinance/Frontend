@@ -345,6 +345,7 @@ const MblNavbar = ({ theme }) => {
 		},
 	];
 
+	console.log(profileShow)
 	return (
 		<div
 			className={
@@ -821,6 +822,7 @@ const MblNavbar = ({ theme }) => {
 							className="dropdown-toggle border-jacarta-100 focus:bg-accent group hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]"
 							onMouseEnter={() => setProfileShow(true)}
 							onMouseLeave={() => setProfileShow(false)}
+							onClick={() => setProfileShow(false)}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -838,6 +840,7 @@ const MblNavbar = ({ theme }) => {
 							className="dropdown-toggle border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]"
 							onMouseEnter={() => setProfileShow(true)}
 							onMouseLeave={() => setProfileShow(false)}
+							onClick={() => setProfileShow(false)}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -861,6 +864,7 @@ const MblNavbar = ({ theme }) => {
 						}
 						onMouseEnter={() => setProfileShow(true)}
 						onMouseLeave={() => setProfileShow(false)}
+						
 					>	
 						<UserId
 							classes="js-copy-clipboard font-display text-jacarta-700 my-4 flex select-none items-center whitespace-nowrap px-5 leading-none dark:text-white"
@@ -930,7 +934,20 @@ const MblNavbar = ({ theme }) => {
 								</span>
 							</a>
 						</Link>
-					</div> : null}
+					</div> : 
+					<div
+					className={
+						profileShow
+							? 'dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl show lg:visible lg:opacity-100'
+							: 'dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0'
+					}
+					onMouseEnter={() => setProfileShow(true)}
+					onMouseLeave={() => setProfileShow(false)}
+					>
+						<div className="dark:border-jacarta-600 border-jacarta-100 mx-5 mb-6 rounded-lg border p-4">
+						<Metamask_comp_text />
+						</div>
+					</div>}
 				</div>
 
 				{/* <!-- Dark Mode --> */}
