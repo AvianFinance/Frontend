@@ -17,10 +17,10 @@ const CategoryItem = (collection) => {
   const [type, settype] = useState();
   const [nftitems, setItems] = useState([]);
   
-  console.log(exploretype)
+  // console.log(exploretype)
   useEffect(() => {
-		console.log(collection)
-    console.log(exploretype)
+		// console.log(collection)
+    // console.log(exploretype)
     settype(exploretype)
     setItems(collection.collection.collection)
 	}, [collection, exploretype]);
@@ -29,7 +29,7 @@ const CategoryItem = (collection) => {
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {nftitems.map((item) => {
-          console.log(item)
+          // console.log(item)
           const id = item._id
           const image = item.uri
           const title = item.name
