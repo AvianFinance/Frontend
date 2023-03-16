@@ -2,9 +2,9 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { installmentModalHide } from '../../redux/counterSlice';
-import { ListSell } from '../metamask/Metamask';
+import { ListInstallment } from '../metamask/Metamask';
 
-const BuyModal = () => {
+const InstallmentListModal = () => {
 	const { listinstallmentmodal, listinstallmentcontent } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
@@ -87,7 +87,7 @@ const BuyModal = () => {
 										<input
 											type="text"
 											className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border border-r-0 focus:ring-inset dark:text-white"
-											placeholder="Symbol for the collection"
+											placeholder="Daily Price for rental"
 											onChange={(e) => setPriceForDay(e.target.value)}
 											value={priceforday}
 										/>
@@ -129,7 +129,7 @@ const BuyModal = () => {
 	
 							<div className="modal-footer">
 								<div className="flex items-center justify-center space-x-4">
-									<ListSell priceforday={priceforday} listinstallmentcontent={listinstallmentcontent? listinstallmentcontent :null}/>
+									<ListInstallment priceforday={priceforday} listinstallmentcontent={listinstallmentcontent? listinstallmentcontent :null}/>
 								</div>
 							</div>
 						</div>
@@ -142,4 +142,4 @@ const BuyModal = () => {
 	
 };
 
-export default BuyModal;
+export default InstallmentListModal;

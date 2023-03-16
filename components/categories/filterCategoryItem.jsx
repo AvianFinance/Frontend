@@ -15,7 +15,7 @@ const FilterCategoryItem = (collection) => {
 	return (
 		<div>
 			{/* <!-- Filter --> */}
-			<Collection_category_filter />
+			{/* <Collection_category_filter /> */}
 			<CategoryItem collection={collection}/>
 		</div>
 	);

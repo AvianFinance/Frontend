@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { buyModalHide } from "../../redux/counterSlice";
 
 const Explore_collection_item = ({itemFor, collections}) => {
+	console.log(collections)
 	const { sortedCollectionData, exploretype } = useSelector((state) => state.counter);
 	console.log("data are---------------------------------", sortedCollectionData)
 	const [itemData, setItemData] = useState(null);

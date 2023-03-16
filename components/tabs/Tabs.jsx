@@ -8,6 +8,7 @@ import 'react-tabs/style/react-tabs.css';
 
 const ItemsTabs = (nftdata) => {
 	const [tabsActive, setTabsActive] = useState(1);
+	console.log(nftdata)
 	const tabsHeadText = [
 		// {
 		// 	id: 1,
@@ -83,7 +84,7 @@ const ItemsTabs = (nftdata) => {
 								<div className="mb-2 flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Contract Address:</span>
 									<a href="#" className="text-accent">
-										{nftdata.nftdata.jsnresponse.token_address}
+										{nftdata.nftdata.coll_addr}
 									</a>
 								</div>
 								<div className="mb-2 flex items-center">
@@ -92,13 +93,13 @@ const ItemsTabs = (nftdata) => {
 										className="js-copy-clipboard text-jacarta-700 cursor-pointer select-none dark:text-white"
 										data-tippy-content="Copy"
 									>
-										{nftdata.nftdata.jsnresponse.token_id} 
+										{nftdata.nftdata.token_id} 
 									</span>
 								</div>
-								<div className="mb-2 flex items-center">
+								{/* <div className="mb-2 flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Token Standard:</span>
 									<span className="text-jacarta-700 dark:text-white">{nftdata.nftdata.jsnresponse.contract_type} </span>
-								</div>
+								</div> */}
 								<div className="flex items-center">
 									<span className="dark:text-jacarta-300 mr-2 min-w-[9rem]">Blockchain:</span>
 									<span className="text-jacarta-700 dark:text-white">Avalanche</span>

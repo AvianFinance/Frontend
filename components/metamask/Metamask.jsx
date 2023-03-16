@@ -16,10 +16,11 @@ import { isMounted } from "../../scripts/isMounted"
 import AvianMarket from "../../contracts/AvianMarkett.sol/AvianMarkett.json"
 import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
 import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
+import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
 
-import { amplace_token, rime_token, rime_rent }  from "../../utils/contracts";
+import { amplace_token, rime_token, rime_rent, insmplace_token }  from "../../utils/contracts";
 import { registerUser } from "../../api/user"
-import { showToast, buyModalHide, buylistModalHide, rentlistModalHide } from '../../redux/counterSlice';
+import { showToast, buyModalHide, buylistModalHide, rentlistModalHide, installmentModalHide } from '../../redux/counterSlice';
 
 const Metamask_comp_text = () => {
 	const mountedcontent = isMounted
@@ -192,12 +193,102 @@ const Metamask_comp_login = () => {
 	// 	);
 };
 
+const ListInstallment = (priceforday, listinstallmentcontent) => {
+	const { data: signer, isError } = useSigner()
+	const { address, connector, isConnected } = useAccount()
+	const { connect, connectors, error, isLoading, pendingConnector } =
+		useConnect()
+	const { disconnect } = useDisconnect()
+	const dispatch = useDispatch();
+	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
+	
+
+	const listNFTrentalINS = async () => {
+		dispatch(installmentModalHide())
+		console.log(priceforday)
+		try{
+			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
+			insmplace_token,
+			INSrentals.abi,
+			signer
+		);
+		
+
+		const token_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
+			priceforday.listinstallmentcontent.token_address,
+			RimeRent.abi,
+			signer
+		);
+			console.log("entereddd")
+			console.log(priceforday.listinstallmentcontent)
+			console.log(priceforday.listinstallmentcontent.token_id)
+			console.log(priceforday.priceforday)
+			let tokenId = priceforday.listinstallmentcontent.token_id
+			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
+			const unitPrice = ethers.utils.parseEther(price.toString())
+
+			console.log("Approving Marketplace as operator of NFT...")
+			const approvalTx = await token_contract.approve(mplace_contract.address, tokenId)
+			await approvalTx.wait(1)
+
+			const mintedBy = await token_contract.ownerOf(tokenId)
+			const listingFee = (await mplace_contract.getListingFee()).toString();
+
+			console.log("Listing NFT...")
+			const tx = await mplace_contract.listInsBasedNFT(token_contract.address, tokenId, unitPrice, {
+				value: listingFee,
+			})
+
+			console.log("listed")
+			dispatch(showToast(["success","NFT Listed!"]))
+		}
+		catch(error){
+			dispatch(showToast(["error",error]))
+		}	
+	}
+
+	if (isConnected) {
+		return ( 
+			<button
+				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+				onClick={listNFTrentalINS}
+				type="button"
+			>
+				List Rental
+			</button>
+		)
+	  }
+
+	if (!isConnected) {
+		return (
+			connectors.map((connector) => ( 
+				<button
+					disabled={!connector.ready}
+					key={connector.id}
+					onClick={async() => {
+						// register({ connector })
+						await connect({ connector })
+						// console.log(address)
+						// register(address)
+						// 	.then((response) => {
+						// 	console.log(response)
+						// 	})
+					}}
+				>
+					Connect 
+				</button> 
+				))
+		)
+	}
+}
+
 const ListSell = (priceforday, listcontent) => {
 	const { data: signer, isError } = useSigner()
 	const { address, connector, isConnected } = useAccount()
 	const { connect, connectors, error, isLoading, pendingConnector } =
 		useConnect()
 	const { disconnect } = useDisconnect()
+	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	
 	const listNFTsell = async () => {
@@ -284,6 +375,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 	const { connect, connectors, error, isLoading, pendingConnector } =
 		useConnect()
 	const { disconnect } = useDisconnect()
+	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
         amplace_token,
@@ -391,6 +483,8 @@ const PayRental = (payload, numofDays) => {
         RimeToken.abi,
         provider
     );
+
+	const mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
 	
 	const buyNFT = async () => {
 		dispatch(buyModalHide())
@@ -432,34 +526,55 @@ const PayRental = (payload, numofDays) => {
 			// console.log(payload.payload.token_id.toString())
 			// console.log(parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays)
 			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()))
-			try{
-				const tx =  await _marketplace.rentNFT(payload.payload.coll_addr, payload.payload.token_id.toString(),  payload.numofDays, {
-					value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
-				})
+			if(payload.payload.type=="UPRIGHT"){
+				try{
+					const tx =  await _marketplace.rentNFT(payload.payload.coll_addr, payload.payload.token_id.toString(),  payload.numofDays, {
+						value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
+					})
+	
+					const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
+	
+					const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
+				
+					console.log("listening.........")
+				
+					mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
+				
+						let transferEvent ={
+							buyer: buyer,
+							nftAddress: nftAddress,
+							tokenId: tokenId,
+							price: price,
+						}
+	
+						console.log("Bought")
+				
+					})			
+					dispatch(showToast(["success","NFT Rented!"]))
+				} catch(error){
+					console.log(error)
+					dispatch(showToast(["error",error]))
+				}
+			} else {
+				
+				try {
+					const firstIns = (await mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays)).toString();
 
-				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
+					console.log("Renting NFT...")
+					const tx = await mplace_contract.rentINSNFT(token_contract.address, payload.payload.token_id.toString(), payload.numofDays,{
+						value: firstIns,
+					})
 
-				const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
-			
-				console.log("listening.........")
-			
-				mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
-			
-					let transferEvent ={
-						buyer: buyer,
-						nftAddress: nftAddress,
-						tokenId: tokenId,
-						price: price,
-					}
-
-					console.log("Bought")
-			
-				})			
-				dispatch(showToast(["success","NFT Rented!"]))
-			} catch(error){
-				console.log(error)
-				dispatch(showToast(["error",error]))
-			}				
+					await tx.wait(1)
+					console.log("NFT rented and first ins paid")
+					dispatch(showToast(["success","NFT Rented!"]))
+				} catch(error){
+					console.log(error)
+					dispatch(showToast(["error",error]))
+				}
+				
+			}
+							
 		}
 	}
 
@@ -846,4 +961,4 @@ const Metamask_comp_icon = ({ prop }) => {
 	// 	);
 };
 
-export { Metamask_comp_text, Metamask_comp_icon, Metamask_comp_login, Confirm_checkout, PayRental, ListSell, ListRentals };
+export { Metamask_comp_text, Metamask_comp_icon, Metamask_comp_login, Confirm_checkout, PayRental, ListSell, ListRentals, ListInstallment };

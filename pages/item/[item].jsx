@@ -15,7 +15,7 @@ import { bidsModalShow } from '../../redux/counterSlice';
 import {
 	useAccount,
 } from "wagmi";
-import  nftdatas from "../../scripts/nftdatas";
+import { getNFTDetails } from "../../api/nft";
 import { isMounted } from "../../scripts/isMounted"
 
 const Item = () => {
@@ -30,10 +30,13 @@ const Item = () => {
 
 	useEffect(() => {
 		if(pid){
-			nftdatas(pid.split("&")[0],pid.split("&")[1])
-			.then((res) => {
-				setnftdata(res)
-			})
+			let address = pid.split("&")[0]
+			let tokenId = pid.split("&")[1]
+			getNFTDetails(address,tokenId)
+				.then((res) => {
+					console.log(res)
+					setnftdata(res.data)
+				})
 		}	
 	}, [pid])
 
@@ -50,12 +53,12 @@ const Item = () => {
 	let price 
 	let auction_timer
 	if(nftdata){
-		 image = nftdata.tokenUriRes.image
-		 title = nftdata.jsnresponse.name
-		 id = nftdata.jsnresponse.token_hash
+		 image = nftdata.uri
+		 title = nftdata.name
+		 id = nftdata._id
 		 likes = 100
-		 text = nftdata.tokenUriRes.description
-		 creatorImage = nftdata.tokenUriRes.description
+		 text = nftdata.desc
+		 creatorImage = nftdata.desc
 		 ownerImage = "/images/avatars/avatar_1.jpg"
 		 creatorname = "/images/avatars/avatar_7.jpg"
 		 ownerName = "Wow Fans"
@@ -79,7 +82,7 @@ const Item = () => {
 										{/* <!-- Image --> */}
 										<figure className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2 w-full">
 											<button className=" w-full" onClick={() => setImageModal(true)}>
-												<img src={nftdata.tokenUriRes.image} alt={title} className="rounded-2xl cursor-pointer  w-full" />
+												<img src={nftdata.uri} alt={title} className="rounded-2xl cursor-pointer  w-full" />
 											</button>
 	
 											{/* <!-- Modal --> */}
@@ -142,7 +145,7 @@ const Item = () => {
 											</div>
 	
 											<h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
-												{nftdata.tokenUriRes.name}
+												{nftdata.name}
 											</h1>
 	
 											{/* <div className="mb-8 flex items-center space-x-4 whitespace-nowrap">

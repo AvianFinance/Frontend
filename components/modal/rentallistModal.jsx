@@ -103,7 +103,7 @@ const BuyModal = () => {
 										<input
 											type="text"
 											className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border border-r-0 focus:ring-inset dark:text-white"
-											placeholder="Symbol for the collection"
+											placeholder="Daily Price for rental"
 											onChange={(e) => setPriceForDay(e.target.value)}
 											value={priceforday}
 										/>
