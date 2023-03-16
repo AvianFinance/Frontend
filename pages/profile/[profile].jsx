@@ -46,8 +46,8 @@ const Edit_user = () => {
 				maxContentLength: "Infinity",
 				headers: {
 					"Content-Type": `multipart/form-data;boundary=${formData._boundary}`,
-					'pinata_api_key': "668b0b44d1e4a05bc600",
-					'pinata_secret_api_key': "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71" ,
+					'pinata_api_key': "d96d1d45c7c5f1a11650",
+					'pinata_secret_api_key': "a880ba1d86b661d62650dc059f1bc23e2d28fcca6cfd430b0e2c2e6f679c3d9a" ,
 	
 				}
 			  }
@@ -114,11 +114,11 @@ const Edit_user = () => {
 	
 			console.log(obj)
 	
-			await updateUser(address, obj)
-				.then((response) => {
-					console.log(response)
-				})
-			dispatch(showToast(["success","Profile Updated!"]))
+			// await updateUser(address, obj)
+			// 	.then((response) => {
+			// 		console.log(response)
+			// 	})
+			// dispatch(showToast(["success","Profile Updated!"]))
 		} catch(error){
 			dispatch(showToast(["error",error.message]))
       		console.log(error.message)
@@ -129,15 +129,17 @@ const Edit_user = () => {
 		console.log("should redirect to home page")
 		getUser(address)
 			.then((response) => {
-				console.log(response)
-				setuserName({value:response.data.name,errorVal:""})
-				setBio({value:response.data.bio,errorVal:""})
-				setemail({value:response.data.email,errorVal:""})
-				settwitter({value:response.data.twitterLink,errorVal:""})
-				setinstagram({value:response.data.instaLink,errorVal:""})
-				setwebsite({value:response.data.site,errorVal:""})
-				setProfilePhoto({value:response.data.profileImage,errorVal:""})
-				setCoverePhoto({value:response.data.coverImage,errorVal:""})
+				console.log(response.data)
+				if (typeof(response.data) != "undefined"){
+					setuserName({value:response.data.name,errorVal:""})
+					setBio({value:response.data.bio,errorVal:""})
+					setemail({value:response.data.email,errorVal:""})
+					settwitter({value:response.data.twitterLink,errorVal:""})
+					setinstagram({value:response.data.instaLink,errorVal:""})
+					setwebsite({value:response.data.site,errorVal:""})
+					setProfilePhoto({value:response.data.profileImage,errorVal:""})
+					setCoverePhoto({value:response.data.coverImage,errorVal:""})
+				}
 			})
 	}, [isConnected, address]);
 

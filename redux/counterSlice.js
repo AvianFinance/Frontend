@@ -19,11 +19,13 @@ const initialState = {
 	exploretype: '',
 	listbuymodal: false,
 	listrentmodal: false,
+	listinstallmentmodal: false,
 	listcontent: null,
 	listrentalcontent: null,
+	listinstallmentcontent: null,
 	toaster: false,
 	toastertype: null,
-	toastermessage: null
+	toastermessage: null,
 };
 
 export const counterSlice = createSlice({
@@ -82,6 +84,11 @@ export const counterSlice = createSlice({
 			state.listrentmodal = true;
 			state.listrentalcontent = payload.payload
 		},
+		listinstallmentModalShow: (state, payload) => {
+			console.log(payload.payload)
+			state.listinstallmentmodal = true;
+			state.listinstallmentcontent = payload.payload
+		},
 		bidsModalHide: (state) => {
 			state.bidsModal = false;
 		},
@@ -100,6 +107,10 @@ export const counterSlice = createSlice({
 		rentlistModalHide: (state) => {
 			state.listrentmodal = false;
 			state.listrentalcontent = null
+		},
+		installmentModalHide: (state) => {
+			state.listinstallmentmodal = false;
+			state.listinstallmentcontent = null
 		},
 		showPropatiesModal: (state) => {
 			state.propartiesModalValue = true;
@@ -229,8 +240,10 @@ export const {
 	explorecollections,
 	listbuyModalShow,
 	listrentModalShow,
+	listinstallmentModalShow,
 	buylistModalHide,
 	rentlistModalHide,
+	installmentModalHide,
 	showToast,
 	hideToast
 } = counterSlice.actions;
