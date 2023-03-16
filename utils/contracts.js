@@ -10,6 +10,7 @@ const amplace_token = "0x4608a302Ab37866d31c7ee3f2a2E78B333C4D6e5"
 const mplace_token = "0xC2AA1764dcf714DEbf762b95aBBaDE411eD35B2c"
 const rime_token   = "0x4909493F604AB882327ca880ad5B330e2B3C43C1"
 const rime_rent = "0xA5e80F4980878b7C2c23D6fA002358A47d0060a3"
+const insmplace_token = "0xD849572866B14f0aB14e78A4FC66d588160ae98a"
 
 module.exports = {
     // AvianMarket,
@@ -22,4 +23,5 @@ module.exports = {
     mplace_token,
     rime_rent,
     amplace_token,
+    insmplace_token,
 };

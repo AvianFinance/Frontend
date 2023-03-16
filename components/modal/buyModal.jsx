@@ -11,7 +11,7 @@ const BuyModal = () => {
 	console.log(collectionsdata)
 	let expirydate
 	let startingdate
-	if(collectionsdata && exploretype === "rent"){
+	if(collectionsdata !== null && exploretype === "rent" && collectionsdata.type==="UPRIGHT"){
 		expirydate = new Date(parseInt((collectionsdata.endDateUNIX.hex) , 16) * 1000)
 		startingdate = new Date(parseInt((collectionsdata.startDateUNIX.hex) , 16) * 1000)
 	}
@@ -183,6 +183,7 @@ const BuyModal = () => {
 									</span>
 								</div>
 
+								{collectionsdata !== null ? (collectionsdata.type==="UPRIGHT" ?
 								<div className="mb-2 flex items-center justify-between">
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
 										daily price
@@ -190,25 +191,41 @@ const BuyModal = () => {
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
 									{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) : null }
 									</span>
-								</div>
-
+								</div> 
+								: 
 								<div className="mb-2 flex items-center justify-between">
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-										Expires on 
+										First Installment
 									</span>
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-										{collectionsdata !== null ? expirydate.toGMTString() : null }
+									{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) : null }
 									</span>
-								</div>
+								</div>) : null
+								}
+								
+								{collectionsdata !== null ? 
+								collectionsdata.type==="UPRIGHT" ?
+								<>
+									<div className="mb-2 flex items-center justify-between">
+										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+											Expires on 
+										</span>
+										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+											{collectionsdata !== null ? expirydate.toGMTString() : null }
+										</span>
+									</div>
 
-								<div className="mb-2 flex items-center justify-between">
-									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-										Starts on 
-									</span>
-									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-										{collectionsdata !== null ? startingdate.toGMTString() : null }
-									</span>
-								</div>
+									<div className="mb-2 flex items-center justify-between">
+										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+											Starts on 
+										</span>
+										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+											{collectionsdata !== null ? startingdate.toGMTString() : null }
+										</span>
+									</div>
+								</>
+								 : null
+								: null }
 
 								<div className="relative my-3 flex items-center">
 

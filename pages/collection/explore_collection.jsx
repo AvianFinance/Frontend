@@ -25,14 +25,13 @@ const Explore_collection = () => {
   const [filterVal, setFilterVal] = useState(0);
   const [ collections, setCollections] = useState()
   const [isloading, setisLoading] = useState(false)
+  const [filtered, setfiltered] = useState()
 
   const handleItemFilter = (text) => {
-    if (text === "all") {
-      setCollectionFilteredData(Feature_collections_data);
+    if (text === "Upright") {
+      setfiltered(collections.upright)
     } else {
-      setCollectionFilteredData(
-        Feature_collections_data.filter((item) => item.category === text)
-      );
+      setfiltered(collections.inst)
     }
   };
 
@@ -47,6 +46,7 @@ const Explore_collection = () => {
         .then((response) => {
           console.log(response.data)
           setCollections(response.data)
+          setfiltered(response.data.upright)
           setisLoading(true)
         })
     } else {
@@ -54,6 +54,7 @@ const Explore_collection = () => {
         .then((response) => {
           console.log(response.data)
           setCollections(response.data)
+          setfiltered(response.data)
           setisLoading(true)
         })
     }
@@ -80,7 +81,7 @@ const Explore_collection = () => {
             {/* <!-- Filter --> */}
             <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
-                {tranding_category_filter.map(({ id, svg, text }) => {
+                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installemnent",}].map(({ id, svg, text }) => {
                   if (text === "all") {
                     return (
                       <li
@@ -142,7 +143,7 @@ const Explore_collection = () => {
             {/* <!-- Grid --> */}
             {isloading ? 
             <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-              <Explore_collection_item itemFor="explore-collection" collections={collections}/>
+              <Explore_collection_item itemFor="explore-collection" collections={filtered}/>
             </div> : null}
           </div>
         </section>
