@@ -6,7 +6,7 @@ import "tippy.js/dist/tippy.css";
 import Likes from "../likes";
 import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { listbuyModalShow } from "../../redux/counterSlice";
+import { listbuyModalShow, listrentModalShow, listinstallmentModalShow } from "../../redux/counterSlice";
 
 const Created = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
@@ -106,18 +106,32 @@ const Created = (collectedNFT) => {
                 </div> */}
 
                 {!listed_status ? 
-                  <div className="mt-8 flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <button
                       className="text-accent font-display text-sm font-semibold"
                       onClick={() => dispatch(listrentModalShow(item))}
                     >
                       Sell Now
                     </button>
+                  </div> : null
+                }
+                {!listed_status ? 
+                  <div className="flex items-center justify-between">
                     {tokentype ==="ERC4907" ? <button
                       className="text-accent font-display text-sm font-semibold"
-                      onClick={() => dispatch(listbuyModalShow(item))}
+                      onClick={() => dispatch(listrentModalShow(item))}
                     >
-                      Rent Now
+                      Standard Rental
+                    </button> : null}
+                  </div> : null
+                }
+                {!listed_status ? 
+                  <div className="flex items-center justify-between">
+                    {tokentype ==="ERC4907" ? <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listinstallmentModalShow(item))}
+                    >
+                      Installment Rental
                     </button> : null}
                   </div> : null
                 }

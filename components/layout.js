@@ -5,6 +5,7 @@ import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
 import BuyListModal from "./modal/buylistModal";
 import RentalListModal from "./modal/rentallistModal";
+import InstallmentListModal from "./modal/installementlistModal";
 import ToasterContainer from "./toast"
 
 export default function Layout({ children }) {
@@ -17,6 +18,7 @@ export default function Layout({ children }) {
       <BuyModal />
       <BuyListModal/>
       <RentalListModal/>
+      <InstallmentListModal/>
       <ToasterContainer/>
       <main>{children}</main>
       <Footer />

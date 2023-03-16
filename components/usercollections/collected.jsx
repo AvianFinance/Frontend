@@ -6,7 +6,7 @@ import "tippy.js/dist/tippy.css";
 import Likes from "../likes";
 import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
-import { listbuyModalShow, listrentModalShow } from "../../redux/counterSlice";
+import { listbuyModalShow, listrentModalShow, listinstallmentModalShow } from "../../redux/counterSlice";
 
 const Collected = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
@@ -113,23 +113,36 @@ const Collected = (collectedNFT) => {
                     {bidCount}/{bidLimit}
                   </span>
                 </div> */}
-                {listed_status ? 
-                <div className="mt-8 flex items-center justify-between">
-                <button
-                  className="text-accent font-display text-sm font-semibold"
-                  onClick={() => dispatch(listbuyModalShow(item))}
-                >
-                  Sell Now
-                </button>
-                {tokentype ==="ERC4907" ? <button
-                  className="text-accent font-display text-sm font-semibold"
-                  onClick={() => dispatch(listrentModalShow(item))}
-                >
-                  Rent Now
-                </button> : null}
-              </div> : null
+                {!listed_status ? 
+                  <div className="flex items-center justify-between">
+                    <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listbuyModalShow(item))}
+                    >
+                      Sell Now
+                    </button>
+                  </div> : null
                 }
-                
+                {!listed_status ? 
+                  <div className="flex items-center justify-between">
+                    {tokentype ==="ERC4907" ? <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listrentModalShow(item))}
+                    >
+                      Standard Rental
+                    </button> : null}
+                  </div> : null
+                }
+                {!listed_status ? 
+                  <div className="flex items-center justify-between">
+                    {tokentype ==="ERC4907" ? <button
+                      className="text-accent font-display text-sm font-semibold"
+                      onClick={() => dispatch(listinstallmentModalShow(item))}
+                    >
+                      Installment Rental
+                    </button> : null}
+                  </div> : null
+                }            
               </div>
             </article>
           );

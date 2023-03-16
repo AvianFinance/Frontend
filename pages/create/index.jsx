@@ -80,8 +80,8 @@ const Create = () => {
             maxContentLength: "Infinity",
             headers: {
                 "Content-Type": `multipart/form-data;boundary=${formData._boundary}`,
-                'pinata_api_key': "668b0b44d1e4a05bc600",
-                'pinata_secret_api_key': "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71" ,
+                'pinata_api_key': "d96d1d45c7c5f1a11650",
+                'pinata_secret_api_key': "a880ba1d86b661d62650dc059f1bc23e2d28fcca6cfd430b0e2c2e6f679c3d9a" ,
 
             }
           }
@@ -127,13 +127,17 @@ const Create = () => {
   //   return response.data.IpfsHash
   // }
 
+  const getCollectionDetails = (waddress) => {
+    getCollections(waddress)
+      .then((response) => {
+        console.log(response.data)
+        setCollections(response.data)
+    })
+  }
+
   useEffect(() => {
 		console.log("should redirect to home page")
-		getCollections(address)
-			.then((response) => {
-        console.log(response.data)
-				setCollections(response.data)
-			})
+		getCollectionDetails(address)
 	}, [isConnected, address]);
 
   const handleInputChange = (e, item) => {

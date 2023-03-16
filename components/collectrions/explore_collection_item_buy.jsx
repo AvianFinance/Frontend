@@ -31,11 +31,8 @@ const Explore_collection_item = ({itemFor, collections}) => {
 		return (
 			<>
 				{itemData.map((item) => {
+					console.log(item)
 					const id = item._id
-					const bigImage = item.tokens[0]
-					const subImage1 = item.tokens[1]
-					const subImage2 = item.tokens[2]
-					const subImage3 = item.tokens[3]
 					const userImage = "/images/avatars/owner_5.png"
 					const title = item.name
 					const itemsCount = item.count
@@ -50,10 +47,10 @@ const Explore_collection_item = ({itemFor, collections}) => {
 						<article key={id}>
 							<div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
 								<Link href={"/collection/"+id.toString()}>
-									<a className="flex space-x-[0.625rem]">
+									{typeof(item.tokens) != "undefined" ? <a className="flex space-x-[0.625rem]">
 										{item.tokens.length>=1 ? <span className="w-[74.5%]">
 											<img
-												src={bigImage}
+												src={item.tokens[0]}
 												alt="item 1"
 												className="h-80 w-full rounded-[0.625rem] object-cover"
 												loading="lazy"
@@ -62,31 +59,38 @@ const Explore_collection_item = ({itemFor, collections}) => {
 											<img
 												src="https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
 												alt="item 1"
-												className="h-full w-full rounded-[0.625rem] object-cover"
+												className="h-80  w-full rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
 										</span>}
 										{item.tokens.length>=4 ? <span className="flex w-1/3 flex-col space-y-[0.625rem]">
 											<img
-												src={subImage1}
+												src={item.tokens[1]}
 												alt="item 1"
 												className="h-full rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
 											<img
-												src={subImage2}
+												src={item.tokens[2]}
 												alt="item 1"
 												className="h-full  rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
 											<img
-												src={subImage3}
+												src={item.tokens[3]}
 												alt="item 1"
 												className="h-full rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
 										</span> : null }
-									</a>
+									</a> : <a><span className="w-[100%]">
+											<img
+												src="https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
+												alt="item 1"
+												className="h-80  w-full rounded-[0.625rem] object-cover"
+												loading="lazy"
+											/>
+										</span></a>}
 								</Link>
 		
 								<Link href={"/collection/"+id.toString()}>

@@ -116,7 +116,7 @@ const CategoryItem = (collection) => {
                     className="text-accent font-display text-sm font-semibold"
                     onClick={() => dispatch(buyModalShow(item))}
                   >
-                    Buy now
+                    {type === "rent" ? "Rent Now" : "Buy Now"}
                   </button>
                   <Link href={`/item/${item.coll_addr}&${item.token_id}`}>
                     <a className="group flex items-center">
