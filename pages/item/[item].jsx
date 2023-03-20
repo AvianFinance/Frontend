@@ -34,13 +34,13 @@ const Item = () => {
 			let tokenId = pid.split("&")[1]
 			getNFTDetails(address,tokenId)
 				.then((res) => {
-					console.log(res)
+					// console.log(res)
 					setnftdata(res.data)
 				})
 		}	
 	}, [pid])
 
-	console.log(nftdata)
+	// console.log(nftdata)
 	let image 
 	let title
 	let id 
@@ -67,7 +67,6 @@ const Item = () => {
 	}
 
 	if(nftdata){
-		console.log("inside 1 =======================")
 		return (
 			<>
 				<Meta title={`${pid} || Xhibiter | NFT Marketplace Next.js Template`} />
@@ -328,7 +327,6 @@ const Item = () => {
 			</>
 		);
 	} else{
-		console.log("inside 2 =======================")
 		return (
 			<>
 				<Meta title={`${pid} || Xhibiter | NFT Marketplace Next.js Template`} />

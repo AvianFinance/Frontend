@@ -8,7 +8,7 @@ const BuyModal = () => {
 	const { buyModal, collectionsdata, exploretype } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 	const [numofDays, setnumofDays] = useState(0)
-	console.log(collectionsdata)
+	// console.log(collectionsdata)
 	let expirydate
 	let startingdate
 	if(collectionsdata !== null && exploretype === "rent" && collectionsdata.type==="UPRIGHT"){

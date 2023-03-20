@@ -205,7 +205,7 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 
 	const listNFTrentalINS = async () => {
 		dispatch(installmentModalHide())
-		console.log(priceforday)
+		// console.log(priceforday)
 		try{
 			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
 			insmplace_token,
@@ -219,10 +219,10 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 			RimeRent.abi,
 			signer
 		);
-			console.log("entereddd")
-			console.log(priceforday.listinstallmentcontent)
-			console.log(priceforday.listinstallmentcontent.token_id)
-			console.log(priceforday.priceforday)
+			// console.log("entereddd")
+			// console.log(priceforday.listinstallmentcontent)
+			// console.log(priceforday.listinstallmentcontent.token_id)
+			// console.log(priceforday.priceforday)
 			let tokenId = priceforday.listinstallmentcontent.token_id
 			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
 			const unitPrice = ethers.utils.parseEther(price.toString())
@@ -392,7 +392,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 	const listNFTrental = async () => {
 		dispatch(rentlistModalHide())
 		try{
-			console.log(priceforday.listrentalcontent)
+			// console.log(priceforday.listrentalcontent)
 			let tokenID = priceforday.listrentalcontent.token_id
 			let n_days = priceforday.numofDays
 
@@ -454,8 +454,8 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 };
 
 const PayRental = (payload, numofDays) => {
-	console.log(payload.payload)
-	console.log(payload.numofDays)
+	// console.log(payload.payload)
+	// console.log(payload.numofDays)
 
 	const { data: signer, isError } = useSigner()
 	const { address, connector, isConnected } = useAccount()
@@ -494,7 +494,7 @@ const PayRental = (payload, numofDays) => {
 					value: parseInt((payload.payload.price.hex), 16).toString(),
 				})
 	
-				console.log(tx)
+				// console.log(tx)
 	
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
@@ -655,7 +655,7 @@ const Confirm_checkout = (payload) => {
 				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: parseInt((payload.payload.price.hex), 16).toString(),
 				})
-				console.log(parseInt((payload.payload.price.hex), 16).toString())
+				// console.log(parseInt((payload.payload.price.hex), 16).toString())
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
 				const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)

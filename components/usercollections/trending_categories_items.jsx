@@ -16,7 +16,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 	const dispatch = useDispatch();
 	const { trendingCategorySorText } = useSelector((state) => state.counter);
 	const [filterVal, setFilterVal] = useState(0);
-	console.log(filterName)
+	// console.log(filterName)
 
 	const handleFilter = (category) => {
 		if (category !== 'all') {
@@ -116,7 +116,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 		
 					{/* <!-- Grid --> */}
 		
-					<ListedCategory />
+					<ListedCategory collectedNFT={filterName.collectedNFT}/>
 				</>
 			);
 			break;
@@ -320,7 +320,8 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 		
 					{/* <!-- Grid --> */}
 		
-					<RentedCategory />
+					<RentedCategory collectedNFT={filterName.collectedNFT}/>
+					
 				</>
 			);
 			break;
@@ -388,7 +389,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 			
 						{/* <!-- Grid --> */}
 			
-						<LendedCategory />
+						<LendedCategory collectedNFT={filterName.collectedNFT}/>
 					</>
 				);
 				break;

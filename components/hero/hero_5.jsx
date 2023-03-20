@@ -2,8 +2,10 @@ import Link from 'next/link';
 import React from 'react';
 import { hero_5_data } from '../../data/coverflow_data';
 import { useSelector, useDispatch } from 'react-redux';
+import { explorecollections } from '../../redux/counterSlice';
 
 const Hero_5 = () => {
+	const dispatch = useDispatch();
 	return (
 		<>
 			{/* <!-- Hero --> */}
@@ -82,7 +84,7 @@ const Hero_5 = () => {
 										.replace('_2lg.jpg', '')
 										.replace('.gif', '');
 
-									console.log(itemLink)
+									// console.log(itemLink)
 									return (
 										<div
 											className={

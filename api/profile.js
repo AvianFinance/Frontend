@@ -9,3 +9,7 @@ export const getowned = (address) => getRequest(`${BASE_URL}/owned/${address}`);
 export const getcollections = (address) => getRequest(`${BASE_URL}/collections/${address}`);
 
 export const getListed = (address) => getRequest(`${BASE_URL}/listed/${address}`);
+
+export const getLended = (address) => getRequest(`${BASE_URL}/lended/${address}`);
+
+export const getRented = (address) => getRequest(`${BASE_URL}/rented/${address}`);

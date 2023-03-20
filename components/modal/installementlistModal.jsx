@@ -9,8 +9,8 @@ const InstallmentListModal = () => {
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
 
-	console.log(listinstallmentcontent)
-	console.log(listinstallmentmodal)
+	// console.log(listinstallmentcontent)
+	// console.log(listinstallmentmodal)
 
 	if(listinstallmentcontent){
 		return (

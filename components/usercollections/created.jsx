@@ -12,7 +12,7 @@ const Created = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
     (state) => state.counter
   );
-  console.log(collectedNFT)
+  // console.log(collectedNFT)
   const dispatch = useDispatch();
   if(collectedNFT){
     return (
@@ -33,7 +33,7 @@ const Created = (collectedNFT) => {
             title = "Unknown"
             listed_status = true
           }
-          console.log(listed_status)
+          // console.log(listed_status)
           const itemLink = image
             .split("/")
             .slice(-1)
@@ -142,7 +142,7 @@ const Created = (collectedNFT) => {
       </div>
     );   
   } else {
-    console.log("no dataaaaa")
+    // console.log("no dataaaaa")
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {sortedtrendingCategoryItemData.map((item) => {

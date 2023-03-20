@@ -4,8 +4,6 @@ import { EvmChain } from '@moralisweb3/common-evm-utils';
 
 const nftdatas = async (address, tokenId) => {
     const chain = EvmChain.FUJI;
-    console.log(address)
-    console.log(tokenId)
 
     if (!Moralis.Core.isStarted) {
         await Moralis.start({

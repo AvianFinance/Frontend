@@ -9,8 +9,8 @@ const BuyModal = () => {
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
 
-	console.log(listcontent)
-	console.log(listbuymodal)
+	// console.log(listcontent)
+	// console.log(listbuymodal)
 
 	if(listcontent){
 		return (

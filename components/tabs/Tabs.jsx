@@ -8,7 +8,7 @@ import 'react-tabs/style/react-tabs.css';
 
 const ItemsTabs = (nftdata) => {
 	const [tabsActive, setTabsActive] = useState(1);
-	console.log(nftdata)
+	// console.log(nftdata)
 	const tabsHeadText = [
 		// {
 		// 	id: 1,
@@ -36,7 +36,7 @@ const ItemsTabs = (nftdata) => {
 		// 	icon: 'price',
 		// },
 	];
-	console.log(nftdata)
+	// console.log(nftdata)
 	return (
 		<>
 			<div className="scrollbar-custom mt-14 overflow-x-auto rounded-lg">

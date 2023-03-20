@@ -19,7 +19,7 @@ import {
 import { getCollections, mintNft, uploadIPFS } from "../../api/mint"
 import axios from 'axios';
 import { ethers } from "ethers";
-import { showToast } from '../../redux/counterSlice';
+import { showToast, propartiesModalValue } from '../../redux/counterSlice';
 
 import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
 import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
@@ -34,7 +34,7 @@ const Create = () => {
   const [ipfs, setIPFS] = useState({value:"",errorVal:""})
 	const [description, setDescription] = useState({value:"",errorVal:""})
 	const [activeItem, setActiveItem] = useState();
-  console.log(activeItem)
+  // console.log(activeItem)
 
   const fileTypes = [
     "JPG",
@@ -68,7 +68,7 @@ const Create = () => {
   }
 
   const handleChange = async (fileImg) => {
-    console.log(fileImg)
+    // console.log(fileImg)
     try {
       const formData = new FormData();
       formData.append("file", fileImg, fileImg.name);
@@ -86,14 +86,14 @@ const Create = () => {
             }
           }
       );
-      console.log(resFile)
+      // console.log(resFile)
       const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      console.log(ImgHash);    
+      // console.log(ImgHash);    
       setIPFS({value: ImgHash, errorVal:""})
       dispatch(showToast(["success","Image Uploaded to IPFS"]))
     } catch (error) {
       dispatch(showToast(["error",error.message]))
-      console.log(error.message)
+      // console.log(error.message)
     }
   };
 
@@ -130,7 +130,7 @@ const Create = () => {
   const getCollectionDetails = (waddress) => {
     getCollections(waddress)
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         setCollections(response.data)
     })
   }
@@ -138,7 +138,7 @@ const Create = () => {
   useEffect(() => {
 		console.log("should redirect to home page")
 		getCollectionDetails(address)
-	}, [isConnected, address]);
+	}, [isConnected, address, propartiesModalValue]);
 
   const handleInputChange = (e, item) => {
 		switch(item) {
@@ -164,7 +164,7 @@ const Create = () => {
         uri : ipfs.value,
         coll_addr : activeItem
       }
-      console.log(obj)
+      // console.log(obj)
   
       let responseipfs
   
@@ -211,7 +211,7 @@ const Create = () => {
       "minter": address
     }
 
-    console.log(saveNFT)
+    // console.log(saveNFT)
 
     await mintNft(saveNFT)
 			.then((response) => {

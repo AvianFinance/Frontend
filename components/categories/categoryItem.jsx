@@ -17,7 +17,7 @@ const CategoryItem = (collection) => {
   const [type, settype] = useState();
   const [nftitems, setItems] = useState([]);
   const [filterVal, setFilterVal] = useState(0);
-  const [filtered, setfiltered] = useState()
+  const [filtered, setfiltered] = useState([])
 
   const handleItemFilter = (text) => {
     if (text === "Upright") {
@@ -31,7 +31,7 @@ const CategoryItem = (collection) => {
   useEffect(() => {
 		// console.log(collection)
     // console.log(exploretype)
-    console.log(collection.collection.collection)
+    // console.log(collection.collection.collection)
     settype(exploretype)
     if(exploretype=="rent"){
       setItems(collection.collection.collection)
@@ -43,8 +43,10 @@ const CategoryItem = (collection) => {
 	}, [collection, exploretype]);
 
   if(filtered){
+    console.log(filtered)
     return (
       <div>
+          {exploretype=="rent" ? 
           <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
                 {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installemnent",}].map(({ id, svg, text }) => {
@@ -102,7 +104,7 @@ const CategoryItem = (collection) => {
                   }
                 })}
               </ul>
-          </div>
+          </div> : null }
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {filtered.map((item) => {
           // console.log(item)
@@ -110,7 +112,7 @@ const CategoryItem = (collection) => {
           const image = item.uri
           const title = item.name
           let price = 0
-          console.log(item)
+          // console.log(item)
           if(type === "buy" && item.price !== null) {
             price = parseInt((item.price.hex) * Math.pow(10, -16), 16).toString()
           } 
@@ -214,6 +216,8 @@ const CategoryItem = (collection) => {
       </div>
       
     );
+  } else {
+    console.log("hiii")
   }
   
 };

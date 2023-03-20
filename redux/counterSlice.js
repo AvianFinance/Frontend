@@ -33,13 +33,9 @@ export const counterSlice = createSlice({
 	initialState,
 	reducers: {
 		showToast: (state, payload) => {
-			console.log(state.toaster)
 			state.toaster = true;
 			state.toastertype = payload.payload[0];
 			state.toastermessage = payload.payload[1];
-			console.log(state.toaster)
-			console.log(state.toastertype)
-			console.log(state.toastermessage)
 		},
 		hideToast: (state, payload) => {
 			state.toaster = false;
@@ -75,17 +71,14 @@ export const counterSlice = createSlice({
 			state.bidsModal = true;
 		},
 		listbuyModalShow: (state, payload) => {
-			console.log(payload.payload)
 			state.listbuymodal = true;
 			state.listcontent = payload.payload
 		},
 		listrentModalShow: (state, payload) => {
-			console.log(payload.payload)
 			state.listrentmodal = true;
 			state.listrentalcontent = payload.payload
 		},
 		listinstallmentModalShow: (state, payload) => {
-			console.log(payload.payload)
 			state.listinstallmentmodal = true;
 			state.listinstallmentcontent = payload.payload
 		},

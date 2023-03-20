@@ -28,6 +28,8 @@ const Collection = () => {
 	};
 
 	useEffect(() => {
+		console.log(pid)
+		console.log(exploretype)
 		if(pid && exploretype==="rent"){
 			getrentalcollection(pid)
 				.then((response) => {
