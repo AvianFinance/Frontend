@@ -31,12 +31,7 @@ const Rented = (collectedNFT) => {
             title = "Unknown"
             listed_status = true
           }
-          const itemLink = image
-            .split("/")
-            .slice(-1)
-            .toString()
-            .replace(".jpg", "")
-            .replace(".gif", "");
+          const itemLink = item.token_address + '&' + item.token_id
           return (
             <article key={id}>
               <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">

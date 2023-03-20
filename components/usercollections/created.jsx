@@ -18,6 +18,7 @@ const Created = (collectedNFT) => {
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {collectedNFT.collectedNFT.map((item, index) => {
+          console.log(item)
           const id = index
           let image
           let title
@@ -34,12 +35,7 @@ const Created = (collectedNFT) => {
             listed_status = true
           }
           // console.log(listed_status)
-          const itemLink = image
-            .split("/")
-            .slice(-1)
-            .toString()
-            .replace(".jpg", "")
-            .replace(".gif", "");
+          const itemLink = item.token_address + '&' + item.token_id
           return (
             <article key={id}>
               <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
