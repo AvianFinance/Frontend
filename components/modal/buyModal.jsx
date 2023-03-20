@@ -198,7 +198,7 @@ const BuyModal = () => {
 										First Installment
 									</span>
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-									{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) : null }
+									{collectionsdata !== null ? ((parseInt((collectionsdata.pricePerDay.hex), 16)) * Math.pow(10, -18) * numofDays * 2)/ (parseInt(numofDays) +1) : null }
 									</span>
 								</div>) : null
 								}

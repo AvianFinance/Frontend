@@ -34,7 +34,7 @@ const Item = () => {
 			let tokenId = pid.split("&")[1]
 			getNFTDetails(address,tokenId)
 				.then((res) => {
-					// console.log(res)
+					console.log(res)
 					setnftdata(res.data)
 				})
 		}	
