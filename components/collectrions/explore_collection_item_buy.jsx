@@ -5,34 +5,34 @@ import { useSelector, useDispatch } from 'react-redux';
 import { buyModalHide } from "../../redux/counterSlice";
 
 const Explore_collection_item = ({itemFor, collections}) => {
-	console.log(collections)
+	// console.log(collections)
 	const { sortedCollectionData, exploretype } = useSelector((state) => state.counter);
-	console.log("data are---------------------------------", sortedCollectionData)
+	// console.log("data are---------------------------------", sortedCollectionData)
 	const [itemData, setItemData] = useState(null);
 	const dispatch = useDispatch();
-	useEffect(() => {
-		console.log("first useeffect")
-		if (itemFor === 'userPage') {
-			setItemData(collections);
-		} else {
-			setItemData(collections);
-		}
-	}, [sortedCollectionData, itemFor]);
+	// useEffect(() => {
+	// 	// console.log("first useeffect")
+	// 	if (itemFor === 'userPage') {
+	// 		setItemData(collections);
+	// 	} else {
+	// 		setItemData(collections);
+	// 	}
+	// }, [sortedCollectionData, itemFor]);
 
 	useEffect(() => {
-		console.log("second useeffect")
+		// console.log("second useeffect")
 		dispatch(buyModalHide())
-		console.log("loading nft data")
-		console.log(collections)
-		console.log(exploretype)
+		// console.log("loading nft data")
+		// console.log(collections)
+		// console.log(exploretype)
 		setItemData(collections);
-	},[exploretype, collections]);
-	console.log(itemData)
+	},[exploretype, collections,itemFor]);
+	// console.log(itemData)
 	if(itemData !== null){
 		return (
 			<>
 				{itemData.map((item) => {
-					console.log(item)
+					// console.log(item)
 					const id = item._id
 					const userImage = "/images/avatars/owner_5.png"
 					const title = item.name

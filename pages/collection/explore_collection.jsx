@@ -44,7 +44,7 @@ const Explore_collection = () => {
     if (exploretype==="rent"){
       getrentbuylistings()
         .then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           setCollections(response.data)
           setfiltered(response.data.upright)
           setisLoading(true)
@@ -52,7 +52,7 @@ const Explore_collection = () => {
     } else {
       getbuylistings()
         .then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           setCollections(response.data)
           setfiltered(response.data)
           setisLoading(true)
@@ -79,7 +79,7 @@ const Explore_collection = () => {
             />
   
             {/* <!-- Filter --> */}
-            <div className="mb-8 flex flex-wrap items-start justify-between">
+            {exploretype==="rent" ? <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
                 {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installemnent",}].map(({ id, svg, text }) => {
                   if (text === "all") {
@@ -138,7 +138,7 @@ const Explore_collection = () => {
               </ul>
               {/* dropdown */}
               <Collection_dropdown />
-            </div>
+            </div> : null}
   
             {/* <!-- Grid --> */}
             {isloading ? 

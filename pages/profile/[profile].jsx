@@ -34,7 +34,6 @@ const Edit_user = () => {
 	const [website, setwebsite] = useState({value:"",errorVal:""})
 
 	const uploadtoPinata = async (fileImg) => {
-		console.log(fileImg)
 		try {
 		  const formData = new FormData();
 		  formData.append("file", fileImg, fileImg.name);
@@ -55,7 +54,7 @@ const Edit_user = () => {
 		  const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 		  return ImgHash
 		} catch (error) {
-		  console.log("Error sending File to IPFS: ")
+		//   console.log("Error sending File to IPFS: ")
 		  console.log(error)
 		}
 
@@ -64,13 +63,13 @@ const Edit_user = () => {
 	const handleProfilePhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
 		setProfilePhoto(file);
-		console.log({value: file, errorVal:""})
+		// console.log({value: file, errorVal:""})
 	};
 
 	const handleCoverPhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
 		setCoverePhoto({value: file, errorVal:""});
-		console.log({value: file, errorVal:""})
+		// console.log({value: file, errorVal:""})
 	};
 
 	const handleChange = (e, item) => {
@@ -112,7 +111,7 @@ const Edit_user = () => {
 				profileImage: profilePhoto.value
 			}
 	
-			console.log(obj)
+			// console.log(obj)
 	
 			// await updateUser(address, obj)
 			// 	.then((response) => {
@@ -121,15 +120,15 @@ const Edit_user = () => {
 			// dispatch(showToast(["success","Profile Updated!"]))
 		} catch(error){
 			dispatch(showToast(["error",error.message]))
-      		console.log(error.message)
+      		// console.log(error.message)
 		}
 	};
 
 	useEffect(() => {
-		console.log("should redirect to home page")
+		// console.log("should redirect to home page")
 		getUser(address)
 			.then((response) => {
-				console.log(response.data)
+				// console.log(response.data)
 				if (typeof(response.data) != "undefined"){
 					setuserName({value:response.data.name,errorVal:""})
 					setBio({value:response.data.bio,errorVal:""})

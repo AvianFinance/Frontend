@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { closePropatiesModal } from '../../redux/counterSlice';
+import { closePropatiesModal, showToast } from '../../redux/counterSlice';
 import Collection_dropdown2 from "../../components/dropdown/collection_dropdown2";
 import { useSigner, useAccount } from 'wagmi'
 import { ethers } from "ethers";
@@ -58,6 +58,7 @@ const Proparties_modal = () => {
 		let token
 		let token_name = Name.value
 		let token_symbol = Symbol.value
+		dispatch(closePropatiesModal())
 
 		if(activeItem=="ERC721"){
 			token = new ethers.ContractFactory(AVFXGeneral.abi, AVFXGeneral.bytecode, signer)
@@ -70,7 +71,7 @@ const Proparties_modal = () => {
 		try{
 			await NFT.deployed()
 
-			console.log(NFT.address)
+			// console.log(NFT.address)
 
 			let obj = {
 				"address" : NFT.address,
@@ -79,11 +80,12 @@ const Proparties_modal = () => {
 				"tokenType" : activeItem,
 				"createdBy" : address
 			}
-			console.log(obj)
+			// console.log(obj)
 
 			saveData(obj)
+			dispatch(showToast(["success","Collection created successfully"]))
 		} catch {
-			console.log("errorrr")
+			dispatch(showToast(["error",error.message]))
 		}
 	};
 

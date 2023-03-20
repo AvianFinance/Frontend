@@ -416,7 +416,7 @@ const Navbar = () => {
 										aria-label="open mobile menu"
 										onClick={() => {
 											dispatch(openMblMenu());
-											console.log('open mbl nav');
+											// console.log('open mbl nav');
 										}}
 									>
 										<svg

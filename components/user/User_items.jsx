@@ -13,7 +13,7 @@ import {
 
 import { isMounted } from "../../scripts/isMounted"
 import usernfts from "../../scripts/usernfts"
-import { getcollected, getowned, getcollections, getListed} from "../../api/profile"
+import { getcollected, getowned, getcollections, getListed, getLended, getRented} from "../../api/profile"
 
 const User_items = (user_address) => {
 	const mountedcontent = isMounted
@@ -21,29 +21,66 @@ const User_items = (user_address) => {
 	const [collectedNFT, setCollectedNFT] = useState([])
 	const [ownednft, setOwnedNFT] = useState([])
 	const [collections, setcollections] = useState([])
+	const [lended, setlended] = useState([])
+	const [rented, setrented] = useState([])
 	const [listed, setlisted] = useState([])
-	console.log(user_address.user_address)
+	// console.log(user_address.user_address)
 	useEffect(() => {
-		console.log(user_address.user_address)
-		// getListed(address)
-		// 	.then((response) => {
-		// 		console.log(response)
-		// 		// let listednfts = []
-		// 		// response.data.map((data) => collectednfts.push( {
-		// 		// 	tokenUriRes : {
-		// 		// 		description : data.desc,
-		// 		// 		image : data.uri,
-		// 		// 		name : data.name,
-		// 		// 		token: data.token_type
-		// 		// 	},
-		// 		// 	token_address : data.coll_addr,
-		// 		// 	token_id : data.token_id
-		// 		// }))
-		// 		// setlisted(listednfts)
-		// 	})
+		// console.log(user_address.user_address)
+		getListed(address)
+			.then((response) => {
+				// console.log(response)
+				let listednfts = []
+				response.data.map((data) => listednfts.push( {
+					tokenUriRes : {
+						description : data.desc,
+						image : data.uri,
+						name : data.name,
+						token: data.token_type
+					},
+					token_address : data.coll_addr,
+					token_id : data.token_id
+				}))
+				setlisted(listednfts)
+			})
+		getLended(user_address.user_address)
+			.then((response) => {
+				// console.log(response)
+				let collectednfts = []
+				response.data.map((data) => collectednfts.push( {
+					tokenUriRes : {
+						description : data.desc,
+						image : data.uri,
+						name : data.name,
+						token: data.token_type,
+						listed_status: data.listed_status
+					},
+					token_address : data.coll_addr,
+					token_id : data.token_id
+				}))
+				setlended(collectednfts)
+			})
+		getRented(user_address.user_address)
+			.then((response) => {
+				// console.log(response)
+				let collectednfts = []
+				response.data.map((data) => collectednfts.push( {
+					tokenUriRes : {
+						description : data.desc,
+						image : data.uri,
+						name : data.name,
+						token: data.token_type,
+						listed_status: data.listed_status
+					},
+					token_address : data.coll_addr,
+					token_id : data.token_id
+				}))
+				setrented(collectednfts)
+			})
+	
 		getcollected(user_address.user_address)
 			.then((response) => {
-				console.log(response)
+				// console.log(response)
 				let collectednfts = []
 				response.data.map((data) => collectednfts.push( {
 					tokenUriRes : {
@@ -58,9 +95,9 @@ const User_items = (user_address) => {
 				}))
 				setCollectedNFT(collectednfts)
 			})
-			getowned(user_address.user_address)
+		getowned(user_address.user_address)
 			.then((response) => {
-				console.log(response)
+				// console.log(response)
 				let ownednfts =[]
 				response.data.map((data) => ownednfts.push( {
 					tokenUriRes : {
@@ -75,7 +112,7 @@ const User_items = (user_address) => {
 				}))
 				setOwnedNFT(ownednfts)
 			})
-			getcollections(user_address.user_address)
+		getcollections(user_address.user_address)
 			.then((response) => {
 				// console.log(response)
 				setcollections(response.data)
@@ -120,7 +157,7 @@ const User_items = (user_address) => {
 			icon: 'activity',
 		},
 	];
-	console.log(collectedNFT)
+	// console.log(collectedNFT)
 	if(collectedNFT.length>0){
 		return (
 			<>
@@ -168,7 +205,7 @@ const User_items = (user_address) => {
 								<div>
 									{/* <!-- Filter --> */}
 									{/* <Trending_categories_items filterName="Listed" collectedNFT = {listed}/> */}
-									<Trending_categories_items filterName="Listed"/>
+									<Trending_categories_items filterName="Listed" collectedNFT={listed}/>
 								</div>
 							</TabPanel>
 	
@@ -192,7 +229,7 @@ const User_items = (user_address) => {
 							<TabPanel>
 								<div>
 									{/* <!-- Filter --> */}
-									<Trending_categories_items filterName="Rented"/>
+									<Trending_categories_items filterName="Rented" collectedNFT={rented}/>
 								</div>
 							</TabPanel>
 	
@@ -200,7 +237,7 @@ const User_items = (user_address) => {
 							<TabPanel>
 								<div>
 									{/* <!-- Filter --> */}
-									<Trending_categories_items filterName="Lended"/>
+									<Trending_categories_items filterName="Lended" collectedNFT={lended}/>
 								</div>
 							</TabPanel>
 	

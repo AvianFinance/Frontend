@@ -12,7 +12,7 @@ const Collected = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
     (state) => state.counter
   );
-  console.log(collectedNFT.collectedNFT)
+  // console.log(collectedNFT.collectedNFT)
   const dispatch = useDispatch();
   if(collectedNFT){
     return (

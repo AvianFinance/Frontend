@@ -24,7 +24,7 @@ const User = () => {
 	const [UserData, setUserData] = useState()
 	const router = useRouter();
 	const pid = router.query.user;
-	console.log(pid);
+	// console.log(pid);
 
 	const [likesImage, setLikesImage] = useState(false);
 	const [copied, setCopied] = useState(false);
@@ -44,19 +44,19 @@ const User = () => {
 	}, [copied]);
 
 	useEffect(() => {
-		console.log("should redirect to home page")
+		// console.log("should redirect to home page")
 		// console.log(address)
 		if(!isConnected){
 			router.push('/')
 		}
 		getUser(pid)
 			.then((response) => {
-				console.log(response.data)
+				// console.log(response.data)
 				setUserData(response.data)
 			})
 	}, [isConnected, pid]);
 
-	console.log(UserData)
+	// console.log(UserData)
 	if(UserData){
 		return (
 			<>
