@@ -224,8 +224,8 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 			// console.log(priceforday.listinstallmentcontent.token_id)
 			// console.log(priceforday.priceforday)
 			let tokenId = priceforday.listinstallmentcontent.token_id
-			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
-			const unitPrice = ethers.utils.parseEther(price.toString())
+			// let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
+			const unitPrice = ethers.utils.parseEther(priceforday.priceforday.toString())
 
 			console.log("Approving Marketplace as operator of NFT...")
 			const approvalTx = await token_contract.approve(mplace_contract.address, tokenId)
@@ -558,10 +558,12 @@ const PayRental = (payload, numofDays) => {
 			} else {
 				
 				try {
-					const firstIns = (await mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays)).toString();
+					console.log(payload.payload.token_id.toString())
+					console.log(payload.numofDays.toString())
+					const firstIns = (await mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
 
 					console.log("Renting NFT...")
-					const tx = await mplace_contract.rentINSNFT(token_contract.address, payload.payload.token_id.toString(), payload.numofDays,{
+					const tx = await mplace_contract.rentINSNFT(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
 						value: firstIns,
 					})
 
@@ -570,7 +572,7 @@ const PayRental = (payload, numofDays) => {
 					dispatch(showToast(["success","NFT Rented!"]))
 				} catch(error){
 					console.log(error)
-					dispatch(showToast(["error",error]))
+					dispatch(showToast(["error","Renting Failed"]))
 				}
 				
 			}

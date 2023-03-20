@@ -27,7 +27,7 @@ const User_items = (user_address) => {
 	// console.log(user_address.user_address)
 	useEffect(() => {
 		// console.log(user_address.user_address)
-		getListed(address)
+		getListed(user_address.user_address)
 			.then((response) => {
 				// console.log(response)
 				let listednfts = []
