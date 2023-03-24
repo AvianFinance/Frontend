@@ -11,7 +11,10 @@ import Explore_collection_item from "../../components/collectrions/explore_colle
 import Head from "next/head";
 import Meta from "../../components/Meta";
 import { collectCollectionData, buyModalHide } from "../../redux/counterSlice";
-import { getrentbuylistings, getbuylistings } from "../../api/buynft"
+import { getrentbuylistings, getbuylistings } from "../../api/buynft";
+import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
+
 
 const Explore_collection = () => {
   const router = useRouter();
@@ -41,6 +44,7 @@ const Explore_collection = () => {
 
   useEffect(() => {
     dispatch(buyModalHide())
+    setisLoading(false)
     if (exploretype==="rent"){
       getrentbuylistings()
         .then((response) => {
@@ -144,7 +148,15 @@ const Explore_collection = () => {
             {isloading ? 
             <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
               <Explore_collection_item itemFor="explore-collection" collections={filtered}/>
-            </div> : null}
+            </div> : 
+            <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+              {[0,1,2,3,4,5,6].map((index) => {
+              return <Skeleton key={index} sx={{ display: 'flex', bgcolor: '#131740'}} animation="wave" variant="rectangular" height={350} style={{ marginBottom: 6 }} />
+            })}
+              
+            </div>
+            
+            }
           </div>
         </section>
       </>

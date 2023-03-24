@@ -42,7 +42,7 @@ const CategoryItem = (collection) => {
     }
 	}, [collection, exploretype]);
 
-  if(filtered){
+  if(filtered.length>0){
     console.log(filtered)
     return (
       <div>

@@ -52,6 +52,7 @@ const Edit_user = () => {
 			  }
 		  );
 		  const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+		  console.log(ImgHash)
 		  return ImgHash
 		} catch (error) {
 		//   console.log("Error sending File to IPFS: ")
@@ -62,7 +63,8 @@ const Edit_user = () => {
 
 	const handleProfilePhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
-		setProfilePhoto(file);
+		console.log(file)
+		setProfilePhoto({value: file, errorVal:""});
 		// console.log({value: file, errorVal:""})
 	};
 
@@ -111,13 +113,13 @@ const Edit_user = () => {
 				profileImage: profilePhoto.value
 			}
 	
-			// console.log(obj)
+			console.log(obj)
 	
-			// await updateUser(address, obj)
-			// 	.then((response) => {
-			// 		console.log(response)
-			// 	})
-			// dispatch(showToast(["success","Profile Updated!"]))
+			await updateUser(address, obj)
+				.then((response) => {
+					console.log(response)
+				})
+			dispatch(showToast(["success","Profile Updated!"]))
 		} catch(error){
 			dispatch(showToast(["error",error.message]))
       		// console.log(error.message)

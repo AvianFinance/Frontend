@@ -208,17 +208,17 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 		// console.log(priceforday)
 		try{
 			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
-			insmplace_token,
-			INSrentals.abi,
-			signer
-		);
-		
+				insmplace_token,
+				INSrentals.abi,
+				signer
+			);
+			
 
-		const token_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
-			priceforday.listinstallmentcontent.token_address,
-			RimeRent.abi,
-			signer
-		);
+			const token_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
+				priceforday.listinstallmentcontent.token_address,
+				RimeRent.abi,
+				signer
+			);
 			// console.log("entereddd")
 			// console.log(priceforday.listinstallmentcontent)
 			// console.log(priceforday.listinstallmentcontent.token_id)
@@ -529,7 +529,7 @@ const PayRental = (payload, numofDays) => {
 			if(payload.payload.type=="UPRIGHT"){
 				try{
 					const tx =  await _marketplace.rentNFT(payload.payload.coll_addr, payload.payload.token_id.toString(),  payload.numofDays, {
-						value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
+						value: ethers.utils.parseEther(payload.payload.pricePerDay.hex ? (parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString() : (parseInt((payload.payload.pricePerDay._hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
 					})
 	
 					const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
@@ -558,12 +558,18 @@ const PayRental = (payload, numofDays) => {
 			} else {
 				
 				try {
+					console.log(payload.payload)
 					console.log(payload.payload.token_id.toString())
 					console.log(payload.numofDays.toString())
-					const firstIns = (await mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
-
+					let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
+						payload.payload.coll_addr,
+						RimeRent.abi,
+						provider
+					);
+					const firstIns = (await mplace_contract.getNftInstallment(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
+					console.log(firstIns)
 					console.log("Renting NFT...")
-					const tx = await mplace_contract.rentINSNFT(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
+					const tx = await mplace_contract.rentINSNFT(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
 						value: firstIns,
 					})
 
@@ -631,7 +637,7 @@ const Confirm_checkout = (payload) => {
 	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const { exploretype } = useSelector((state) => state.counter);
-
+	console.log(payload)
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
         amplace_token,
         AvianMarket.abi,
@@ -655,7 +661,7 @@ const Confirm_checkout = (payload) => {
 		if(exploretype==="buy"){
 			try{
 				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
-					value: parseInt((payload.payload.price.hex), 16).toString(),
+					value: (payload.payload.price.hex) ? parseInt((payload.payload.price.hex), 16).toString(): parseInt((payload.payload.price._hex), 16).toString(),
 				})
 				// console.log(parseInt((payload.payload.price.hex), 16).toString())
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);

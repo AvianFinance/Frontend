@@ -26,6 +26,7 @@ const initialState = {
 	toaster: false,
 	toastertype: null,
 	toastermessage: null,
+	isloading: false,
 };
 
 export const counterSlice = createSlice({
@@ -36,6 +37,9 @@ export const counterSlice = createSlice({
 			state.toaster = true;
 			state.toastertype = payload.payload[0];
 			state.toastermessage = payload.payload[1];
+		},
+		setisLoading: (state) => {
+			state.isloading = !state.isloading
 		},
 		hideToast: (state, payload) => {
 			state.toaster = false;
@@ -238,7 +242,8 @@ export const {
 	rentlistModalHide,
 	installmentModalHide,
 	showToast,
-	hideToast
+	hideToast,
+	setisLoading,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

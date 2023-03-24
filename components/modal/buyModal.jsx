@@ -1,21 +1,30 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { buyModalHide } from '../../redux/counterSlice';
 import { Confirm_checkout, PayRental } from '../metamask/Metamask';
+import { useSigner } from 'wagmi'
+
+import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
+import { insmplace_token }  from "../../utils/contracts";
 
 const BuyModal = () => {
 	const { buyModal, collectionsdata, exploretype } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
+	const { data: signer, isError } = useSigner()
 	const [numofDays, setnumofDays] = useState(0)
-	// console.log(collectionsdata)
-	let expirydate
-	let startingdate
-	if(collectionsdata !== null && exploretype === "rent" && collectionsdata.type==="UPRIGHT"){
-		expirydate = new Date(parseInt((collectionsdata.endDateUNIX.hex) , 16) * 1000)
-		startingdate = new Date(parseInt((collectionsdata.startDateUNIX.hex) , 16) * 1000)
-	}
+	console.log(collectionsdata)
+	
+	// let firstIns
+	// let mplace_contract
 
+	// useEffect(() => {
+	// 	if(buyModal){
+	// 		mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+	// 		firstIns = mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString())
+	// 		console.log(firstIns)
+	// 	}	
+	// }, [buyModal])
 	if(exploretype==="buy"){
 		return (
 			<div>
@@ -92,9 +101,9 @@ const BuyModal = () => {
 													<use xlinkHref="/icons.svg#icon-ETH"></use>
 												</svg>
 											</span>
-											<span className="text-green font-medium tracking-tight">{collectionsdata !== null ? parseInt((collectionsdata.price.hex), 16) * Math.pow(10, -18) : null }</span>
+											<span className="text-green font-medium tracking-tight">{collectionsdata !== null ? collectionsdata.price.hex ? parseInt((collectionsdata.price.hex), 16) * Math.pow(10, -18) : parseInt((collectionsdata.price._hex), 16) * Math.pow(10, -18) : null }</span>
 										</span>
-										<div className="dark:text-jacarta-300 text-right">{collectionsdata !== null ? parseInt((collectionsdata.price.hex) , 16) * Math.pow(10, -18) : null }</div>
+										<div className="dark:text-jacarta-300 text-right">{collectionsdata !== null ? collectionsdata.price.hex ? parseInt((collectionsdata.price.hex), 16) * Math.pow(10, -18) : parseInt((collectionsdata.price._hex), 16) * Math.pow(10, -18) : null }</div>
 									</div>
 								</div>
 	
@@ -126,6 +135,7 @@ const BuyModal = () => {
 			</div>
 		);
 	} else {
+		console.log(collectionsdata)
 		return (
 			<div>
 				{/* <!-- Buy Now Modal --> */}
@@ -189,7 +199,7 @@ const BuyModal = () => {
 										daily price
 									</span>
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-									{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) : null }
+									{(collectionsdata !== null || typeof(collectionsdata) != "undefined") ? collectionsdata.pricePerDay.hex ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) : parseInt((collectionsdata.pricePerDay._hex), 16) * Math.pow(10, -18) : null }
 									</span>
 								</div> 
 								: 
@@ -198,34 +208,12 @@ const BuyModal = () => {
 										First Installment
 									</span>
 									<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-									{collectionsdata !== null ? ((parseInt((collectionsdata.pricePerDay.hex), 16)) * Math.pow(10, -18) * numofDays * 2)/ (parseInt(numofDays) +1) : null }
+									{collectionsdata !== null ? collectionsdata.pricePerDay.hex ? ((parseInt((collectionsdata.pricePerDay.hex), 16)) * Math.pow(10, -18) * numofDays * 2)/ (parseInt(numofDays) +1) : ((parseInt((collectionsdata.pricePerDay._hex), 16)) * Math.pow(10, -18) * numofDays * 2)/ (parseInt(numofDays) +1) : null }
 									</span>
 								</div>) : null
 								}
 								
-								{collectionsdata !== null ? 
-								collectionsdata.type==="UPRIGHT" ?
-								<>
-									<div className="mb-2 flex items-center justify-between">
-										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-											Expires on 
-										</span>
-										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-											{collectionsdata !== null ? expirydate.toGMTString() : null }
-										</span>
-									</div>
-
-									<div className="mb-2 flex items-center justify-between">
-										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-											Starts on 
-										</span>
-										<span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-											{collectionsdata !== null ? startingdate.toGMTString() : null }
-										</span>
-									</div>
-								</>
-								 : null
-								: null }
+								
 
 								<div className="relative my-3 flex items-center">
 
@@ -254,9 +242,9 @@ const BuyModal = () => {
 													<use xlinkHref="/icons.svg#icon-ETH"></use>
 												</svg>
 											</span>
-											<span className="text-green font-medium tracking-tight">{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) * numofDays : null }</span>
+											<span className="text-green font-medium tracking-tight">{collectionsdata !== null ? collectionsdata.pricePerDay.hex ? parseInt((collectionsdata.pricePerDay.hex), 16) * Math.pow(10, -18) * numofDays : parseInt((collectionsdata.pricePerDay._hex), 16) * Math.pow(10, -18) * numofDays : null }</span>
 										</span>
-										<div className="dark:text-jacarta-300 text-right">{collectionsdata !== null ? parseInt((collectionsdata.pricePerDay.hex) , 16) * Math.pow(10, -18) * numofDays : null }</div>
+										<div className="dark:text-jacarta-300 text-right">{collectionsdata !== null ? collectionsdata.pricePerDay.hex ? parseInt((collectionsdata.pricePerDay.hex) , 16) * Math.pow(10, -18) * numofDays : parseInt((collectionsdata.pricePerDay._hex), 16) * Math.pow(10, -18) * numofDays : null }</div>
 									</div>
 								</div>
 	

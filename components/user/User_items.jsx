@@ -53,7 +53,9 @@ const User_items = (user_address) => {
 						image : data.uri,
 						name : data.name,
 						token: data.token_type,
-						listed_status: data.listed_status
+						inst_listed_status: data.inst_listed_status,
+						rent_listed_status: data.rent_listed_status,
+						sell_listed_status: data.sell_listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id
@@ -70,7 +72,9 @@ const User_items = (user_address) => {
 						image : data.uri,
 						name : data.name,
 						token: data.token_type,
-						listed_status: data.listed_status
+						inst_listed_status: data.inst_listed_status,
+						rent_listed_status: data.rent_listed_status,
+						sell_listed_status: data.sell_listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id
@@ -88,7 +92,9 @@ const User_items = (user_address) => {
 						image : data.uri,
 						name : data.name,
 						token: data.token_type,
-						listed_status: data.listed_status
+						inst_listed_status: data.inst_listed_status,
+						rent_listed_status: data.rent_listed_status,
+						sell_listed_status: data.sell_listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id
@@ -105,7 +111,9 @@ const User_items = (user_address) => {
 						image : data.uri,
 						name : data.name,
 						token: data.token_type,
-						listed_status: data.listed_status
+						inst_listed_status: data.inst_listed_status,
+						rent_listed_status: data.rent_listed_status,
+						sell_listed_status: data.sell_listed_status
 					},
 					token_address : data.coll_addr,
 					token_id : data.token_id

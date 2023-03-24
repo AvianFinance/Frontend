@@ -7,8 +7,9 @@ import FilterCategoryItem from '../categories/filterCategoryItem';
 
 import 'react-tabs/style/react-tabs.css';
 import { collection_activity_item_data } from '../../data/collection_data';
+import Skeleton from '@mui/material/Skeleton';
 
-const Collection_items = ({collection, isloading}) => {
+const Collection_items = ({collection, isloading, collectiondetails}) => {
 	const [itemsTabs, setItemsTabs] = useState(1);
 	const [categoryItemData, setCategoryItemData] = useState(trendingCategoryData);
 
@@ -24,17 +25,19 @@ const Collection_items = ({collection, isloading}) => {
 			icon: 'activities',
 		},
 	];
-
+	let val = collectiondetails ? collectiondetails.coverImage : "/images/gradient_light.jpg"
+	console.log(val)
 	return (
 		<>
-			<section className="relative py-24">
+			<section className="relative py-10">
 				<picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
 					{/* <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" /> */}
-					<Image
-						src="/images/gradient_light.jpg"
-						alt="gradient"
-						className="h-full w-full"
-						layout="fill"
+					<img
+						src={val}
+						alt="collection avatar"
+						className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
+						height={140}
+						width={140}
 					/>
 				</picture>
 				<div className="container">
@@ -65,7 +68,13 @@ const Collection_items = ({collection, isloading}) => {
 							{isloading ? 
 							<div>
 								<FilterCategoryItem collection={collection}/>
-							</div> : null }
+							</div> : 
+							<div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+								{[0,1,2,3,4,5,6].map((index) => {
+								return <Skeleton key={index} sx={{ display: 'flex', bgcolor: '#131740'}} animation="wave" variant="rectangular" height={350} style={{ marginBottom: 6 }} />
+							})}
+								
+							</div> }
 						</TabPanel>
 						<TabPanel>
 							<Activity_item />

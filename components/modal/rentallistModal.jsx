@@ -10,7 +10,7 @@ const BuyModal = () => {
 	const [numofDays, setnumofDays] = useState(0)
 	const [priceforday, setPriceForDay] = useState()
 
-	// console.log(listrentalcontent)
+	console.log(listrentalcontent)
 	// console.log(listrentmodal)
 
 	if(listrentalcontent){
