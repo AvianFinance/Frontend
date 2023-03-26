@@ -27,8 +27,8 @@ const Explore_collection_item = ({itemFor, collections}) => {
 		// console.log(exploretype)
 		setItemData(collections);
 	},[exploretype, collections,itemFor]);
-	// console.log(itemData)
-	if(itemData !== null){
+	console.log(itemData)
+	if(itemData !== null && typeof(itemData) != "undefined"){
 		return (
 			<>
 				{itemData.map((item) => {

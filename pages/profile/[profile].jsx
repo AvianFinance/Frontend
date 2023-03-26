@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
+import { useRouter } from 'next/router';
 import {useNavigate} from 'react-router-dom';
 import Tippy from '@tippyjs/react';
 import Link from 'next/link';
@@ -24,6 +25,7 @@ const Edit_user = () => {
 	const mountedcontent = isMounted
 	const dispatch = useDispatch();
 	const { address, isConnected } = useAccount()
+	const router = useRouter();
 	const [profilePhoto, setProfilePhoto] = useState({value: "", errorVal:""});
 	const [coverePhoto, setCoverePhoto] = useState({value: "", errorVal:""});
 	const [userName, setuserName] = useState({value:"",errorVal:""})
@@ -52,6 +54,7 @@ const Edit_user = () => {
 			  }
 		  );
 		  const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+		  console.log(ImgHash)
 		  return ImgHash
 		} catch (error) {
 		//   console.log("Error sending File to IPFS: ")
@@ -62,7 +65,8 @@ const Edit_user = () => {
 
 	const handleProfilePhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
-		setProfilePhoto(file);
+		console.log(file)
+		setProfilePhoto({value: file, errorVal:""});
 		// console.log({value: file, errorVal:""})
 	};
 
@@ -111,13 +115,13 @@ const Edit_user = () => {
 				profileImage: profilePhoto.value
 			}
 	
-			// console.log(obj)
+			console.log(obj)
 	
-			// await updateUser(address, obj)
-			// 	.then((response) => {
-			// 		console.log(response)
-			// 	})
-			// dispatch(showToast(["success","Profile Updated!"]))
+			await updateUser(address, obj)
+				.then((response) => {
+					console.log(response)
+				})
+			dispatch(showToast(["success","Profile Updated!"]))
 		} catch(error){
 			dispatch(showToast(["error",error.message]))
       		// console.log(error.message)
@@ -126,6 +130,9 @@ const Edit_user = () => {
 
 	useEffect(() => {
 		// console.log("should redirect to home page")
+		if(!isConnected){
+			router.push('/')
+		}
 		getUser(address)
 			.then((response) => {
 				// console.log(response.data)

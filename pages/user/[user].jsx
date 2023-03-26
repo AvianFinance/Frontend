@@ -46,9 +46,9 @@ const User = () => {
 	useEffect(() => {
 		// console.log("should redirect to home page")
 		// console.log(address)
-		if(!isConnected){
-			router.push('/')
-		}
+		// if(!isConnected){
+		// 	router.push('/')
+		// }
 		getUser(pid)
 			.then((response) => {
 				// console.log(response.data)

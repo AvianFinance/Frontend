@@ -18,21 +18,26 @@ const Created = (collectedNFT) => {
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {collectedNFT.collectedNFT.map((item, index) => {
-          console.log(item)
           const id = index
           let image
           let title
           let tokentype
-          let listed_status
+          let inst_listed_status 
+					let	rent_listed_status
+					let	sell_listed_status 
           if(item.tokenUriRes){
             image = item.tokenUriRes.image 
             title = item.tokenUriRes.name
             tokentype = item.tokenUriRes.token
-            listed_status = item.tokenUriRes.listed_status
+            inst_listed_status = item.tokenUriRes.inst_listed_status,
+						rent_listed_status = item.tokenUriRes.rent_listed_status,
+						sell_listed_status = item.tokenUriRes.sell_listed_status
           } else {
             image = "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
             title = "Unknown"
-            listed_status = true
+            inst_listed_status = true,
+						rent_listed_status = true,
+						sell_listed_status = true
           }
           // console.log(listed_status)
           const itemLink = item.token_address + '&' + item.token_id
@@ -100,37 +105,6 @@ const Created = (collectedNFT) => {
                     {bidCount}/{bidLimit}
                   </span>
                 </div> */}
-
-                {!listed_status ? 
-                  <div className="flex items-center justify-between">
-                    <button
-                      className="text-accent font-display text-sm font-semibold"
-                      onClick={() => dispatch(listrentModalShow(item))}
-                    >
-                      Sell Now
-                    </button>
-                  </div> : null
-                }
-                {!listed_status ? 
-                  <div className="flex items-center justify-between">
-                    {tokentype ==="ERC4907" ? <button
-                      className="text-accent font-display text-sm font-semibold"
-                      onClick={() => dispatch(listrentModalShow(item))}
-                    >
-                      Standard Rental
-                    </button> : null}
-                  </div> : null
-                }
-                {!listed_status ? 
-                  <div className="flex items-center justify-between">
-                    {tokentype ==="ERC4907" ? <button
-                      className="text-accent font-display text-sm font-semibold"
-                      onClick={() => dispatch(listinstallmentModalShow(item))}
-                    >
-                      Installment Rental
-                    </button> : null}
-                  </div> : null
-                }
               </div>
             </article>
           );

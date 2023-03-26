@@ -29,7 +29,7 @@ const Listed = (collectedNFT) => {
           } else {
             image = "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
             title = "Unknown"
-            listed_status = true
+            tokentype = ""
           }
           const itemLink = item.token_address + '&' + item.token_id
           return (
@@ -207,7 +207,7 @@ const Listed = (collectedNFT) => {
                   </span>
                 </div>
   
-                <div className="mt-8 flex items-center justify-between">
+                {/* <div className="mt-8 flex items-center justify-between">
                   <button
                     className="text-accent font-display text-sm font-semibold"
                     onClick={() => dispatch(buyModalShow())}
@@ -224,7 +224,7 @@ const Listed = (collectedNFT) => {
                       </span>
                     </a>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </article>
           );

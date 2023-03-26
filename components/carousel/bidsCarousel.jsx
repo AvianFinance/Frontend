@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper";
 import "swiper/css";
@@ -12,12 +12,29 @@ import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { bidsModalShow } from "../../redux/counterSlice";
 import { useDispatch } from "react-redux";
 import Likes from "../likes";
+import { getbuycollection, getrentalcollection } from "../../api/buynft"
 
-const BidsCarousel = () => {
+const BidsCarousel = (address) => {
+  console.log(address.address)
   const dispatch = useDispatch();
   const handleclick = () => {
     console.log("clicked on ");
   };
+  const [isloading, setisLoading] = useState(false)
+	const [collection, setcollection] = useState([])
+	const [collectiondetails, setcollectiondetails] = useState()
+
+  // useEffect(() => {
+
+  //   getbuycollection(address.address)
+  //     .then((response) => {
+  //       console.log(response.data)
+  //       setcollection(response.data)
+  //       setcollectiondetails(response.data.collection !== null ? response.data.collection : nill)
+  //       setisLoading(true)
+  //     })
+	// },[address.address]);
+
   return (
     <>
       <Swiper
