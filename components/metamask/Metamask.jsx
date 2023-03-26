@@ -13,12 +13,13 @@ import {
 import { useSelector } from 'react-redux';
 import { isMounted } from "../../scripts/isMounted"
 
-import AvianMarket from "../../contracts/AvianMarkett.sol/AvianMarkett.json"
-import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
-import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
-import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
+import AvianSellMarket from "../../contracts/ASEProxy.sol/ASE_Proxy.json"
+import AvianRentMarket from "../../contracts/AREProxy.sol/ARE_Proxy.json"
+import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
+import RimeToken from "../../contracts/AVFXGeneral.sol/AVFXGeneral.json"
+import AIE_Proxy from "../../contracts/AIEProxy.sol/AIE_Proxy.json"
 
-import { amplace_token, rime_token, rime_rent, insmplace_token }  from "../../utils/contracts";
+import { selxchange_token, rexchange_token, iexchange_token, rime_token, rime_rent }  from "../../utils/contracts";
 import { registerUser } from "../../api/user"
 import { showToast, buyModalHide, buylistModalHide, rentlistModalHide, installmentModalHide } from '../../redux/counterSlice';
 
@@ -209,7 +210,7 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 		try{
 			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
 				insmplace_token,
-				INSrentals.abi,
+				AIE_Proxy.abi,
 				signer
 			);
 			
@@ -295,8 +296,8 @@ const ListSell = (priceforday, listcontent) => {
 		dispatch(buylistModalHide())
 		try {
 			const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
-				amplace_token,
-				AvianMarket.abi,
+				selxchange_token,
+				AvianSellMarket.abi,
 				signer
 			);
 			let nftContracts
@@ -378,8 +379,8 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
-        amplace_token,
-        AvianMarket.abi,
+        rexchange_token,
+        AvianRentMarket.abi,
         signer
     );
 
@@ -467,24 +468,12 @@ const PayRental = (payload, numofDays) => {
 	const { exploretype } = useSelector((state) => state.counter);
 
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
-        amplace_token,
-        AvianMarket.abi,
+        rexchange_token,
+        AvianRentMarket.abi,
         signer
     );
 
-    const nftrentalsContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-        rime_rent,
-        RimeRent.abi,
-        provider
-    );
-
-    const nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-        rime_token,
-        RimeToken.abi,
-        provider
-    );
-
-	const mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+	const ins_mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 	
 	const buyNFT = async () => {
 		dispatch(buyModalHide())
@@ -498,7 +487,7 @@ const PayRental = (payload, numofDays) => {
 	
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
-				const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
+				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, provider)
 			
 				console.log("listening.........")
 			
@@ -534,22 +523,22 @@ const PayRental = (payload, numofDays) => {
 	
 					const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
-					const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
+					// const _marketplace = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
 				
-					console.log("listening.........")
+					// console.log("listening.........")
 				
-					mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
+					// _marketplace.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
 				
-						let transferEvent ={
-							buyer: buyer,
-							nftAddress: nftAddress,
-							tokenId: tokenId,
-							price: price,
-						}
+					// 	let transferEvent ={
+					// 		buyer: buyer,
+					// 		nftAddress: nftAddress,
+					// 		tokenId: tokenId,
+					// 		price: price,
+					// 	}
 	
-						console.log("Bought")
+					// 	console.log("Bought")
 				
-					})			
+					// })			
 					dispatch(showToast(["success","NFT Rented!"]))
 				} catch(error){
 					console.log(error)
@@ -566,10 +555,10 @@ const PayRental = (payload, numofDays) => {
 						RimeRent.abi,
 						provider
 					);
-					const firstIns = (await mplace_contract.getNftInstallment(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
+					const firstIns = (await ins_mplace_contract.getNftInstallment(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
 					console.log(firstIns)
 					console.log("Renting NFT...")
-					const tx = await mplace_contract.rentINSNFT(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
+					const tx = await ins_mplace_contract.rentINSNFT(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
 						value: firstIns,
 					})
 
@@ -639,21 +628,9 @@ const Confirm_checkout = (payload) => {
 	const { exploretype } = useSelector((state) => state.counter);
 	console.log(payload)
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
-        amplace_token,
-        AvianMarket.abi,
+        rexchange_token,
+        AvianRentMarket.abi,
         signer
-    );
-
-    const nftrentalsContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-        rime_rent,
-        RimeRent.abi,
-        provider
-    );
-
-    const nftContracts = new ethers.Contract( // We will use this to interact with the AuctionManager
-        rime_token,
-        RimeToken.abi,
-        provider
     );
 	
 	const buyNFT = async () => {
@@ -666,7 +643,7 @@ const Confirm_checkout = (payload) => {
 				// console.log(parseInt((payload.payload.price.hex), 16).toString())
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
-				const mplace_contract = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
+				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, provider)
 			
 				console.log("listening.........")
 			

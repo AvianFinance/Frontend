@@ -5,26 +5,13 @@ import { buyModalHide } from '../../redux/counterSlice';
 import { Confirm_checkout, PayRental } from '../metamask/Metamask';
 import { useSigner } from 'wagmi'
 
-import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
-import { insmplace_token }  from "../../utils/contracts";
-
 const BuyModal = () => {
 	const { buyModal, collectionsdata, exploretype } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 	const { data: signer, isError } = useSigner()
 	const [numofDays, setnumofDays] = useState(0)
 	// console.log(collectionsdata)
-	
-	// let firstIns
-	// let mplace_contract
 
-	// useEffect(() => {
-	// 	if(buyModal){
-	// 		mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
-	// 		firstIns = mplace_contract.getNftInstallment(nftrentalsContracts.address, payload.payload.token_id.toString(), payload.numofDays.toString())
-	// 		console.log(firstIns)
-	// 	}	
-	// }, [buyModal])
 	if(exploretype==="buy"){
 		return (
 			<div>

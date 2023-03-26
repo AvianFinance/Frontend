@@ -21,10 +21,8 @@ import axios from 'axios';
 import { ethers } from "ethers";
 import { showToast, propartiesModalValue } from '../../redux/counterSlice';
 
-import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
-import RimeToken from "../../contracts/RimeToken.sol/RimeToken.json"
-
-import { amplace_token, rime_token, rime_rent }  from "../../utils/contracts";
+import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
+import RimeToken from "../../contracts/AVFXGeneral.sol/AVFXGeneral.json"
 
 const Create = () => {
   const { address, isConnected } = useAccount()
