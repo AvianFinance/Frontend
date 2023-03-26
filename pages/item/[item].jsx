@@ -398,7 +398,7 @@ const Item = () => {
 													</div>
 												</div>
 	
-												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" ) ? <Link href="#">
+												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={buyNFT}
@@ -407,7 +407,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{(inst_listed_status === true ) ? <Link href="#">
+												{(inst_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -416,7 +416,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{(rent_listed_status === true ) ? <Link href="#">
+												{(rent_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -425,7 +425,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{( sell_listed_status === true) ? <Link href="#">
+												{( sell_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -435,24 +435,27 @@ const Item = () => {
 												</Link> : null}
 
 												{(sell_listed_status === false && rent_listed_status === false && inst_listed_status === false && owner === address ) ? <>
-													<button
-														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-														onClick={() => dispatch(listrentModalShow(item))}
-													>
-														List as Upright
-													</button>
-													<button
-														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-														onClick={() => dispatch(listinstallmentModalShow(item))}
-													>
-														List as Installment
-													</button>
+													{tokentype === " ERC721" ? 
+													<>
+														<button
+															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+															onClick={() => dispatch(listrentModalShow(item))}
+														>
+															List as Upright
+														</button>
+														<button
+															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+															onClick={() => dispatch(listinstallmentModalShow(item))}
+														>
+															List as Installment
+														</button> 
+													</>: 
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(listbuyModalShow(item))}
 													>
 														List as sell
-													</button>
+													</button>}
 												</> : null}
 
 												{/* {(tokentype === "721" && sell_listed_status === true && owner === address ) ? <Link href="#">
