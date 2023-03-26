@@ -637,13 +637,15 @@ const Confirm_checkout = (payload) => {
 		dispatch(buyModalHide())
 		if(exploretype==="buy"){
 			try{
-				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
+				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, signer)
+
+				const tx =  await mplace_contract.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: (payload.payload.price.hex) ? parseInt((payload.payload.price.hex), 16).toString(): parseInt((payload.payload.price._hex), 16).toString(),
 				})
 				// console.log(parseInt((payload.payload.price.hex), 16).toString())
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
-				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, provider)
+				
 			
 				console.log("listening.........")
 			

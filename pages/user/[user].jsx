@@ -132,7 +132,7 @@ const User = () => {
 								</div>
 
 								<p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg">{UserData.bio}</p>
-								<span className="text-jacarta-400">Joined December {UserData.createdAt.split("-")[0]}</span>
+								<span className="text-jacarta-400">Joined December {UserData.createdAt ? UserData.createdAt.split("-")[0] : "2023"}</span>
 
 								<div className="mt-6 flex items-center justify-center space-x-2.5 relative">
 									<div className="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white">

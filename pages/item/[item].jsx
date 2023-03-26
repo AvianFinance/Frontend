@@ -329,7 +329,7 @@ const Item = () => {
 												<div className="grid grid-cols-2 gap-[1.875rem]">
 												<div className="mb-4 flex">
 														<figure className="mr-4 shrink-0">
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+nftdata.owner.toString()}>
 																<a className="relative block">
 																	<img
 																		src={nftdata.ownerProfileImage}
@@ -354,7 +354,7 @@ const Item = () => {
 															<span className="text-jacarta-400 block text-sm dark:text-white">
 																Owned by
 															</span>
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+nftdata.owner.toString()}>
 																<a className="text-accent block">
 																	<span className="text-sm font-bold">{nftdata.ownerName}</span>
 																</a>
@@ -364,7 +364,7 @@ const Item = () => {
 		
 													<div className="mb-4 flex">
 														<figure className="mr-4 shrink-0">
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+collection.createdBy.toString()}>
 																<a className="relative block">
 																	<img
 																		src={collection.creatorProfileImage}
@@ -387,9 +387,9 @@ const Item = () => {
 														</figure>
 														<div className="flex flex-col justify-center">
 															<span className="text-jacarta-400 block text-sm dark:text-white">
-																Owned by
+																Created by
 															</span>
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+collection.createdBy.toString()}>
 																<a className="text-accent block">
 																	<span className="text-sm font-bold">{collection.creatorName}</span>
 																</a>
