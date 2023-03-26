@@ -136,7 +136,8 @@ const Item = () => {
 		creatorname = "/images/avatars/avatar_7.jpg"
 		ownerName = "Wow Fans"
 		price = 100
-		auction_timer = '636234213'
+		auction_timer = nftdata.expiry ? parseInt((nftdata.expiry._hex), 16) : '636234213'
+		console.log(auction_timer)
 		tokentype = nftdata.token_type
 		rent_listed_status = nftdata.rent_listed_status
 		sell_listed_status = nftdata.sell_listed_status
@@ -312,19 +313,25 @@ const Item = () => {
 													<div className="sm:w-1/2 sm:pr-4 lg:pr-8">
 														<h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
 															{title}
-														</h1>
-														
+														</h1>							
 													</div>
+
+													{(rent_listed_status === false && typeof(nftdata.expiry) !== "undefined" && typeof(listing) === "undefined") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">													
+														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
+															Rental expires in
+														</span>
+														<Items_Countdown_timer time={auction_timer} />
+													</div> : null}
 	
 													{/* <!-- Countdown --> */}
-													{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
-														<p className="dark:text-jacarta-300 mb-10">{text}</p>
+													{(inst_listed_status === false && typeof(listing) !== "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
 														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
 															Rental should pay with in
 														</span>
 														<Items_Countdown_timer time={+auction_timer} />
-													</div> : <p className="dark:text-jacarta-300 mb-10">{text}</p>}
+													</div> : null}
 												</div>
+												<p className="dark:text-jacarta-300 mb-10">{text}</p>
 
 												<div className="grid grid-cols-2 gap-[1.875rem]">
 												<div className="mb-4 flex">
