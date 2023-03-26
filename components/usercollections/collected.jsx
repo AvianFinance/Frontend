@@ -136,7 +136,7 @@ const Collected = (collectedNFT) => {
                       className="text-accent font-display text-sm font-semibold"
                       onClick={() => dispatch(listrentModalShow(item))}
                     >
-                      Standard Rental
+                      Upright Rental
                     </button> : null}
                   </div> : null
                 }

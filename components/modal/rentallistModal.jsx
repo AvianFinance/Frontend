@@ -78,7 +78,7 @@ const BuyModal = () => {
 								</div>
 	
 								{/* <!-- Total --> */}
-								<div className="relative my-3 flex items-center">
+								{/* <div className="relative my-3 flex items-center">
 
 									<div className="flex-1">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
@@ -92,7 +92,7 @@ const BuyModal = () => {
 											value={numofDays}
 										/>
 									</div>
-								</div>
+								</div> */}
 
 								<div className="relative my-3 flex items-center">
 

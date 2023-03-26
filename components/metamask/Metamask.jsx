@@ -209,7 +209,7 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 		// console.log(priceforday)
 		try{
 			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
-				insmplace_token,
+				iexchange_token,
 				AIE_Proxy.abi,
 				signer
 			);
@@ -403,11 +403,11 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 			await approvalTx.wait(1)
 
 			const listingFee = (await _marketplace.getListingFee()).toString();
-			let sDate = Math.floor(Date.now()/1000) + (60*60);
-			let eDate = sDate + (n_days*24*60*60);
+			// let sDate = Math.floor(Date.now()/1000) + (60*60);
+			// let eDate = sDate + (n_days*24*60*60);
 
 			console.log("Listing NFT...")
-			const tx = await _marketplace.listNFT(nftrentalsContracts.address, tokenID, price, sDate, eDate,{
+			const tx = await _marketplace.listNFT(nftrentalsContracts.address, tokenID, price,{
 				value: listingFee,
 			})
 

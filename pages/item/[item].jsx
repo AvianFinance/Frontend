@@ -23,7 +23,7 @@ import { getNFTDetails, getNFTactivities } from "../../api/nft";
 import { isMounted } from "../../scripts/isMounted"
 import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
 import AIE_Proxy from "../../contracts/AIEProxy.sol/AIE_Proxy.json"
-import { rime_token, insmplace_token }  from "../../utils/contracts";
+import { iexchange_token }  from "../../utils/contracts";
 
 const Item = () => {
 	const mounted = isMounted()
@@ -79,7 +79,7 @@ const Item = () => {
 	let next_installement
 
 	const calInstallment = async () => {
-		let mplace_contract = new ethers.Contract(insmplace_token, AIE_Proxy.abi, signer)
+		let mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 		let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
 			nftdata.coll_addr,
 			RimeRent.abi,
@@ -90,7 +90,7 @@ const Item = () => {
 
 	const buyNFT = async () => {
 		try {
-			let mplace_contract = new ethers.Contract(insmplace_token, AIE_Proxy.abi, signer)
+			let mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 			let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
 				nftdata.coll_addr,
 				RimeRent.abi,

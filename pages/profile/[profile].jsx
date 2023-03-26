@@ -102,7 +102,7 @@ const Edit_user = () => {
 	};
 
 	const submit = async (e) => {
-		
+
 		try {
 			let obj ={
 				name : userName.value,
