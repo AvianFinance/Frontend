@@ -84,8 +84,8 @@ const User = () => {
 									// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
 									alt="collection avatar"
 									className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
-									height={140}
-									width={140}
+									height={300}
+									width={300}
 								/>
 								{/* <div
 									className="dark:border-jacarta-600 bg-green absolute -right-3 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"

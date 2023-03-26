@@ -120,7 +120,7 @@ const Collected = (collectedNFT) => {
                     {bidCount}/{bidLimit}
                   </span>
                 </div> */}
-                {(!sell_listed_status && owner===address) ? 
+                {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     <button
                       className="text-accent font-display text-sm font-semibold"
@@ -130,7 +130,7 @@ const Collected = (collectedNFT) => {
                     </button>
                   </div> : null
                 }
-                {(!rent_listed_status && owner===address) ? 
+                {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     {tokentype ==="ERC4907" ? <button
                       className="text-accent font-display text-sm font-semibold"
@@ -140,7 +140,7 @@ const Collected = (collectedNFT) => {
                     </button> : null}
                   </div> : null
                 }
-                {(!inst_listed_status && owner===address) ? 
+                {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     {tokentype ==="ERC4907" ? <button
                       className="text-accent font-display text-sm font-semibold"

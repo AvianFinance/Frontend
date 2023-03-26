@@ -29,7 +29,7 @@ const User_items = (user_address) => {
 		// console.log(user_address.user_address)
 		getListed(user_address.user_address)
 			.then((response) => {
-				// console.log(response)
+				console.log("listed",response)
 				let listednfts = []
 				response.data.map((data) => listednfts.push( {
 					tokenUriRes : {
@@ -45,7 +45,7 @@ const User_items = (user_address) => {
 			})
 		getLended(user_address.user_address)
 			.then((response) => {
-				// console.log(response)
+				console.log("lended", response)
 				let collectednfts = []
 				response.data.map((data) => collectednfts.push( {
 					tokenUriRes : {
@@ -64,7 +64,7 @@ const User_items = (user_address) => {
 			})
 		getRented(user_address.user_address)
 			.then((response) => {
-				// console.log(response)
+				console.log("rented", response)
 				let collectednfts = []
 				response.data.map((data) => collectednfts.push( {
 					tokenUriRes : {
@@ -84,7 +84,7 @@ const User_items = (user_address) => {
 	
 		getcollected(user_address.user_address)
 			.then((response) => {
-				console.log(response)
+				console.log("collected", response)
 				let collectednfts = []
 				response.data.map((data) => collectednfts.push( {
 					tokenUriRes : {
@@ -104,7 +104,7 @@ const User_items = (user_address) => {
 			})
 		getowned(user_address.user_address)
 			.then((response) => {
-				// console.log(response)
+				console.log("owned", response)
 				let ownednfts =[]
 				response.data.map((data) => ownednfts.push( {
 					tokenUriRes : {
