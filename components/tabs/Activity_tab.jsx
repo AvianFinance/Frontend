@@ -2,7 +2,7 @@ import React from 'react';
 import { items_activity_data } from '../../data/items_tabs_data';
 import Link from 'next/link';
 
-const Activity_tab = () => {
+const Activity_tab = (activities) => {
 	return (
 		<>
 			{/* <!-- Activity --> */}
@@ -96,10 +96,16 @@ const Activity_tab = () => {
 							</span>
 						</div>
 					</div>
-					{items_activity_data.map((item) => {
-						const { id, price, from, to, text, date } = item;
+					{activities.activities.map((item, index) => {
+						const { event, from, to, price, createdAt } = item;
+
+						let date = new Date(createdAt),
+						mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+						day = ("0" + date.getDate()).slice(-2);
+						let createdDate =  [date.getFullYear(), mnth, day].join("-");
+
 						return (
-							<div className="flex" role="row" key={id}>
+							<div className="flex" role="row" key={index}>
 								<div
 									className="dark:border-jacarta-600 border-jacarta-100 flex w-[17%] items-center border-t py-4 px-4"
 									role="cell"
@@ -114,7 +120,7 @@ const Activity_tab = () => {
 										<path fill="none" d="M0 0h24v24H0z"></path>
 										<path d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"></path>
 									</svg>
-									{text}
+									{event}
 								</div>
 								<div
 									className="dark:border-jacarta-600 border-jacarta-100 flex w-[17%] items-center whitespace-nowrap border-t py-4 px-4"
@@ -125,7 +131,7 @@ const Activity_tab = () => {
 											<use xlinkHref="icons.svg#icon-ETH"></use>
 										</svg>
 									</span>
-									<span className="text-green text-sm font-medium tracking-tight">{price} ETH</span>
+									<span className="text-green text-sm font-medium tracking-tight">{price} AVAX</span>
 								</div>
 								<div
 									className="dark:border-jacarta-600 border-jacarta-100 flex w-[22%] items-center border-t py-4 px-4"
@@ -155,7 +161,7 @@ const Activity_tab = () => {
 											title="Opens in a new window"
 											data-tippy-content="March 13 2022, 2:32 pm"
 										>
-											<span className="mr-1">{date}</span>
+											<span className="mr-1">{createdDate}</span>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												viewBox="0 0 24 24"

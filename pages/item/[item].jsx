@@ -11,12 +11,19 @@ import More_items from './more_items';
 import Likes from '../../components/likes';
 import Meta from '../../components/Meta';
 import { useDispatch } from 'react-redux';
-import { buyModalShow, listbuyModalShow, listrentModalShow, listinstallmentModalShow } from '../../redux/counterSlice';
+import { buyModalShow, listbuyModalShow, listrentModalShow, listinstallmentModalShow, showToast } from '../../redux/counterSlice';
 import {
+	useSigner,
 	useAccount,
-} from "wagmi";
-import { getNFTDetails } from "../../api/nft";
+	useConnect,
+	useDisconnect,
+} from 'wagmi'
+import { ethers } from "ethers";
+import { getNFTDetails, getNFTactivities } from "../../api/nft";
 import { isMounted } from "../../scripts/isMounted"
+import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
+import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
+import { rime_token, insmplace_token }  from "../../utils/contracts";
 
 const Item = () => {
 	const mounted = isMounted()
@@ -29,6 +36,9 @@ const Item = () => {
 	const [ nftdata, setnftdata ] = useState()
 	const [ collection, setcollection ] = useState()
 	const [ listing, setlisting ] = useState(null)
+	const [ activities, setactivities] = useState()
+	const { data: signer, isError } = useSigner()
+	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 
 	useEffect(() => {
 		if(pid){
@@ -41,10 +51,62 @@ const Item = () => {
 					setcollection(res.data.collection)
 					setlisting(res.data.listing ? res.data.listing[0] : null)
 				})
+			getNFTactivities(address,tokenId)
+				.then((res) => {
+					console.log(res)
+					// setactivities([{
+					// 	nftContract: "0xB4EF46b2F17000017534549366fB409a5c0aA8a4",
+					// 	tokenId: 5,
+					// 	event: "Upright",
+					// 	from: "Isuru",
+					// 	to: "Rosi",
+					// 	price: 0.2,
+					// 	createdAt: new Date()
+					// }, {
+					// 	nftContract: "0xB4EF46b2F17000017534549366fB409a5c0aA8a4",
+					// 	tokenId: 5,
+					// 	event: "Installment",
+					// 	from: "Isuru",
+					// 	to: "Meelan",
+					// 	price: 0.6,
+					// 	createdAt: new Date()
+					// }])
+					setactivities(res.data)
+				})
 		}	
 	}, [pid])
 
-	console.log(listing)
+	let next_installement
+
+	const calInstallment = async () => {
+		let mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+		let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
+			nftdata.coll_addr,
+			RimeRent.abi,
+			provider
+		);
+		next_installement = (await mplace_contract.getNftInstallment(tokencontract.address, nftdata.token_id, 1)).toString();
+	}
+
+	const buyNFT = async () => {
+		try {
+			let mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+			let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
+				nftdata.coll_addr,
+				RimeRent.abi,
+				provider
+			);
+
+			console.log("paying NFT installment...")
+			const tx = await mplace_contract.payNFTIns(tokencontract.address, nftdata.token_id,{
+				value: next_installement,
+			})
+			dispatch(showToast(["success","Installment Paid!"]))
+		} catch(error){
+			dispatch(showToast(["error",error]))
+		}	
+	}
+
 	let image 
 	let title
 	let id 
@@ -62,6 +124,7 @@ const Item = () => {
 	let inst_listed_status
 	let owner
 	let user
+	
 	if(nftdata){
 		image = nftdata.uri
 		title = nftdata.name
@@ -82,9 +145,11 @@ const Item = () => {
 		user = nftdata.user
 	}
 
+	if(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING"){
+		calInstallment()
+	}
+
 	if(nftdata){
-		console.log(nftdata)
-		console.log(listing)
 		let item
 		if(rent_listed_status){
 			item = {
@@ -261,49 +326,14 @@ const Item = () => {
 													</div> : <p className="dark:text-jacarta-300 mb-10">{text}</p>}
 												</div>
 
-												<div className="mb-8 flex flex-wrap">
-													<div className="mr-8 mb-4 flex">
+												<div className="grid grid-cols-2 gap-[1.875rem]">
+												<div className="mb-4 flex">
 														<figure className="mr-4 shrink-0">
 															<Link href="/user/avatar_6">
 																<a className="relative block">
 																	<img
-																		src={ownerImage}
-																		alt={creatorname}
-																		className="rounded-2lg h-12 w-12"
-																		loading="lazy"
-																	/>
-																	<div
-																		className="dark:border-jacarta-600 bg-green absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
-																		data-tippy-content="Verified Collection"
-																	>
-																		<Tippy content={<span>Verified Collection</span>}>
-																			<svg className="icon h-[.875rem] w-[.875rem] fill-white">
-																				<use xlinkHref="/icons.svg#icon-right-sign"></use>
-																			</svg>
-																		</Tippy>
-																	</div>
-																</a>
-															</Link>
-														</figure>
-														<div className="flex flex-col justify-center">
-															<span className="text-jacarta-400 block text-sm dark:text-white">
-																Creator <strong>10% royalties</strong>
-															</span>
-															<Link href="/user/avatar_6">
-																<a className="text-accent block">
-																	<span className="text-sm font-bold">{creatorname}</span>
-																</a>
-															</Link>
-														</div>
-													</div>
-		
-													<div className="mb-4 flex">
-														<figure className="mr-4 shrink-0">
-															<Link href="/user/avatar_6">
-																<a className="relative block">
-																	<img
-																		src={ownerImage}
-																		alt={ownerName}
+																		src={nftdata.ownerProfileImage}
+																		alt={nftdata.ownerName}
 																		className="rounded-2lg h-12 w-12"
 																		loading="lazy"
 																	/>
@@ -326,7 +356,42 @@ const Item = () => {
 															</span>
 															<Link href="/user/avatar_6">
 																<a className="text-accent block">
-																	<span className="text-sm font-bold">{ownerName}</span>
+																	<span className="text-sm font-bold">{nftdata.ownerName}</span>
+																</a>
+															</Link>
+														</div>
+													</div>
+		
+													<div className="mb-4 flex">
+														<figure className="mr-4 shrink-0">
+															<Link href="/user/avatar_6">
+																<a className="relative block">
+																	<img
+																		src={collection.creatorProfileImage}
+																		alt={collection.creatorName}
+																		className="rounded-2lg h-12 w-12"
+																		loading="lazy"
+																	/>
+																	<div
+																		className="dark:border-jacarta-600 bg-green absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
+																		data-tippy-content="Verified Collection"
+																	>
+																		<Tippy content={<span>Verified Collection</span>}>
+																			<svg className="icon h-[.875rem] w-[.875rem] fill-white">
+																				<use xlinkHref="/icons.svg#icon-right-sign"></use>
+																			</svg>
+																		</Tippy>
+																	</div>
+																</a>
+															</Link>
+														</figure>
+														<div className="flex flex-col justify-center">
+															<span className="text-jacarta-400 block text-sm dark:text-white">
+																Owned by
+															</span>
+															<Link href="/user/avatar_6">
+																<a className="text-accent block">
+																	<span className="text-sm font-bold">{collection.creatorName}</span>
 																</a>
 															</Link>
 														</div>
@@ -336,7 +401,7 @@ const Item = () => {
 												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" ) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-														onClick={() => dispatch(bidsModalShow())}
+														onClick={buyNFT}
 													>
 														Pay Next Installment
 													</button>
@@ -404,12 +469,12 @@ const Item = () => {
 										{/* <!-- end details --> */}
 									</div>
 
-						{nftdata ? <ItemsTabs nftdata={nftdata}/> : null }
+						{nftdata ? <ItemsTabs nftdata={nftdata} activities={activities}/> : null }
 					</div>
 				</section>
 				{/* <!-- end item --> */}
 	
-				<More_items />
+				<More_items address={collection._id}/>
 			</>
 		);
 	} else{

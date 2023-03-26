@@ -7,6 +7,9 @@ import Likes from "../likes";
 import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { listbuyModalShow, listrentModalShow, listinstallmentModalShow } from "../../redux/counterSlice";
+import {
+	useAccount,
+} from 'wagmi'
 
 const Collected = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
@@ -14,6 +17,7 @@ const Collected = (collectedNFT) => {
   );
   // console.log(collectedNFT.collectedNFT)
   const dispatch = useDispatch();
+  const { address, isConnected } = useAccount()
   if(collectedNFT){
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
@@ -25,13 +29,15 @@ const Collected = (collectedNFT) => {
           let inst_listed_status 
 					let	rent_listed_status
 					let	sell_listed_status 
+          let owner
           if(item.tokenUriRes){
             image = item.tokenUriRes.image 
             title = item.tokenUriRes.name
             tokentype = item.tokenUriRes.token,
             inst_listed_status = item.tokenUriRes.inst_listed_status,
 						rent_listed_status = item.tokenUriRes.rent_listed_status,
-						sell_listed_status = item.tokenUriRes.sell_listed_status
+						sell_listed_status = item.tokenUriRes.sell_listed_status,
+            owner = item.tokenUriRes.owner
           } else {
             image = "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
             title = "Unknown"
@@ -114,7 +120,7 @@ const Collected = (collectedNFT) => {
                     {bidCount}/{bidLimit}
                   </span>
                 </div> */}
-                {!sell_listed_status ? 
+                {(!sell_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     <button
                       className="text-accent font-display text-sm font-semibold"
@@ -124,7 +130,7 @@ const Collected = (collectedNFT) => {
                     </button>
                   </div> : null
                 }
-                {!rent_listed_status ? 
+                {(!rent_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     {tokentype ==="ERC4907" ? <button
                       className="text-accent font-display text-sm font-semibold"
@@ -134,7 +140,7 @@ const Collected = (collectedNFT) => {
                     </button> : null}
                   </div> : null
                 }
-                {!inst_listed_status ? 
+                {(!inst_listed_status && owner===address) ? 
                   <div className="flex items-center justify-between">
                     {tokentype ==="ERC4907" ? <button
                       className="text-accent font-display text-sm font-semibold"

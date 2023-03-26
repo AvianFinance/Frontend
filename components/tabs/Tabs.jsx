@@ -6,9 +6,8 @@ import Activity_tab from './Activity_tab';
 import Price_history from './Price_history';
 import 'react-tabs/style/react-tabs.css';
 
-const ItemsTabs = (nftdata) => {
+const ItemsTabs = (nftdata, activities) => {
 	const [tabsActive, setTabsActive] = useState(1);
-	// console.log(nftdata)
 	const tabsHeadText = [
 		// {
 		// 	id: 1,
@@ -73,7 +72,7 @@ const ItemsTabs = (nftdata) => {
 					</TabPanel> */}
 					<TabPanel>
 						{/* <!-- Details --> */}
-						{nftdata !== null ? 
+						{nftdata.nftdata !== null ? 
 						<div
 							className="tab-pane fade"
 							id="details"
@@ -140,7 +139,7 @@ const ItemsTabs = (nftdata) => {
 					</div>}
 					</TabPanel>
 					<TabPanel>
-						<Activity_tab />
+						<Activity_tab activities={nftdata.activities}/>
 					</TabPanel>
 					{/* <TabPanel>
 						<Price_history classes="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-t-2lg rounded-b-2lg rounded-tl-none border bg-white p-6" />

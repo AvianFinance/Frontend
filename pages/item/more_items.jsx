@@ -2,7 +2,7 @@ import React from 'react';
 import { HeadLine } from '../../components/component';
 import BidsCarousel from '../../components/carousel/bidsCarousel';
 
-const More_items = () => {
+const More_items = (address) => {
 	return (
 		<section className="dark:bg-jacarta-800 bg-light-base py-24">
 			{/* <!-- Hot Bids --> */}
@@ -14,7 +14,7 @@ const More_items = () => {
 
 				<div className="relative">
 					{/* <!-- Slider --> */}
-					<BidsCarousel />
+					<BidsCarousel address={address.address}/>
 				</div>
 			</div>
 			{/* <!-- end hot bids --> */}

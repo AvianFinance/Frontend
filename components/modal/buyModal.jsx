@@ -13,7 +13,7 @@ const BuyModal = () => {
 	const dispatch = useDispatch();
 	const { data: signer, isError } = useSigner()
 	const [numofDays, setnumofDays] = useState(0)
-	console.log(collectionsdata)
+	// console.log(collectionsdata)
 	
 	// let firstIns
 	// let mplace_contract
@@ -135,7 +135,7 @@ const BuyModal = () => {
 			</div>
 		);
 	} else {
-		console.log(collectionsdata)
+		// console.log(collectionsdata)
 		return (
 			<div>
 				{/* <!-- Buy Now Modal --> */}

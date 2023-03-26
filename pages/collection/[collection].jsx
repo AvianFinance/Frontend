@@ -33,12 +33,10 @@ const Collection = () => {
 	};
 
 	useEffect(() => {
-		console.log(pid)
-		console.log(exploretype)
 		if(pid && exploretype==="rent"){
 			getrentalcollection(pid)
 				.then((response) => {
-					console.log(response.data)
+					// console.log(response.data)
 					setcollection(response.data)
 					setcollectiondetails(response.data.collection !== null ? response.data.collection : nill)
 					setisLoading(true)
@@ -47,17 +45,17 @@ const Collection = () => {
 		if(pid && exploretype==="buy"){
 			getbuycollection(pid)
 				.then((response) => {
-					console.log(response.data)
+					// console.log(response.data)
 					setcollectiondetails(response.data.collection)
 					setcollection(response.data.token)
 					setisLoading(true)
 				})
 		} 
 	},[pid, exploretype]);
-	let val = collectiondetails ? collectiondetails.coverImage : "/images/gradient_light.jpg"
-	let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : "2023"
-	let collectionaddress = collectiondetails ? collectiondetails._id : "N/A"
-	let name = collectiondetails ? collectiondetails.name : "N/A"
+	let val = collectiondetails ? collectiondetails.coverImage : "/images/gradient_dark.jpg"
+	let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : null
+	let collectionaddress = collectiondetails ? collectiondetails._id : null
+	let name = collectiondetails ? collectiondetails.name : null
 	console.log(val)
 	return (
 		<>
@@ -79,9 +77,9 @@ const Collection = () => {
 				<div className="container py-5">
 							<div className="text-center">
 								<h2 className="font-display text-jacarta-700 mb-2 text-4xl font-medium dark:text-white">
-									{name}
+									{name ? name : null}
 								</h2>
-								<div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 mb-8 inline-flex items-center justify-center rounded-full border bg-white py-1.5 px-4">
+								{collectionaddress ? <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 mb-8 inline-flex items-center justify-center rounded-full border bg-white py-1.5 px-4">
 									<Tippy content="ETH">
 										<svg className="icon h-4 w-4 mr-1">
 											<use xlinkHref="/icons.svg#icon-ETH"></use>
@@ -98,10 +96,10 @@ const Collection = () => {
 											</CopyToClipboard>
 										</button>
 									</Tippy>
-								</div>
+								</div> : null }
 
-								<p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg">biooo</p>
-								<span className="text-jacarta-400">Joined December {createdat}</span>
+								<p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg"></p>
+								{createdat ? <span className="text-jacarta-400">Joined December {createdat}</span> : null}
 
 								{/* <div className="mt-6 flex items-center justify-center space-x-2.5 relative"> */}
 									{/* <div className="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white">
