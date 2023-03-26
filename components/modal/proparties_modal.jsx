@@ -119,7 +119,7 @@ const Proparties_modal = () => {
 						{/* <!-- Body --> */}
 						<div className="modal-body p-6">
 							<p className="dark:text-jacarta-300 mb-8">
-								Add a new collection if you want. Buwahahaaaaa
+								Add a new collection if you want.
 							</p>
 
 							<div className="relative my-3 flex items-center">

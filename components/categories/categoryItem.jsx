@@ -7,6 +7,9 @@ import Likes from "../likes";
 import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { buyModalShow } from "../../redux/counterSlice";
+import {
+	useAccount,
+} from 'wagmi'
 
 const CategoryItem = (collection) => {
   const { sortedtrendingCategoryItemData } = useSelector(
@@ -18,6 +21,7 @@ const CategoryItem = (collection) => {
   const [nftitems, setItems] = useState([]);
   const [filterVal, setFilterVal] = useState(0);
   const [filtered, setfiltered] = useState([])
+  const { address } = useAccount()
 
   const handleItemFilter = (text) => {
     if (text === "Upright") {
@@ -42,6 +46,7 @@ const CategoryItem = (collection) => {
     }
 	}, [collection, exploretype]);
 
+  console.log(filtered)
   if(filtered.length>0){
     console.log(filtered)
     return (
@@ -190,7 +195,7 @@ const CategoryItem = (collection) => {
                   </span>
                 </div>
   
-                <div className="mt-8 flex items-center justify-between">
+                {(address !== item.owner && address !== item.user ) ? <div className="mt-8 flex items-center justify-between">
                   <button
                     className="text-accent font-display text-sm font-semibold"
                     onClick={() => dispatch(buyModalShow(item))}
@@ -207,7 +212,7 @@ const CategoryItem = (collection) => {
                       </span>
                     </a>
                   </Link>
-                </div>
+                </div> : null}
               </div>
             </article>
           );

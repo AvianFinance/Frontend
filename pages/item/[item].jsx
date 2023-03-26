@@ -21,9 +21,9 @@ import {
 import { ethers } from "ethers";
 import { getNFTDetails, getNFTactivities } from "../../api/nft";
 import { isMounted } from "../../scripts/isMounted"
-import RimeRent from "../../contracts/RimeRent.sol/RimeRent.json"
-import INSrentals from "../../contracts/AvianInstallment.sol/AvianInstallment.json"
-import { rime_token, insmplace_token }  from "../../utils/contracts";
+import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
+import AIE_Proxy from "../../contracts/AIEProxy.sol/AIE_Proxy.json"
+import { iexchange_token }  from "../../utils/contracts";
 
 const Item = () => {
 	const mounted = isMounted()
@@ -79,7 +79,7 @@ const Item = () => {
 	let next_installement
 
 	const calInstallment = async () => {
-		let mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+		let mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 		let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
 			nftdata.coll_addr,
 			RimeRent.abi,
@@ -90,7 +90,7 @@ const Item = () => {
 
 	const buyNFT = async () => {
 		try {
-			let mplace_contract = new ethers.Contract(insmplace_token, INSrentals.abi, signer)
+			let mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 			let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
 				nftdata.coll_addr,
 				RimeRent.abi,
@@ -136,7 +136,8 @@ const Item = () => {
 		creatorname = "/images/avatars/avatar_7.jpg"
 		ownerName = "Wow Fans"
 		price = 100
-		auction_timer = '636234213'
+		auction_timer = nftdata.expiry ? parseInt((nftdata.expiry._hex), 16) : '636234213'
+		console.log(auction_timer)
 		tokentype = nftdata.token_type
 		rent_listed_status = nftdata.rent_listed_status
 		sell_listed_status = nftdata.sell_listed_status
@@ -312,24 +313,30 @@ const Item = () => {
 													<div className="sm:w-1/2 sm:pr-4 lg:pr-8">
 														<h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
 															{title}
-														</h1>
-														
+														</h1>							
 													</div>
+
+													{(rent_listed_status === false && typeof(nftdata.expiry) !== "undefined" && typeof(listing) === "undefined") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">													
+														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
+															Rental expires in
+														</span>
+														<Items_Countdown_timer time={auction_timer} />
+													</div> : null}
 	
 													{/* <!-- Countdown --> */}
-													{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
-														<p className="dark:text-jacarta-300 mb-10">{text}</p>
+													{(inst_listed_status === false && typeof(listing) !== "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
 														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
 															Rental should pay with in
 														</span>
 														<Items_Countdown_timer time={+auction_timer} />
-													</div> : <p className="dark:text-jacarta-300 mb-10">{text}</p>}
+													</div> : null}
 												</div>
+												<p className="dark:text-jacarta-300 mb-10">{text}</p>
 
 												<div className="grid grid-cols-2 gap-[1.875rem]">
 												<div className="mb-4 flex">
 														<figure className="mr-4 shrink-0">
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+nftdata.owner.toString()}>
 																<a className="relative block">
 																	<img
 																		src={nftdata.ownerProfileImage}
@@ -354,7 +361,7 @@ const Item = () => {
 															<span className="text-jacarta-400 block text-sm dark:text-white">
 																Owned by
 															</span>
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+nftdata.owner.toString()}>
 																<a className="text-accent block">
 																	<span className="text-sm font-bold">{nftdata.ownerName}</span>
 																</a>
@@ -364,7 +371,7 @@ const Item = () => {
 		
 													<div className="mb-4 flex">
 														<figure className="mr-4 shrink-0">
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+collection.createdBy.toString()}>
 																<a className="relative block">
 																	<img
 																		src={collection.creatorProfileImage}
@@ -387,9 +394,9 @@ const Item = () => {
 														</figure>
 														<div className="flex flex-col justify-center">
 															<span className="text-jacarta-400 block text-sm dark:text-white">
-																Owned by
+																Created by
 															</span>
-															<Link href="/user/avatar_6">
+															<Link href={"/user/"+collection.createdBy.toString()}>
 																<a className="text-accent block">
 																	<span className="text-sm font-bold">{collection.creatorName}</span>
 																</a>
@@ -398,7 +405,7 @@ const Item = () => {
 													</div>
 												</div>
 	
-												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" ) ? <Link href="#">
+												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={buyNFT}
@@ -407,7 +414,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{(inst_listed_status === true ) ? <Link href="#">
+												{(inst_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -416,7 +423,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{(rent_listed_status === true ) ? <Link href="#">
+												{(rent_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -425,7 +432,7 @@ const Item = () => {
 													</button>
 												</Link> : null}
 
-												{( sell_listed_status === true) ? <Link href="#">
+												{( sell_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -435,24 +442,27 @@ const Item = () => {
 												</Link> : null}
 
 												{(sell_listed_status === false && rent_listed_status === false && inst_listed_status === false && owner === address ) ? <>
-													<button
-														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-														onClick={() => dispatch(listrentModalShow(item))}
-													>
-														List as Upright
-													</button>
-													<button
-														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-														onClick={() => dispatch(listinstallmentModalShow(item))}
-													>
-														List as Installment
-													</button>
+													{tokentype === " ERC721" ? 
+													<>
+														<button
+															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+															onClick={() => dispatch(listrentModalShow(item))}
+														>
+															List as Upright
+														</button>
+														<button
+															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+															onClick={() => dispatch(listinstallmentModalShow(item))}
+														>
+															List as Installment
+														</button> 
+													</>: 
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(listbuyModalShow(item))}
 													>
 														List as sell
-													</button>
+													</button>}
 												</> : null}
 
 												{/* {(tokentype === "721" && sell_listed_status === true && owner === address ) ? <Link href="#">

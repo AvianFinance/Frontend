@@ -49,18 +49,26 @@ const Explore_collection_item = ({itemFor, collections}) => {
 							<div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
 								<Link href={"/collection/"+id.toString()}>
 									{typeof(item.tokens) != "undefined" ? <a className="flex space-x-[0.625rem]">
-										{item.tokens.length>=1 ? <span className="w-[74.5%]">
+										{(item.tokens.length===0) ? <span className="w-[100%]">
+											<img
+												src="https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
+												alt="item 1"
+												className="h-80  w-full rounded-[0.625rem] object-cover"
+												loading="lazy"
+											/>
+										</span> : null}
+										{(item.tokens.length===1 || item.tokens.length===2 || item.tokens.length===3) ? <span className="w-[100%]">
 											<img
 												src={item.tokens[0]}
 												alt="item 1"
 												className="h-80 w-full rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
-										</span> : <span className="w-[100%]">
+										</span> : <span className="w-[74.5%]">
 											<img
-												src="https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
+												src={item.tokens[0]}
 												alt="item 1"
-												className="h-80  w-full rounded-[0.625rem] object-cover"
+												className="h-80 w-full rounded-[0.625rem] object-cover"
 												loading="lazy"
 											/>
 										</span>}

@@ -58,7 +58,11 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 					{/* <!-- Filter --> */}
 					<div className="mb-8 flex flex-wrap items-center justify-between">
 						<ul className="flex flex-wrap items-center">
-							{tranding_category_filter.map(({ id, svg, text }) => {
+							{[{id: 0,text: "all",},
+							{id: 1, svg: "art", text: "Sell",},
+							{id: 2, svg: "collection", text: "Upright",},
+							{id: 3, svg: "domain", text: "Installment",},]
+							.map(({ id, svg, text }) => {
 								if (text === 'all') {
 									return (
 										<li className="my-1 mr-2.5" key={id}>
@@ -126,7 +130,10 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 					{/* <!-- Filter --> */}
 					<div className="mb-8 flex flex-wrap items-center justify-between">
 						<ul className="flex flex-wrap items-center">
-							{tranding_category_filter.map(({ id, svg, text }) => {
+							{[{id: 0,text: "all",},
+							{id: 1, svg: "art", text: "ERC721",},
+							{id: 2, svg: "collection", text: "ERC4907",}]
+							.map(({ id, svg, text }) => {
 								if (text === 'all') {
 									return (
 										<li className="my-1 mr-2.5" key={id}>
@@ -194,7 +201,10 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 					{/* <!-- Filter --> */}
 					<div className="mb-8 flex flex-wrap items-center justify-between">
 						<ul className="flex flex-wrap items-center">
-							{tranding_category_filter.map(({ id, svg, text }) => {
+							{[{id: 0,text: "all",},
+							{id: 1, svg: "art", text: "ERC721",},
+							{id: 2, svg: "collection", text: "ERC4907",}]
+							.map(({ id, svg, text }) => {
 								if (text === 'all') {
 									return (
 										<li className="my-1 mr-2.5" key={id}>
@@ -262,7 +272,10 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 					{/* <!-- Filter --> */}
 					<div className="mb-8 flex flex-wrap items-center justify-between">
 						<ul className="flex flex-wrap items-center">
-							{tranding_category_filter.map(({ id, svg, text }) => {
+							{[{id: 0,text: "all",},
+							{id: 2, svg: "collection", text: "Upright",},
+							{id: 3, svg: "domain", text: "Installment",},]
+							.map(({ id, svg, text }) => {
 								if (text === 'all') {
 									return (
 										<li className="my-1 mr-2.5" key={id}>
@@ -331,7 +344,10 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 						{/* <!-- Filter --> */}
 						<div className="mb-8 flex flex-wrap items-center justify-between">
 							<ul className="flex flex-wrap items-center">
-								{tranding_category_filter.map(({ id, svg, text }) => {
+								{[{id: 0,text: "all",},
+								{id: 2, svg: "collection", text: "Upright",},
+								{id: 3, svg: "domain", text: "Installment",},]
+								.map(({ id, svg, text }) => {
 									if (text === 'all') {
 										return (
 											<li className="my-1 mr-2.5" key={id}>
