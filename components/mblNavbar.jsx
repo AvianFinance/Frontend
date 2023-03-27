@@ -163,6 +163,9 @@ const MblNavbar = ({ theme }) => {
 		}
 	}, [dispatch, navItemValue, router]);
 
+	console.log(navText)
+	console.log(navItemValue)
+
 	const homenavData = [
 		{
 			id: 1,

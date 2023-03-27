@@ -26,59 +26,65 @@ const User_items = (user_address) => {
 	const [listed, setlisted] = useState([])
 	// console.log(user_address.user_address)
 	useEffect(() => {
-		// console.log(user_address.user_address)
+		console.log(user_address.user_address)
 		getListed(user_address.user_address)
 			.then((response) => {
 				console.log("listed",response)
 				let listednfts = []
-				response.data.map((data) => listednfts.push( {
-					tokenUriRes : {
-						description : data.desc,
-						image : data.uri,
-						name : data.name,
-						token: data.token_type
-					},
-					token_address : data.coll_addr,
-					token_id : data.token_id
-				}))
+				if(response.data){
+					response.data.map((data) => listednfts.push( {
+						tokenUriRes : {
+							description : data.desc,
+							image : data.uri,
+							name : data.name,
+							token: data.token_type
+						},
+						token_address : data.coll_addr,
+						token_id : data.token_id
+					}))
+				}
 				setlisted(listednfts)
 			})
 		getLended(user_address.user_address)
 			.then((response) => {
 				console.log("lended", response)
 				let collectednfts = []
-				response.data.map((data) => collectednfts.push( {
-					tokenUriRes : {
-						description : data.desc,
-						image : data.uri,
-						name : data.name,
-						token: data.token_type,
-						inst_listed_status: data.inst_listed_status,
-						rent_listed_status: data.rent_listed_status,
-						sell_listed_status: data.sell_listed_status
-					},
-					token_address : data.coll_addr,
-					token_id : data.token_id
-				}))
+				if(response.data){
+					response.data.map((data) => collectednfts.push( {
+						tokenUriRes : {
+							description : data.desc,
+							image : data.uri,
+							name : data.name,
+							token: data.token_type,
+							inst_listed_status: data.inst_listed_status,
+							rent_listed_status: data.rent_listed_status,
+							sell_listed_status: data.sell_listed_status
+						},
+						token_address : data.coll_addr,
+						token_id : data.token_id
+					}))
+				}
 				setlended(collectednfts)
 			})
 		getRented(user_address.user_address)
 			.then((response) => {
 				console.log("rented", response)
 				let collectednfts = []
-				response.data.map((data) => collectednfts.push( {
-					tokenUriRes : {
-						description : data.desc,
-						image : data.uri,
-						name : data.name,
-						token: data.token_type,
-						inst_listed_status: data.inst_listed_status,
-						rent_listed_status: data.rent_listed_status,
-						sell_listed_status: data.sell_listed_status
-					},
-					token_address : data.coll_addr,
-					token_id : data.token_id
-				}))
+				if(response.data){
+					response.data.map((data) => collectednfts.push( {
+						tokenUriRes : {
+							description : data.desc,
+							image : data.uri,
+							name : data.name,
+							token: data.token_type,
+							inst_listed_status: data.inst_listed_status,
+							rent_listed_status: data.rent_listed_status,
+							sell_listed_status: data.sell_listed_status
+						},
+						token_address : data.coll_addr,
+						token_id : data.token_id
+					}))
+				}
 				setrented(collectednfts)
 			})
 	
@@ -86,39 +92,43 @@ const User_items = (user_address) => {
 			.then((response) => {
 				console.log("collected", response)
 				let collectednfts = []
-				response.data.map((data) => collectednfts.push( {
-					tokenUriRes : {
-						description : data.desc,
-						image : data.uri,
-						name : data.name,
-						token: data.token_type,
-						inst_listed_status: data.inst_listed_status,
-						rent_listed_status: data.rent_listed_status,
-						sell_listed_status: data.sell_listed_status,
-						owner : data.owner
-					},
-					token_address : data.coll_addr,
-					token_id : data.token_id
-				}))
+				if(response.data){
+					response.data.map((data) => collectednfts.push( {
+						tokenUriRes : {
+							description : data.desc,
+							image : data.uri,
+							name : data.name,
+							token: data.token_type,
+							inst_listed_status: data.inst_listed_status,
+							rent_listed_status: data.rent_listed_status,
+							sell_listed_status: data.sell_listed_status,
+							owner : data.owner
+						},
+						token_address : data.coll_addr,
+						token_id : data.token_id
+					}))
+				}
 				setCollectedNFT(collectednfts)
 			})
 		getowned(user_address.user_address)
 			.then((response) => {
 				console.log("owned", response)
 				let ownednfts =[]
-				response.data.map((data) => ownednfts.push( {
-					tokenUriRes : {
-						description : data.desc,
-						image : data.uri,
-						name : data.name,
-						token: data.token_type,
-						inst_listed_status: data.inst_listed_status,
-						rent_listed_status: data.rent_listed_status,
-						sell_listed_status: data.sell_listed_status
-					},
-					token_address : data.coll_addr,
-					token_id : data.token_id
-				}))
+				if(response.data){
+					response.data.map((data) => ownednfts.push( {
+						tokenUriRes : {
+							description : data.desc,
+							image : data.uri,
+							name : data.name,
+							token: data.token_type,
+							inst_listed_status: data.inst_listed_status,
+							rent_listed_status: data.rent_listed_status,
+							sell_listed_status: data.sell_listed_status
+						},
+						token_address : data.coll_addr,
+						token_id : data.token_id
+					}))
+				}
 				setOwnedNFT(ownednfts)
 			})
 		getcollections(user_address.user_address)
