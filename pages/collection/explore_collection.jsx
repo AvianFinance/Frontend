@@ -85,7 +85,7 @@ const Explore_collection = () => {
             {/* <!-- Filter --> */}
             {exploretype==="rent" ? <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
-                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installemnent",}].map(({ id, svg, text }) => {
+                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
                   if (text === "all") {
                     return (
                       <li

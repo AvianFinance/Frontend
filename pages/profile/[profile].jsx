@@ -35,6 +35,10 @@ const Edit_user = () => {
 	const [instagram, setinstagram] = useState({value:"",errorVal:""})
 	const [website, setwebsite] = useState({value:"",errorVal:""})
 
+	if(!isConnected){
+		router.push('/')
+	}
+	
 	const uploadtoPinata = async (fileImg) => {
 		try {
 		  const formData = new FormData();

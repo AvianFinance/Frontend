@@ -97,6 +97,9 @@ export const counterSlice = createSlice({
 			state.buyModal = false;
 			state.collectionsdata = null;
 		},
+		setisloading: (state) => {
+			state.isloading = !state.isloading
+		},
 		buylistModalHide: (state) => {
 			state.listbuymodal = false;
 			state.listcontent = null
@@ -243,7 +246,10 @@ export const {
 	installmentModalHide,
 	showToast,
 	hideToast,
+	setisloading,
+	isloading,
 	setisLoading,
+	propartiesModalValue,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

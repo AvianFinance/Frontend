@@ -16,7 +16,7 @@ const UserId = ({ classes, userId, shortId }) => {
 			<Tippy hideOnClick={false} content={copied ? <span>copied</span> : <span>copy</span>}>
 				<button className={classes}>
 					<CopyToClipboard text={userId} onCopy={() => setCopied(true)}>
-						<span>{!shortId ? userId : `${userId.substring(0, 17)}...`}</span>
+						<span>{userId ? (!shortId) ? userId : `${userId.substring(0, 17)}...` : null}</span>
 					</CopyToClipboard>
 
 					<svg

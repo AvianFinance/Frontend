@@ -54,7 +54,7 @@ const CategoryItem = (collection) => {
           {exploretype=="rent" ? 
           <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
-                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installemnent",}].map(({ id, svg, text }) => {
+                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
                   if (text === "all") {
                     return (
                       <li
@@ -119,10 +119,10 @@ const CategoryItem = (collection) => {
           let price = 0
           // console.log(item)
           if(type === "buy" && item.price !== null) {
-            price = parseInt((item.price.hex) * Math.pow(10, -16), 16).toString()
+            price = parseFloat((item.price.hex) * Math.pow(10, -18), 16).toString()
           } 
           if(type === "rent" && item.pricePerDay !== null) {
-            price = parseInt((item.pricePerDay.hex) * Math.pow(10, -16), 16).toString()
+            price = parseFloat((item.pricePerDay.hex) * Math.pow(10, -18), 16).toString()
           }
           const likes = 100
           const creator = "Wow Fans"

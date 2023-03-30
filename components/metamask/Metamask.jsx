@@ -21,7 +21,7 @@ import AIE_Proxy from "../../contracts/AIEProxy.sol/AIE_Proxy.json"
 
 import { selxchange_token, rexchange_token, iexchange_token, rime_token, rime_rent }  from "../../utils/contracts";
 import { registerUser } from "../../api/user"
-import { showToast, buyModalHide, buylistModalHide, rentlistModalHide, installmentModalHide } from '../../redux/counterSlice';
+import { showToast, buyModalHide, buylistModalHide, rentlistModalHide, installmentModalHide, setisloading } from '../../redux/counterSlice';
 
 const Metamask_comp_text = () => {
 	const mountedcontent = isMounted
@@ -476,7 +476,7 @@ const PayRental = (payload, numofDays) => {
 	const ins_mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 	
 	const buyNFT = async () => {
-		dispatch(buyModalHide())
+		dispatch(setisloading())
 		if(exploretype==="buy"){
 			try {
 				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
@@ -503,8 +503,10 @@ const PayRental = (payload, numofDays) => {
 					console.log("Bought")
 			
 				})
+				dispatch(buyModalHide())
 				dispatch(showToast(["success","NFT Bought!"]))
 			} catch(error){
+				dispatch(buyModalHide())
 				dispatch(showToast(["error",error]))
 			}	
 
@@ -538,10 +540,12 @@ const PayRental = (payload, numofDays) => {
 	
 					// 	console.log("Bought")
 				
-					// })			
+					// })	
+					dispatch(buyModalHide())		
 					dispatch(showToast(["success","NFT Rented!"]))
 				} catch(error){
 					console.log(error)
+					dispatch(buyModalHide())
 					dispatch(showToast(["error",error]))
 				}
 			} else {
@@ -564,15 +568,18 @@ const PayRental = (payload, numofDays) => {
 
 					await tx.wait(1)
 					console.log("NFT rented and first ins paid")
+					dispatch(buyModalHide())
 					dispatch(showToast(["success","NFT Rented!"]))
 				} catch(error){
 					console.log(error)
+					dispatch(buyModalHide())
 					dispatch(showToast(["error","Renting Failed"]))
 				}
 				
 			}
 							
 		}
+		dispatch(setisloading())
 	}
 
 	useEffect(() => {

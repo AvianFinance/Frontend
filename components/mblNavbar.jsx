@@ -161,7 +161,7 @@ const MblNavbar = ({ theme }) => {
 		} else if (navItemValue === 33) {
 			setnavText('create');
 		}
-	}, [dispatch, navItemValue, router]);
+	}, [dispatch, navItemValue, router, isConnected]);
 
 	console.log(navText)
 	console.log(navItemValue)
@@ -397,7 +397,7 @@ const MblNavbar = ({ theme }) => {
 			</div>
 
 			{/* <!-- Mobile Search --> */}
-			<form action="search" className="relative mt-24 mb-8 w-full lg:hidden">
+			{/* <form action="search" className="relative mt-24 mb-8 w-full lg:hidden">
 				<input
 					type="search"
 					className="text-jacarta-700 placeholder-jacarta-500 focus:ring-accent border-jacarta-100 w-full rounded-2xl border py-3 px-4 pl-10 dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
@@ -415,7 +415,7 @@ const MblNavbar = ({ theme }) => {
 						<path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
 					</svg>
 				</span>
-			</form>
+			</form> */}
 
 			{/* <!-- Primary Nav --> */}
 			<nav className="navbar w-full">
@@ -567,7 +567,7 @@ const MblNavbar = ({ theme }) => {
 							</i>
 						</button>
 						<ul
-							className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col  gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
+							className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col  gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute  lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
 							aria-labelledby="navDropdown-1"
 						>
 							{/* <li>
@@ -867,8 +867,7 @@ const MblNavbar = ({ theme }) => {
 								: 'dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0'
 						}
 						onMouseEnter={() => setProfileShow(true)}
-						onMouseLeave={() => setProfileShow(false)}
-						
+						onMouseLeave={() => setProfileShow(false)}						
 					>	
 						<UserId
 							classes="js-copy-clipboard font-display text-jacarta-700 my-4 flex select-none items-center whitespace-nowrap px-5 leading-none dark:text-white"
@@ -888,7 +887,7 @@ const MblNavbar = ({ theme }) => {
 							</div>
 						</div>
 						<Link href={"/user/"+address.toString()}>
-							<a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+							<a onClick={() => setProfileShow(false)} className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
@@ -905,7 +904,7 @@ const MblNavbar = ({ theme }) => {
 							</a>
 						</Link>
 						<Link href="/profile/user_avatar">
-							<a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+							<a onClick={() => setProfileShow(false)} className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
@@ -921,8 +920,8 @@ const MblNavbar = ({ theme }) => {
 								</span>
 							</a>
 						</Link>
-						<Link href="/">
-							<a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+						<Link href="/" >
+							<a onClick={() => {disconnect; setProfileShow(false)}} className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
