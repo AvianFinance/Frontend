@@ -7,6 +7,7 @@ import Trending_categories_items from '../usercollections/trending_categories_it
 
 import 'react-tabs/style/react-tabs.css';
 import Explore_collection_item from '../collectrions/explore_collection_item_buy';
+import Explore_collection_item_user from '../collectrions/explore_collection_item_user';
 import {
 	useAccount,
 } from 'wagmi'
@@ -264,7 +265,7 @@ const User_items = (user_address) => {
 							<TabPanel>
 								{/* <!-- Grid --> */}
 								<div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-									<Explore_collection_item itemFor="userPage" collections={collections}/>
+									<Explore_collection_item_user itemFor="userPage" collections={collections}/>
 								</div>
 							</TabPanel>
 	

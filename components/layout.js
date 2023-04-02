@@ -6,6 +6,7 @@ import BuyModal from "./modal/buyModal";
 import BuyListModal from "./modal/buylistModal";
 import RentalListModal from "./modal/rentallistModal";
 import InstallmentListModal from "./modal/installementlistModal";
+import WrapCollectionModal from "./modal/wrapcollectionModal";
 import ToasterContainer from "./toast"
 
 export default function Layout({ children }) {
@@ -19,6 +20,7 @@ export default function Layout({ children }) {
       <BuyListModal/>
       <RentalListModal/>
       <InstallmentListModal/>
+      <WrapCollectionModal/>
       <ToasterContainer/>
       <main>{children}</main>
       <Footer />

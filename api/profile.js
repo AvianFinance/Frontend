@@ -13,3 +13,5 @@ export const getListed = (address) => getRequest(`${BASE_URL}/listed/${address}`
 export const getLended = (address) => getRequest(`${BASE_URL}/lended/${address}`);
 
 export const getRented = (address) => getRequest(`${BASE_URL}/rented/${address}`);
+
+export const getCollectionTokens = (walletAdrs, collectionAdrs) => getRequest(`${BASE_URL}/collections/${walletAdrs}/${collectionAdrs}`);
