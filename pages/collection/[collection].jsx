@@ -23,6 +23,7 @@ const Collection = () => {
 	const [collection, setcollection] = useState([])
 	const [collectiondetails, setcollectiondetails] = useState()
 	const [copied, setCopied] = useState(false);
+	console.log(exploretype)
 
 	const handleLikes = () => {
 		if (!likesImage) {
@@ -33,13 +34,17 @@ const Collection = () => {
 	};
 
 	useEffect(() => {
+		if(!exploretype){
+			router.push('/')
+		}
+		setisLoading(true)
 		if(pid && exploretype==="rent"){
 			getrentalcollection(pid)
 				.then((response) => {
 					// console.log(response.data)
 					setcollection(response.data)
 					setcollectiondetails(response.data.collection !== null ? response.data.collection : nill)
-					setisLoading(true)
+					setisLoading(false)
 				})
 		} 
 		if(pid && exploretype==="buy"){
@@ -48,7 +53,7 @@ const Collection = () => {
 					// console.log(response.data)
 					setcollectiondetails(response.data.collection)
 					setcollection(response.data.token)
-					setisLoading(true)
+					setisLoading(false)
 				})
 		} 
 	},[pid, exploretype]);
@@ -56,7 +61,7 @@ const Collection = () => {
 	let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : null
 	let collectionaddress = collectiondetails ? collectiondetails._id : null
 	let name = collectiondetails ? collectiondetails.name : null
-	console.log(val)
+	console.log(collection)
 	return (
 		<>
 			<Meta title={`collection || Xhibiter | NFT Marketplace Next.js Template`} />
