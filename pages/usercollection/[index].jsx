@@ -36,9 +36,6 @@ const Usercollection = () => {
         }
     };
 
-    console.log("hereeee")
-    console.log(pid)
-
     useEffect(() => {
         setisLoading(true)
         if (pid) {
@@ -51,11 +48,12 @@ const Usercollection = () => {
                 })
         }
     }, [pid, exploretype]);
+
     let val = collectiondetails ? collectiondetails.coverImage : "/images/gradient_dark.jpg"
     let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : null
     let collectionaddress = collectiondetails ? collectiondetails._id : null
     let name = collectiondetails ? collectiondetails.name : null
-    console.log(val)
+
     return (
         <>
             <Meta title={`collection || Xhibiter | NFT Marketplace Next.js Template`} />
