@@ -98,8 +98,8 @@ const Collection = () => {
 									</Tippy>
 								</div> : null }
 
-								<p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg"></p>
-								{createdat ? <span className="text-jacarta-400">Joined December {createdat}</span> : null}
+								{/* <p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg"></p>
+								{createdat ? <span className="text-jacarta-400">Joined December {createdat}</span> : null} */}
 
 								{/* <div className="mt-6 flex items-center justify-center space-x-2.5 relative"> */}
 									{/* <div className="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white">

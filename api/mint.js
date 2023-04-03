@@ -9,3 +9,5 @@ export const getCollections = (address) => getRequest(`${BASE_URL}/${address}`);
 export const mintNft = (data) => postRequest("/mint", data);
 
 export const uploadIPFS = (data) => postRequest("/mint/ipfs", data);
+
+export const createWrapcollection = (data) => postRequest(`${BASE_URL}/wrapper`, data);

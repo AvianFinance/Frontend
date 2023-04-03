@@ -121,7 +121,7 @@ const Explore_collection_item_user = ({ itemFor, collections }) => {
 
                                 <div className="mt-8 flex items-center justify-between">
                                     <span className="dark:text-jacarta-200 text-sm">{item.tokenType}</span>
-                                    {(item.tokenType === "ERC721") ?
+                                    {(item.tokenType === "ERC721" && !item.wrappedStatus) ?
                                         <button
                                             type="button"
                                             className="text-accent font-display text-sm font-semibold"
