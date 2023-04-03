@@ -88,7 +88,7 @@ const Proparties_modal = () => {
 			setisloading(false)
 			dispatch(closePropatiesModal())
 			dispatch(showToast(["success","Collection created successfully"]))
-		} catch {
+		} catch(error){
 			setisloading(false)
 			dispatch(closePropatiesModal())
 			dispatch(showToast(["error",error.message]))
@@ -99,8 +99,8 @@ const Proparties_modal = () => {
 		return (
 			<div>
 				<div className={propartiesModalValue ? 'modal fade show block' : 'modal fade'}>
-					<div className="modal-dialog w-2/4  border-solid border-2 border-stone-50">
-						<div className="modal-content">
+					<div className="modal-dialog w-2/4 ">
+						<div className="modal-content border">
 							<div className="modal-header">
 								<h5 className="modal-title" id="addPropertiesLabel">
 									Create Collection

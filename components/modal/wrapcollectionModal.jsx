@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { wrapCollectionModalHide, showToast } from '../../redux/counterSlice';
-import { createWrapcollection } from '../../api/mint';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import { useSigner, useAccount } from 'wagmi'
 import { ethers } from "ethers";
+
+import { wrapCollectionModalHide, showToast } from '../../redux/counterSlice';
+import { createWrapcollection } from '../../api/mint';
 import RentWrapper from "../../contracts/RentWrapper.sol/RentWrapper.json"
 
 const WrapCollectionModal = () => {
@@ -59,8 +60,10 @@ const WrapCollectionModal = () => {
             console.log("Saving wrapper : " + wrappedCollection)
             saveWrapCollectionData(wrappedCollection)
             setisloading(false)
+            setName("");
+            setSymbol("")
             dispatch(wrapCollectionModalHide())
-            dispatch(showToast(["success", "Wrapper ollection created successfully"]))
+            dispatch(showToast(["success", "Wrapper collection created successfully"]))
         } catch (error) {
             setisloading(false)
             dispatch(wrapCollectionModalHide())
@@ -71,9 +74,8 @@ const WrapCollectionModal = () => {
         if (wrapcollectioncontent) {
             return (
                 <div>
-                    {/* <!-- Buy Now Modal --> */}
                     <div className={wrapcollectionmodal ? 'modal fade show block' : 'modal fade'}>
-                        <div className="modal-dialog min-w-[30%]">
+                        <div className="modal-dialog min-w-[35%]">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="buyNowModalLabel">
@@ -95,6 +97,19 @@ const WrapCollectionModal = () => {
 
                                 {/* <!-- Body --> */}
                                 <div className="modal-body p-6">
+
+                                    <div className="dark:border-jacarta-600 border-jacarta-100 relative flex justify-center items-center border-b py-1">
+                                        <figure className="self-center">
+                                            <img
+                                                src={wrapcollectioncontent ? wrapcollectioncontent.coverImage : null}
+                                                alt="CoverImage"
+                                                className="rounded-2lg object-contain h-30 w-80 self-center"
+                                                loading="lazy"
+                                                maxwidth="120px"
+                                                maxheight="80px"
+                                            />
+                                        </figure>
+                                    </div>
                                     {/* <!-- Collection ID --> */}
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
@@ -118,7 +133,7 @@ const WrapCollectionModal = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border border-r-0 focus:ring-inset dark:text-white"
+                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
                                                 placeholder="Enter token name..."
                                                 onChange={(e) => handleChange(e, "Name")}
                                                 value={Name.value}
@@ -134,7 +149,7 @@ const WrapCollectionModal = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border border-r-0 focus:ring-inset dark:text-white"
+                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
                                                 placeholder="Enter token symbol..."
                                                 onChange={(e) => handleChange(e, "Symbol")}
                                                 value={Symbol.value}
@@ -164,7 +179,7 @@ const WrapCollectionModal = () => {
     } else {
         return (
             <div>
-                <div className={propartiesModalValue ? 'modal fade show block' : 'modal fade'}>
+                <div className={wrapcollectionmodal ? 'modal fade show block' : 'modal fade'}>
                     <div className="modal-dialog max-w-xxl">
                         <div className="modal-content">
                             <div className="modal-header">
