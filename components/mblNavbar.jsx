@@ -147,6 +147,10 @@ const MblNavbar = ({ theme }) => {
 			localStorage.setItem('navItemValue', 33);
 		}
 
+		if (router.asPath.includes('usercollection/avatar')) {
+			localStorage.setItem('navItemValue', 34);
+		}
+
 		const value = localStorage.getItem('navItemValue');
 		setNavItemValue(+value);
 
@@ -160,6 +164,9 @@ const MblNavbar = ({ theme }) => {
 			setnavText('collection');
 		} else if (navItemValue === 33) {
 			setnavText('create');
+		}
+		else if (navItemValue === 34) {
+			setnavText('usercollection');
 		}
 	}, [dispatch, navItemValue, router, isConnected]);
 

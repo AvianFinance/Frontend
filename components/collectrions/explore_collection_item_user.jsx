@@ -34,7 +34,7 @@ const Explore_collection_item_user = ({ itemFor, collections }) => {
                     return (
                         <article key={id}>
                             <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
-                                <Link href={"/collection/" + id.toString()}>
+                                <Link href={"/usercollection/" + id.toString()}>
                                     {typeof (item.tokens) != "undefined" ? <a className="flex space-x-[0.625rem]">
                                         {(item.tokens.length === 0) ? <span className="w-[100%]">
                                             <img
@@ -91,7 +91,7 @@ const Explore_collection_item_user = ({ itemFor, collections }) => {
 
                                 <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
                                     <div className="flex flex-wrap items-center">
-                                        <Link href={"/collection/" + id.toString()}>
+                                        <Link href={"/usercollection/" + id.toString()}>
                                             <a className="font-display hover:text-accent dark:hover:text-accent text-jacarta-700 mt-4 block text-base dark:text-white">
                                                 {title}
                                             </a>
@@ -105,7 +105,7 @@ const Explore_collection_item_user = ({ itemFor, collections }) => {
 
                                 <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
                                     <div className="flex flex-wrap items-center">
-                                        <Link href={"/user/" + item.createdBy.toString()}>
+                                        <Link href={"/usercollection/" + item.createdBy.toString()}>
                                             <a className="mr-2 shrink-0">
                                                 <img src={userImage} alt="owner" className="h-5 w-5 rounded-full" />
                                             </a>

@@ -65,7 +65,7 @@ const Collection_items = ({collection, isloading, collectiondetails}) => {
 						</TabList>
 
 						<TabPanel>
-							{isloading ? 
+							{!isloading ? 
 							<div>
 								<FilterCategoryItem collection={collection}/>
 							</div> : 
