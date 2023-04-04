@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { collection_item_data } from '../../data/collection_data';
-import Auctions_dropdown from '../../components/dropdown/Auctions_dropdown';
-import Social_dropdown from '../../components/dropdown/Social_dropdown';
-import Collection_items from '../../components/collectrions/Collection_items';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
-import Link from 'next/link';
-import Head from 'next/head';
-import Meta from '../../components/Meta';
-import { getCollectionTokens } from "../../api/profile"
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css'; // optional
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
     useAccount,
 } from 'wagmi'
+
+import Meta from '../../components/Meta';
+import { getCollectionTokens } from "../../api/profile"
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
+import User_collection_items from '../../components/collectrions/user_collection_items';
 
 const Usercollection = () => {
     const [likesImage, setLikesImage] = useState(false);
@@ -42,8 +37,8 @@ const Usercollection = () => {
             getCollectionTokens(address, pid)
                 .then((response) => {
                     console.log(response.data)
-                    setcollection(response.data)
-                    setcollectiondetails(response.data.collection !== null ? response.data.collection : nill)
+                    setcollection(response.data.tokens)
+                    setcollectiondetails(response.data.collection !== null ? response.data.collection : null)
                     setisLoading(false)
                 })
         }
@@ -95,36 +90,14 @@ const Usercollection = () => {
                             </Tippy>
                         </div> : null}
 
-                        <p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg"></p>
-                        {createdat ? <span className="text-jacarta-400">Joined December {createdat}</span> : null}
-
-                        {/* <div className="mt-6 flex items-center justify-center space-x-2.5 relative"> */}
-                        {/* <div className="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white">
-										<div className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm">
-											<button onClick={() => handleLikes()}>
-												{likesImage ? (
-													<svg className="icon dark:fill-jacarta-200 fill-jacarta-500 h-4 w-4">
-														<use xlinkHref="/icons.svg#icon-heart-fill"></use>
-													</svg>
-												) : (
-													<svg className="icon dark:fill-jacarta-200 fill-jacarta-500 h-4 w-4">
-														<use xlinkHref="/icons.svg#icon-heart"></use>
-													</svg>
-												)}
-											</button>
-										</div>
-									</div> */}
-                        {/* 
-									<Social_dropdown />
-
-									<Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white relative" /> */}
-                        {/* </div> */}
+                        <p className="dark:text-jacarta-300 mx-auto mb-0 max-w-xl text-lg"></p>
+                        {createdat ? <span className="text-jacarta-400">Created {createdat}</span> : null}
                     </div>
                 </div>
 
             </div>
 
-            <Collection_items collection={collection} isloading={isloading} collectiondetails={collectiondetails} />
+            <User_collection_items collection={collection} isloading={isloading} collectiondetails={collectiondetails} />
         </>
     );
 };

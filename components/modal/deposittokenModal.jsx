@@ -5,12 +5,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSigner, useAccount } from 'wagmi'
 import { ethers } from "ethers";
 
-import { wrapCollectionModalHide, showToast } from '../../redux/counterSlice';
-import { createWrapcollection } from '../../api/mint';
-import RentWrapper from "../../contracts/RentWrapper.sol/RentWrapper.json"
+import { deposittokenModalHide, showToast } from '../../redux/counterSlice';
+import { depositNFT } from '../../api/mint';
+import WrapperContract from "../../contracts/RentWrapper.sol/RentWrapper.json"
+import RentContract from "../../contracts/AVFXRent.sol/AVFXRent.json"
 
-const WrapCollectionModal = () => {
-    const { wrapcollectionmodal, wrapcollectioncontent } = useSelector((state) => state.counter);
+const DepositTokenModal = () => {
+    const { deposittokenmodal, deposittokencontent } = useSelector((state) => state.counter);
     const dispatch = useDispatch();
     const { data: signer, isError, isLoading } = useSigner()
     const { address, isConnected } = useAccount()
@@ -18,68 +19,71 @@ const WrapCollectionModal = () => {
     const [Symbol, setSymbol] = useState({ value: "", errorVal: "" });
     const [isloading, setisloading] = useState(false);
 
-    const handleChange = (e, item) => {
-        switch (item) {
-            case "Name":
-                setName({ value: e.target.value, errorVal: "" })
-                break;
-            case "Symbol":
-                setSymbol({ value: e.target.value, errorVal: "" })
-                break;
-            default:
-                console.log(item)
-        }
-    };
+    console.log(deposittokencontent)
 
-    const saveWrapCollectionData = async (data) => {
-        await createWrapcollection(data)
+    const saveWrapedNftData = async (data) => {
+        await depositNFT(data)
             .then((response) => {
                 console.log(response)
             })
     }
 
-    const deployWrapper = async (e) => {
-        console.log(wrapcollectioncontent._id + " , " + Name.value + " , " + Symbol.value)
-        const WrapperToken = new ethers.ContractFactory(RentWrapper.abi, RentWrapper.bytecode, signer);
+    const depositToken = async () => {
+        const wrapper_address = deposittokencontent.coll.wrappedCollection
+        const tokenId = deposittokencontent.nft.token_id
+
+        console.log("Depositing " + wrapper_address + " , "+ tokenId)
+
         setisloading(true)
         try {
-            const Wrapper = await WrapperToken.deploy(wrapcollectioncontent._id, Name.value, Symbol.value);
-            await Wrapper.deployed()
-            console.log("Rentable 4907 Wrapper deployed to:", Wrapper.address, "for the 721 :", wrapcollectioncontent._id);
+            const wrapper_contract = new ethers.Contract(wrapper_address, WrapperContract.abi, signer)
+            const base_contract_address = await wrapper_contract.generalToken()
 
-            let wrappedCollection = {
-                "address": Wrapper.address,
-                "name": Name.value,
-                "symbol": Symbol.value,
-                "tokenType": "ERC4907",
-                "createdBy": address,
-                "baseCollection": wrapcollectioncontent._id
+            const token_contract = new ethers.Contract(base_contract_address, RentContract.abi, signer)
+
+            console.log("Approving Wrapper as operator of NFT...")
+            const approvalTx = await token_contract.approve(wrapper_address, tokenId)
+            await approvalTx.wait(1)
+
+            console.log("Wrapping and depositing NFT...")
+            const tx = await wrapper_contract.deposit(tokenId)
+
+            await tx.wait(1)
+
+            console.log(tx)
+            let wrappedNft = {
+                "coll_addr": wrapper_address,
+                "token_id" : tokenId,
+                "name": deposittokencontent.nft.name,
+                "desc" : deposittokencontent.nft.desc,
+                "uri": deposittokencontent.nft.uri,
+                "token_type": "ERC4907",
+                "owner": address,
+                "baseCollection": deposittokencontent.nft.coll_addr
             }
-            console.log("Saving wrapper : " + wrappedCollection)
-            saveWrapCollectionData(wrappedCollection)
+            console.log(wrappedNft)
+            saveWrapedNftData(wrappedNft)
             setisloading(false)
-            setName("");
-            setSymbol("")
-            dispatch(wrapCollectionModalHide())
-            dispatch(showToast(["success", "Wrapper collection created successfully"]))
+            dispatch(deposittokenModalHide())
+            dispatch(showToast(["success", "Token Deposited Successfully"]))
         } catch (error) {
             setisloading(false)
-            dispatch(wrapCollectionModalHide())
+            dispatch(deposittokenModalHide())
             dispatch(showToast(["error", error.message]))
         }
     }
     if (!isloading) {
-        if (wrapcollectioncontent) {
+        if (deposittokencontent) {
             return (
                 <div>
-                    <div className={wrapcollectionmodal ? 'modal fade show block' : 'modal fade'}>
+                    <div className={deposittokenmodal ? 'modal fade show block' : 'modal fade'}>
                         <div className="modal-dialog min-w-[35%]">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="buyNowModalLabel">
-                                        Wrap this collection
+                                        Deposit this token
                                     </h5>
-                                    <button type="button" className="btn-close" onClick={() => dispatch(wrapCollectionModalHide())}>
+                                    <button type="button" className="btn-close" onClick={() => dispatch(deposittokenModalHide())}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -99,12 +103,12 @@ const WrapCollectionModal = () => {
                                     <div className="dark:border-jacarta-600 border-jacarta-100 relative flex justify-center items-center border-b py-1">
                                         <figure className="self-center">
                                             <img
-                                                src={wrapcollectioncontent ? wrapcollectioncontent.coverImage : null}
+                                                src={deposittokencontent.nft ? deposittokencontent.nft.uri : null}
                                                 alt="CoverImage"
-                                                className="rounded-2lg object-contain h-30 w-80 self-center"
+                                                className="rounded-2lg object-contain h-48 w-96"
                                                 loading="lazy"
                                                 maxwidth="120px"
-                                                maxheight="80px"
+                                                maxheight="120px"
                                             />
                                         </figure>
                                     </div>
@@ -112,48 +116,47 @@ const WrapCollectionModal = () => {
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
                                             <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-                                                Collection ID to wrap
+                                                From Collection
                                             </label>
                                             <input
                                                 type="text"
                                                 readOnly
                                                 className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
-                                                value={wrapcollectioncontent ? wrapcollectioncontent._id : "Unknown"}
+                                                value={deposittokencontent.nft ? deposittokencontent.nft.coll_addr : "Unknown"}
                                             />
                                         </div>
                                     </div>
 
-                                    {/* <!-- New Token Name --> */}
+                                    {/* <!-- To Collection ID --> */}
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
                                             <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-                                                New token name
+                                                To Collection
                                             </label>
                                             <input
                                                 type="text"
+                                                readOnly
                                                 className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
-                                                placeholder="Enter token name..."
-                                                onChange={(e) => handleChange(e, "Name")}
-                                                value={Name.value}
+                                                value={deposittokencontent.coll ? deposittokencontent.coll.wrappedCollection : "Unknown"}
+                                            />
+                                        </div>
+                                    </div>
+                                    {/* <!-- Token ID --> */}
+                                    <div className="relative my-3 flex items-center">
+                                        <div className="flex-1">
+                                            <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
+                                                Token ID
+                                            </label>
+                                            <input
+                                                type="text"
+                                                readOnly
+                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
+                                                value={deposittokencontent.nft ? deposittokencontent.nft.token_id : "Unknown"}
                                             />
                                         </div>
                                     </div>
 
-                                    {/* <!-- New Token Symbol --> */}
-                                    <div className="relative my-3 flex items-center">
-                                        <div className="flex-1">
-                                            <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-                                                New token symbol
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border focus:ring-inset dark:text-white"
-                                                placeholder="Enter token symbol..."
-                                                onChange={(e) => handleChange(e, "Symbol")}
-                                                value={Symbol.value}
-                                            />
-                                        </div>
-                                    </div>
+
                                 </div>
                                 {/* <!-- end body --> */}
 
@@ -162,9 +165,9 @@ const WrapCollectionModal = () => {
                                         <button
                                             type="button"
                                             className="bg-accent shadow-accent-volume hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                                            onClick={deployWrapper}
+                                            onClick={depositToken}
                                         >
-                                            Deploy Wrapper
+                                            Deposit
                                         </button>
                                     </div>
                                 </div>
@@ -177,12 +180,12 @@ const WrapCollectionModal = () => {
     } else {
         return (
             <div>
-                <div className={wrapcollectionmodal ? 'modal fade show block' : 'modal fade'}>
+                <div className={deposittokenmodal ? 'modal fade show block' : 'modal fade'}>
                     <div className="modal-dialog max-w-xxl">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="addPropertiesLabel">
-                                    Waiting for wrapper deployment...
+                                    Waiting for token deposit...
                                 </h5>
                             </div>
                             <div className='modal-body p-6'>
@@ -200,4 +203,4 @@ const WrapCollectionModal = () => {
 };
 
 
-export default WrapCollectionModal;
+export default DepositTokenModal;

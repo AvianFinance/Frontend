@@ -21,10 +21,12 @@ const initialState = {
 	listrentmodal: false,
 	listinstallmentmodal: false,
 	wrapcollectionmodal: false,
+	deposittokenmodal: false,
 	listcontent: null,
 	listrentalcontent: null,
 	listinstallmentcontent: null,
 	wrapcollectioncontent: null,
+	deposittokencontent: null,
 	toaster: false,
 	toastertype: null,
 	toastermessage: null,
@@ -80,6 +82,10 @@ export const counterSlice = createSlice({
 			state.wrapcollectionmodal = true;
 			state.wrapcollectioncontent = payload.payload
 		},
+		depositTokenModalShow: (state, payload) => {
+			state.deposittokenmodal = true;
+			state.deposittokencontent = payload.payload
+		},
 		listbuyModalShow: (state, payload) => {
 			state.listbuymodal = true;
 			state.listcontent = payload.payload
@@ -98,6 +104,10 @@ export const counterSlice = createSlice({
 		wrapCollectionModalHide: (state) => {
 			state.wrapcollectionmodal = false;
 			state.wrapcollectioncontent = null;
+		},
+		deposittokenModalHide: (state) => {
+			state.deposittokenmodal = false;
+			state.deposittokencontent = null;
 		},
 		buyModalShow: (state, payload) => {
 			state.buyModal = true;
@@ -262,6 +272,8 @@ export const {
 	propartiesModalValue,
 	wrapCollectionModalShow,
 	wrapCollectionModalHide,
+	depositTokenModalShow,
+	deposittokenModalHide,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

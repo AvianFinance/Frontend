@@ -267,7 +267,7 @@ const Proparties_modal = () => {
 						<div className="modal-content">
 							<div className="modal-header">
 								<h5 className="modal-title" id="addPropertiesLabel">
-									Waiting for Model Creation
+									Waiting for Collection Creation
 								</h5>
 							</div>
 				  			<div className='modal-body p-6'>
