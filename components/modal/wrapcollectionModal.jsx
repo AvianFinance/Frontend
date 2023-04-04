@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router'
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -17,6 +17,7 @@ const WrapCollectionModal = () => {
     const [Name, setName] = useState({ value: "", errorVal: "" });
     const [Symbol, setSymbol] = useState({ value: "", errorVal: "" });
     const [isloading, setisloading] = useState(false);
+    const router = useRouter()
 
     const handleChange = (e, item) => {
         switch (item) {
@@ -62,6 +63,7 @@ const WrapCollectionModal = () => {
             setSymbol("")
             dispatch(wrapCollectionModalHide())
             dispatch(showToast(["success", "Wrapper collection created successfully"]))
+            router.reload(window.location.pathname)
         } catch (error) {
             setisloading(false)
             dispatch(wrapCollectionModalHide())
