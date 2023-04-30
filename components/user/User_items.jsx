@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Activity_item from '../collectrions/Activity_item';
 import Image from 'next/image';
+import { useSelector } from "react-redux";
 import Feature_collections_data from '../../data/Feature_collections_data';
 import Trending_categories_items from '../usercollections/trending_categories_items';
 
 import 'react-tabs/style/react-tabs.css';
 import Explore_collection_item from '../collectrions/explore_collection_item_buy';
+import { isloading } from "../../redux/counterSlice";
 import Explore_collection_item_user from '../collectrions/explore_collection_item_user';
 import {
 	useAccount,
@@ -18,6 +20,9 @@ import { getcollected, getowned, getcollections, getListed, getLended, getRented
 
 const User_items = (user_address) => {
 	const mountedcontent = isMounted
+	const { isloading } = useSelector(
+		(state) => state.counter
+	  );
 	const { address, isConnected } = useAccount()
 	const [collectedNFT, setCollectedNFT] = useState([])
 	const [ownednft, setOwnedNFT] = useState([])
@@ -41,7 +46,10 @@ const User_items = (user_address) => {
 							token: data.token_type
 						},
 						token_address : data.coll_addr,
-						token_id : data.token_id
+						token_id : data.token_id,
+						sell_listed_status: data.sell_listed_status,
+						rent_listed_status: data.rent_listed_status,
+						inst_listed_status: data.inst_listed_status
 					}))
 				}
 				setlisted(listednfts)

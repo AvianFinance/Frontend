@@ -6,34 +6,19 @@ const footerMenuList = [
     list: [
       {
         id: 1,
-        href: "#",
+        href: "http://localhost:3000/collection/explore_collection",
         text: "All NFTs",
       },
       {
         id: 2,
         href: "#",
-        text: "art",
+        text: "Rentable NFTs",
       },
       {
         id: 3,
         href: "#",
-        text: "music",
-      },
-      {
-        id: 4,
-        href: "#",
-        text: "domain names",
-      },
-      {
-        id: 5,
-        href: "#",
-        text: "collections",
-      },
-      {
-        id: 6,
-        href: "#",
-        text: "virtual world",
-      },
+        text: "Mint NFTs",
+      }
     ],
   },
   {
@@ -44,25 +29,20 @@ const footerMenuList = [
       {
         id: 1,
         href: "#",
-        text: "Explore",
+        text: "About",
       },
       {
         id: 2,
         href: "#",
-        text: "About",
+        text: "Contact Us",
       },
       {
         id: 3,
         href: "#",
-        text: "Contact Us",
-      },
-      {
-        id: 4,
-        href: "#",
         text: "Our Blog",
       },
       {
-        id: 5,
+        id: 4,
         href: "#",
         text: "FAQ",
       },
@@ -76,23 +56,13 @@ const footerMenuList = [
       {
         id: 1,
         href: "#",
-        text: "Authors",
+        text: "Author Profile",
       },
       {
         id: 2,
         href: "#",
-        text: "Collection",
-      },
-      {
-        id: 3,
-        href: "#",
-        text: "Author Profile",
-      },
-      {
-        id: 4,
-        href: "#",
-        text: "Create Item",
-      },
+        text: "Edit Profile",
+      }
     ],
   },
 ];

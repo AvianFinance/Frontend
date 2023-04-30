@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { installmentModalHide } from '../../redux/counterSlice';
 import { ListInstallment } from '../metamask/Metamask';
@@ -8,9 +8,12 @@ const InstallmentListModal = () => {
 	const { listinstallmentmodal, listinstallmentcontent } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
-
+	const [checked, setChecked] = useState(false)
 	// console.log(listinstallmentcontent)
 	// console.log(listinstallmentmodal)
+	useEffect(() => {
+		setChecked(false)
+	}, [listinstallmentmodal]);
 
 	if(listinstallmentcontent){
 		return (
@@ -114,6 +117,7 @@ const InstallmentListModal = () => {
 								<div className="mt-4 flex items-center space-x-2">
 									<input
 										type="checkbox"
+										onClick={() => setChecked(true)}
 										id="buyNowTerms"
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 									/>
@@ -129,7 +133,7 @@ const InstallmentListModal = () => {
 	
 							<div className="modal-footer">
 								<div className="flex items-center justify-center space-x-4">
-									<ListInstallment priceforday={priceforday} listinstallmentcontent={listinstallmentcontent? listinstallmentcontent :null}/>
+									<ListInstallment priceforday={priceforday} listinstallmentcontent={listinstallmentcontent? listinstallmentcontent :null} checked={checked}/>
 								</div>
 							</div>
 						</div>

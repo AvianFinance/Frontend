@@ -928,12 +928,16 @@ const MblNavbar = ({ theme }) => {
 							</a>
 						</Link>
 						<Link href="/" >
-							<a onClick={() => {disconnect; setProfileShow(false)}} className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+							<a onClick={() => {
+								disconnect
+								setProfileShow(false)
+								}} className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									viewBox="0 0 24 24"
 									width="24"
 									height="24"
+									onClick={disconnect}
 									className="fill-jacarta-700 h-4 w-4 transition-colors dark:fill-white"
 								>
 									<path fill="none" d="M0 0h24v24H0z"></path>

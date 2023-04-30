@@ -11,11 +11,13 @@ const BuyModal = () => {
 	const dispatch = useDispatch();
 	const { data: signer, isError } = useSigner()
 	const [numofDays, setnumofDays] = useState(0)
+	const [checked, setChecked] = useState(false)
 	// console.log(collectionsdata)
 
 	useEffect(() => {
 		console.log("reloaded")
-	}, [isloading]);
+		setChecked(false)
+	}, [buyModal]);
 
 
 	if(exploretype==="buy"){
@@ -105,6 +107,8 @@ const BuyModal = () => {
 									<input
 										type="checkbox"
 										id="buyNowTerms"
+										onClick={() => setChecked(!checked)}
+										defaultChecked={checked}
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 									/>
 									<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
@@ -119,7 +123,7 @@ const BuyModal = () => {
 	
 							<div className="modal-footer">
 								<div className="flex items-center justify-center space-x-4">
-									<Confirm_checkout payload={collectionsdata} numofDays={1}/>
+									<Confirm_checkout payload={collectionsdata} numofDays={1} checked={checked}/>
 								</div>
 							</div>
 						</div>
@@ -129,7 +133,7 @@ const BuyModal = () => {
 		);
 	} else {
 		// console.log(collectionsdata)
-		if(!isloading){
+		// if(!isloading){
 			return (
 				<div>
 					{/* <!-- Buy Now Modal --> */}
@@ -243,10 +247,12 @@ const BuyModal = () => {
 									</div>
 		
 									{/* <!-- Terms --> */}
-									{/* <div className="mt-4 flex items-center space-x-2">
+									<div className="mt-4 flex items-center space-x-2">
 										<input
 											type="checkbox"
 											id="buyNowTerms"
+											onClick={() => setChecked(!checked)}
+											checked={false}
 											className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 										/>
 										<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
@@ -255,13 +261,13 @@ const BuyModal = () => {
 												<a className="text-accent">Terms of Service</a>
 											</Link>
 										</label>
-									</div> */}
+									</div>
 								</div>
 								{/* <!-- end body --> */}
 		
 								<div className="modal-footer">
 									<div className="flex items-center justify-center space-x-4">
-										<PayRental payload={collectionsdata} numofDays={numofDays}/>
+										<PayRental payload={collectionsdata} numofDays={numofDays} checked={checked}/>
 									</div>
 								</div>
 							</div>
@@ -269,28 +275,28 @@ const BuyModal = () => {
 					</div>
 				</div>
 			);
-		} else {
-			return (
-				<div>
-					<div className={buyModal ? 'modal fade show block' : 'modal fade'}>
-						<div className="modal-dialog max-w-xxl">
-							<div className="modal-content">
-								<div className="modal-header">
-									<h5 className="modal-title" id="addPropertiesLabel">
-										Waiting for Completion of transaction
-									</h5>
-								</div>
-								  <div className='modal-body p-6'>
-								  <div className="flex justify-center items-center">
-									  <CircularProgress/>
-								  </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			)
-		}
+		// } else {
+		// 	return (
+		// 		<div>
+		// 			<div className={buyModal ? 'modal fade show block' : 'modal fade'}>
+		// 				<div className="modal-dialog max-w-xxl">
+		// 					<div className="modal-content">
+		// 						<div className="modal-header">
+		// 							<h5 className="modal-title" id="addPropertiesLabel">
+		// 								Waiting for Completion of transaction
+		// 							</h5>
+		// 						</div>
+		// 						  <div className='modal-body p-6'>
+		// 						  <div className="flex justify-center items-center">
+		// 							  <CircularProgress/>
+		// 						  </div>
+		// 						</div>
+		// 					</div>
+		// 				</div>
+		// 			</div>
+		// 		</div>
+		// 	)
+		// }
 		
 	}
 	

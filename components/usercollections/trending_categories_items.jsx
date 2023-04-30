@@ -120,7 +120,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 		
 					{/* <!-- Grid --> */}
 		
-					<ListedCategory collectedNFT={filterName.collectedNFT}/>
+					<ListedCategory collectedNFT={filterName.collectedNFT} filterVal={filterVal}/>
 				</>
 			);
 			break;
@@ -191,7 +191,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 		
 					{/* <!-- Grid --> */}
 		
-					<CollectedCategory collectedNFT={filterName.collectedNFT}/>
+					<CollectedCategory collectedNFT={filterName.collectedNFT} filterVal={filterVal}/>
 				</>
 			);
 			break;
@@ -262,7 +262,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 		
 					{/* <!-- Grid --> */}
 		
-					<CreatedCategory  collectedNFT={filterName.collectedNFT}/>
+					<CreatedCategory  collectedNFT={filterName.collectedNFT} filterVal={filterVal}/>
 				</>
 			);
 			break;

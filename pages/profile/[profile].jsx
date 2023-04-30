@@ -139,8 +139,8 @@ const Edit_user = () => {
 		}
 		getUser(address)
 			.then((response) => {
-				// console.log(response.data)
-				if (typeof(response.data) != "undefined"){
+				console.log(response.data)
+				if (typeof(response.data) != "undefined" && response.data != null){
 					setuserName({value:response.data.name,errorVal:""})
 					setBio({value:response.data.bio,errorVal:""})
 					setemail({value:response.data.email,errorVal:""})

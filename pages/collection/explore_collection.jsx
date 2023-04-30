@@ -31,7 +31,7 @@ const Explore_collection = () => {
   const [filtered, setfiltered] = useState()
 
   const handleItemFilter = (text) => {
-    if (text === "Upright") {
+    if (filterVal === 0) {
       setfiltered(collections.upright)
     } else {
       setfiltered(collections.inst)
@@ -50,7 +50,8 @@ const Explore_collection = () => {
         .then((response) => {
           // console.log(response.data)
           setCollections(response.data)
-          setfiltered(response.data.upright)
+
+          filterVal === 0 ? setfiltered(response.data.upright) : setfiltered(response.data.inst)
           setisLoading(true)
         })
     } else {
@@ -62,7 +63,7 @@ const Explore_collection = () => {
           setisLoading(true)
         })
     }
-	},[exploretype]);
+	},[exploretype, filterVal]);
 
     return (
       <>
@@ -85,15 +86,15 @@ const Explore_collection = () => {
             {/* <!-- Filter --> */}
             {exploretype==="rent" ? <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
-                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
+                {[{id: 0, svg: "art", text: "Upright",}, {id: 1,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
                   if (text === "all") {
                     return (
                       <li
                         className="my-1 mr-2.5"
                         key={id}
                         onClick={() => {
-                          handleItemFilter(text);
-                          setFilterVal(id);
+                          handleItemFilter(text)
+                          setFilterVal(id)
                         }}
                       >
                         <button

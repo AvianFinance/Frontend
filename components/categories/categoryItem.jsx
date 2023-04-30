@@ -24,7 +24,7 @@ const CategoryItem = (collection) => {
   const { address } = useAccount()
 
   const handleItemFilter = (text) => {
-    if (text === "Upright") {
+    if (filterVal === 0) {
       setfiltered(nftitems.upright)
     } else {
       setfiltered(nftitems.inst)
@@ -39,12 +39,12 @@ const CategoryItem = (collection) => {
     settype(exploretype)
     if(exploretype=="rent"){
       setItems(collection.collection.collection)
-      setfiltered(collection.collection.collection.upright)
+      filterVal === 0 ? setfiltered(collection.collection.collection.upright) : setfiltered(collection.collection.collection.inst)
     } else{
       setItems(collection.collection.collection)
       setfiltered(collection.collection.collection)
     }
-	}, [collection, exploretype]);
+	}, [collection, exploretype, filterVal]);
 
   console.log(filtered)
   if(filtered.length>0){
@@ -54,14 +54,14 @@ const CategoryItem = (collection) => {
           {exploretype=="rent" ? 
           <div className="mb-8 flex flex-wrap items-start justify-between">
               <ul className="flex flex-wrap items-center">
-                {[{id: 1, svg: "art", text: "Upright",}, {id: 3,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
+                {[{id: 0, svg: "art", text: "Upright",}, {id: 1,svg: "domain",text: "Installment",}].map(({ id, svg, text }) => {
                   if (text === "all") {
                     return (
                       <li
                         className="my-1 mr-2.5"
                         key={id}
                         onClick={() => {
-                          handleItemFilter(text);
+                          handleItemFilter(text)
                           setFilterVal(id);
                         }}
                       >

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { buylistModalHide } from '../../redux/counterSlice';
 import { ListSell } from '../metamask/Metamask';
@@ -8,9 +8,13 @@ const BuyModal = () => {
 	const { listbuymodal, listcontent } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
+	const [checked, setChecked] = useState(false)
 
 	// console.log(listcontent)
 	// console.log(listbuymodal)
+	useEffect(() => {
+		setChecked(false)
+	}, [listbuymodal]);
 
 	if(listcontent){
 		return (
@@ -116,6 +120,7 @@ const BuyModal = () => {
 										type="checkbox"
 										id="buyNowTerms"
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+										onClick={() => setChecked(true)}
 									/>
 									<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
 										By checking this box, I agree to {"Xhibiter's"}{' '}
@@ -129,7 +134,7 @@ const BuyModal = () => {
 	
 							<div className="modal-footer">
 								<div className="flex items-center justify-center space-x-4">
-									<ListSell priceforday={priceforday} listcontent={listcontent? listcontent :null}/>
+									<ListSell priceforday={priceforday} listcontent={listcontent? listcontent :null} checked={checked}/>
 								</div>
 							</div>
 						</div>

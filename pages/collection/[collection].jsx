@@ -13,13 +13,18 @@ import { getbuycollection, getrentalcollection } from "../../api/buynft"
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CircularProgress from '@mui/material/CircularProgress';
+import { isloading } from "../../redux/counterSlice";
 
 const Collection = () => {
+	const { sortedtrendingCategoryItemData, isloading } = useSelector(
+		(state) => state.counter
+	  );
 	const [likesImage, setLikesImage] = useState(false);
 	const { exploretype } = useSelector((state) => state.counter);
 	const router = useRouter();
 	const pid = router.query.collection;
-	const [isloading, setisLoading] = useState(false)
+	const [localisloading, setisLoading] = useState(false)
 	const [collection, setcollection] = useState([])
 	const [collectiondetails, setcollectiondetails] = useState()
 	const [copied, setCopied] = useState(false);
@@ -42,7 +47,7 @@ const Collection = () => {
 				.then((response) => {
 					// console.log(response.data)
 					setcollection(response.data)
-					setcollectiondetails(response.data.collection !== null ? response.data.collection : nill)
+					setcollectiondetails((typeof(response.data) !== "undefined" && response.data.collection !== null) ? response.data.collection : nill)
 					setisLoading(false)
 				})
 		}
@@ -131,7 +136,24 @@ const Collection = () => {
 
 			</div>
 
-			<Collection_items collection={collection} isloading={isloading} collectiondetails={collectiondetails} />
+			<div className={isloading ? 'modal fade show block' : 'modal fade'}>
+				<div className="modal-dialog max-w-xxl">
+				<div className="modal-content">
+					<div className="modal-header">
+					<h5 className="modal-title" id="addPropertiesLabel">
+						Processing for NFT Buying
+					</h5>
+					</div>
+					<div className='modal-body p-6'>
+					<div className="flex justify-center items-center">
+						<CircularProgress/>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+
+			<Collection_items collection={collection} isloading={localisloading} collectiondetails={collectiondetails} />
 		</>
 	);
 };

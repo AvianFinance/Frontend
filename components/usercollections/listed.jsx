@@ -8,16 +8,44 @@ import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { buyModalShow } from "../../redux/counterSlice";
 
-const Listed = (collectedNFT) => {
+const Listed = (collectedNFT, filterVal) => {
   const { sortedtrendingCategoryItemData } = useSelector(
     (state) => state.counter
   );
   const dispatch = useDispatch();
+  console.log(collectedNFT)
+  const [nfts, setNfts] = useState([]);
+  let filtered
+ 
+  if(collectedNFT.filterVal == 3){
+    filtered = collectedNFT.collectedNFT.filter((item) => {
+        return item.inst_listed_status === true;
+    });
+  }
+  else if(collectedNFT.filterVal === 1){
+    filtered = collectedNFT.collectedNFT.filter((item) => {
+        // console.log(item)
+        return item.sell_listed_status === true;
+    });
+  }
+  else if(collectedNFT.filterVal === 2){
+    filtered = collectedNFT.collectedNFT.filter((item) => {
+        return item.rent_listed_status === true;
+    });
+  }
+  else{
+    filtered = collectedNFT.collectedNFT.map((item) => {
+        return item;
+    });
+  }
 
-  if(collectedNFT){
+
+  // setNfts(filtered)
+
+  if(nfts){
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-        {collectedNFT.collectedNFT.map((item, index) => {
+        {filtered.map((item, index) => {
           const id = index
           let image
           let title

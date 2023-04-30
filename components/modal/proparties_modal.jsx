@@ -84,7 +84,7 @@ const Proparties_modal = () => {
 			}
 			// console.log(obj)
 
-			saveData(obj)
+			await saveData(obj)
 			setisloading(false)
 			dispatch(closePropatiesModal())
 			dispatch(showToast(["success","Collection created successfully"]))

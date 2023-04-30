@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { useRouter } from 'next/router';
 import { useMetaMask } from 'metamask-react';
 import { useDispatch } from 'react-redux';
 import { walletModalShow } from '../../redux/counterSlice';
@@ -201,10 +202,12 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 		useConnect()
 	const { disconnect } = useDisconnect()
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	
 
 	const listNFTrentalINS = async () => {
+		dispatch(setisloading())
 		dispatch(installmentModalHide())
 		// console.log(priceforday)
 		try{
@@ -242,10 +245,12 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 
 			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
+			router.push(`/collection/explore_collection`)
 		}
 		catch(error){
-			dispatch(showToast(["error",error]))
+			dispatch(showToast(["error",'Error occured while listing NFT!']))
 		}	
+		dispatch(setisloading())
 	}
 
 	if (isConnected) {
@@ -290,9 +295,11 @@ const ListSell = (priceforday, listcontent) => {
 		useConnect()
 	const { disconnect } = useDisconnect()
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	
 	const listNFTsell = async () => {
+		dispatch(setisloading())
 		dispatch(buylistModalHide())
 		try {
 			const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
@@ -330,9 +337,13 @@ const ListSell = (priceforday, listcontent) => {
 
 			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
+			router.push(`/collection/explore_collection`)
 		} catch(error){
-			dispatch(showToast(["error",error]))
+			console.log(error)
+			dispatch(showToast(["error",'Error occured while listing NFT!']))
 		}	
+		dispatch(setisloading())
+		
 	}
 
 	if (isConnected) {
@@ -341,6 +352,7 @@ const ListSell = (priceforday, listcontent) => {
 				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				onClick={listNFTsell}
 				type="button"
+				disabled={priceforday.checked === false}
 			>
 				List Sell
 			</button>
@@ -377,6 +389,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 		useConnect()
 	const { disconnect } = useDisconnect()
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
         rexchange_token,
@@ -391,6 +404,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
     );
 
 	const listNFTrental = async () => {
+		dispatch(setisloading())
 		dispatch(rentlistModalHide())
 		try{
 			// console.log(priceforday.listrentalcontent)
@@ -413,9 +427,11 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 
 			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
+			router.push(`/collection/explore_collection`)
 		} catch(error){
-			dispatch(showToast(["error",error]))
+			dispatch(showToast(["error",'Error occured while listing NFT!']))
 		}	
+		dispatch(setisloading())
 	}
 
 	if (isConnected) {
@@ -424,6 +440,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				onClick={listNFTrental}
 				type="button"
+				disabled={priceforday.checked === false}
 			>
 				List Rental
 			</button>
@@ -507,7 +524,7 @@ const PayRental = (payload, numofDays) => {
 				dispatch(showToast(["success","NFT Bought!"]))
 			} catch(error){
 				dispatch(buyModalHide())
-				dispatch(showToast(["error",error]))
+				dispatch(showToast(["error",'Error while buying NFT']))
 			}	
 
 		} else {
@@ -546,7 +563,7 @@ const PayRental = (payload, numofDays) => {
 				} catch(error){
 					console.log(error)
 					dispatch(buyModalHide())
-					dispatch(showToast(["error",error]))
+					dispatch(showToast(["error",'Error while renting NFT']))
 				}
 			} else {
 				
@@ -595,6 +612,7 @@ const PayRental = (payload, numofDays) => {
 				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				onClick={buyNFT}
 				type="button"
+				disabled={payload.checked === false}
 			>
 				Confirm Checkout
 			</button>
@@ -641,6 +659,7 @@ const Confirm_checkout = (payload) => {
     );
 	
 	const buyNFT = async () => {
+		dispatch(setisloading())
 		dispatch(buyModalHide())
 		if(exploretype==="buy"){
 			try{
@@ -670,7 +689,7 @@ const Confirm_checkout = (payload) => {
 				})
 				dispatch(showToast(["success","NFT Bought!"]))
 			} catch(error){
-				dispatch(showToast(["error",error]))
+				dispatch(showToast(["error",'Error while buying NFT']))
 			}	
 		} else {
 			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString()))
@@ -681,9 +700,10 @@ const Confirm_checkout = (payload) => {
 				})
 				dispatch(showToast(["success","NFT Bought!"]))
 			} catch(error){
-				dispatch(showToast(["error",error]))
+				dispatch(showToast(["error",'Error while buying NFT']))
 			}			
 		}
+		dispatch(setisloading())
 	}
 
 	useEffect(() => {
@@ -698,6 +718,7 @@ const Confirm_checkout = (payload) => {
 			<button
 				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				onClick={buyNFT}
+				disabled={payload.checked === false}
 				type="button"
 			>
 				Confirm Checkout

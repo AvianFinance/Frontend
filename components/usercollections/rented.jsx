@@ -14,10 +14,28 @@ const Rented = (collectedNFT) => {
   );
   const dispatch = useDispatch();
 
+  let filtered
+ 
+  if(collectedNFT.filterVal == 1){
+    filtered = collectedNFT.collectedNFT.filter((item) => {
+        return item.tokenUriRes.token === "ERC721";
+    });
+  }
+  else if(collectedNFT.filterVal === 2){
+    filtered = collectedNFT.collectedNFT.filter((item) => {
+      return item.tokenUriRes.token === "ERC4907";
+    });
+  }
+  else{
+    filtered = collectedNFT.collectedNFT.map((item) => {
+        return item;
+    });
+  }
+
   if(collectedNFT){
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-        {collectedNFT.collectedNFT.map((item, index) => {
+        {filtered.map((item, index) => {
           const id = index
           let image
           let title

@@ -97,7 +97,7 @@ const Hero_5 = () => {
 											<article>
 												<div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
 													<figure className="relative">
-														<Link href={`/item/${itemLink}`}>
+														<Link href={`#`}>
 															<a>
 																<img
 																	src={img}
@@ -111,7 +111,7 @@ const Hero_5 = () => {
 													</figure>
 													<div className="p-6">
 														<div className="flex">
-															<Link href="/user/avatar_6">
+															<Link href="#">
 																<a className="shrink-0">
 																	<img
 																		src={authorImage}
@@ -121,14 +121,14 @@ const Hero_5 = () => {
 																</a>
 															</Link>
 															<div>
-																<Link href={`/item/${itemLink}`}>
+																<Link href={`#`}>
 																	<a className="block">
 																		<span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
 																			{title}
 																		</span>
 																	</a>
 																</Link>
-																<Link href="/user/avatar_6">
+																<Link href="#">
 																	<a className="text-2xs text-accent">{authorName}</a>
 																</Link>
 															</div>
@@ -151,7 +151,7 @@ const Hero_5 = () => {
 															<article>
 																<div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
 																	<figure className="relative">
-																		<Link href={`/item/${itemLink}`}>
+																		<Link href={`#`}>
 																			<a>
 																				<img
 																					src={img}
@@ -165,7 +165,7 @@ const Hero_5 = () => {
 																	</figure>
 																	<div className="p-6">
 																		<div className="flex">
-																			<Link href="/user/avatar_6">
+																			<Link href="#">
 																				<a className="shrink-0">
 																					<img
 																						src={authorImage}
@@ -175,14 +175,14 @@ const Hero_5 = () => {
 																				</a>
 																			</Link>
 																			<div>
-																				<Link href={`/item/${itemLink}`}>
+																				<Link href={`#`}>
 																					<a className="block">
 																						<span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
 																							{title}
 																						</span>
 																					</a>
 																				</Link>
-																				<Link href="/user/avatar_6">
+																				<Link href="#">
 																					<a className="text-2xs text-accent">{authorName}</a>
 																				</Link>
 																			</div>
