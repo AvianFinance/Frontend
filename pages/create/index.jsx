@@ -164,23 +164,27 @@ const Create = () => {
     setisLoading(false)
     setisminting(true)
     try{
-      let obj ={
-        nftName : name.value,
-        nftDescription : description.value,
-        uri : ipfs.value,
-        coll_addr : activeItem
-      }
-      // console.log(obj)
-  
-      let responseipfs
-  
-      await uploadIPFS(obj)
-        .then((response) => {
-          responseipfs = response.data
-        })
-  
-      await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
-      dispatch(showToast(["success","NFT Minted!"]))
+      if(name.value == "" | description.value == "" | ipfs.value == "" | activeItem == "") {
+        dispatch(showToast(["error","Provide all the required details"]))
+      } else {
+        let obj ={
+          nftName : name.value,
+          nftDescription : description.value,
+          uri : ipfs.value,
+          coll_addr : activeItem
+        }
+        // console.log(obj)
+    
+        let responseipfs
+    
+        await uploadIPFS(obj)
+          .then((response) => {
+            responseipfs = response.data
+          })
+    
+        await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
+        dispatch(showToast(["success","NFT Minted!"]))
+      }  
     } catch(error){
       dispatch(showToast(["error",error.message]))
       console.log(error.message)
@@ -324,7 +328,7 @@ const Create = () => {
                   htmlFor="item-description"
                   className="font-display text-jacarta-700 mb-2 block dark:text-white"
                 >
-                  IPFS Link
+                  IPFS Link<span className="text-red">*</span>
                 </label>
                 <input
                   type="text"
@@ -343,7 +347,7 @@ const Create = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                      Collection
+                      Collection<span className="text-red">*</span>
                     </label>
                     <div className="mb-3 flex items-center space-x-2">
                       <p className="dark:text-jacarta-300 text-2xs">

@@ -108,7 +108,6 @@ const BuyModal = () => {
 										type="checkbox"
 										id="buyNowTerms"
 										onClick={() => setChecked(!checked)}
-										defaultChecked={checked}
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 									/>
 									<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
@@ -252,7 +251,6 @@ const BuyModal = () => {
 											type="checkbox"
 											id="buyNowTerms"
 											onClick={() => setChecked(!checked)}
-											checked={false}
 											className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 										/>
 										<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">

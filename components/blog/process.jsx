@@ -40,8 +40,7 @@ const Process = () => {
 								Connect your Wallet
 							</h3>
 							<p className="dark:text-jacarta-300">
-								Once {"you've"} set up your wallet of choice, connect it to OpenSeaby clicking the
-								NFT Marketplacein the top right corner.
+								To deal with NFTs, you will need to connect with Metamask. If the Metamask window does not pop up, please ensure that your browser is compatible with Metamask.
 							</p>
 						</div>
 						<div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-10 shadow-[0_5px_0_0_#10b981] transition-shadow hover:shadow-[0_16px_24px_-8px_rgba(16,185,129,.3)] dark:border-jacarta-700 dark:bg-jacarta-700">

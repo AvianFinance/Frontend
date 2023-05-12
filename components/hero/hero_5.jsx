@@ -1,10 +1,20 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { hero_5_data } from '../../data/coverflow_data';
 import { useSelector, useDispatch } from 'react-redux';
 import { explorecollections } from '../../redux/counterSlice';
+import {getBasicData} from '../../api/landing'
 
 const Hero_5 = () => {
+	const [basicInfo, setbasicInfo] = useState(0)
+	useEffect(() => {
+		console.log('hero5 called1')
+		getBasicData()
+			.then((response) => {
+				setbasicInfo(response.data)
+			})
+	}, [basicInfo]);
+
 	const dispatch = useDispatch();
 	return (
 		<>
@@ -22,27 +32,27 @@ const Hero_5 = () => {
 						<div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
 							<div className="mb-10 w-full sm:flex sm:space-x-4">
 								<div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-									<span className="block font-display text-3xl text-[#8DD059]">10,568</span>
+									<span className="block font-display text-3xl text-[#8DD059]">{basicInfo ? basicInfo.collections_count : '- -' }</span>
 									<span className="block font-display text-sm text-jacarta-500 dark:text-white">
 										Collectibles
 									</span>
 								</div>
 								<div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-									<span className="block font-display text-3xl text-[#737EF2]">1,200</span>
+									<span className="block font-display text-3xl text-[#737EF2]">{basicInfo ? basicInfo.nft_count : '- -' }</span>
 									<span className="block font-display text-sm text-jacarta-500 dark:text-white">
-										Auctions
+										Minted NFTs
 									</span>
 								</div>
 								<div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-									<span className="block font-display text-3xl text-[#F35BC7]">6,897</span>
+									<span className="block font-display text-3xl text-[#F35BC7]">{basicInfo ? basicInfo.users_count : '- -' }</span>
 									<span className="block font-display text-sm text-jacarta-500 dark:text-white">
 										Artists
 									</span>
 								</div>
 							</div>
-							<h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
-								Buy and Sell Digital Art and NFT’s
-							</h1>
+							<h2 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
+								Buy, Rent and Sell NFT’s
+							</h2>
 							<p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
 								The {"world's"} largest digital marketplace for crypto collectibles and non-fungible
 								tokens
