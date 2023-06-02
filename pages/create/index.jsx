@@ -24,6 +24,7 @@ import { showToast, propartiesModalValue } from '../../redux/counterSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
 import RimeToken from "../../contracts/AVFXGeneral.sol/AVFXGeneral.json"
+import Error from "next/error";
 
 const Create = () => {
   const { propartiesModalValue } = useSelector((state) => state.counter);
@@ -173,21 +174,22 @@ const Create = () => {
           uri : ipfs.value,
           coll_addr : activeItem
         }
-        // console.log(obj)
-    
+
         let responseipfs
     
         await uploadIPFS(obj)
           .then((response) => {
+            if (response.error){
+              throw new Error(response.error.response.data.message)
+            }
             responseipfs = response.data
+            console.log(responseipfs)
           })
-    
         await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
         dispatch(showToast(["success","NFT Minted!"]))
       }  
     } catch(error){
-      dispatch(showToast(["error",error.message]))
-      console.log(error.message)
+      dispatch(showToast(["error",error.props]))
     }
     setisLoading(true)
   }
