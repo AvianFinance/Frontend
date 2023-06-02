@@ -326,31 +326,31 @@ const MblNavbar = ({ theme }) => {
 			text: 'Help Center',
 			href: '/help_center',
 		},
-		{
-			id: 26,
-			text: 'Platform Status',
-			href: '/platform_status',
-		},
-		{
-			id: 27,
-			text: 'Partners',
-			href: '/partners',
-		},
+		// {
+		// 	id: 26,
+		// 	text: 'Platform Status',
+		// 	href: '/platform_status',
+		// },
+		// {
+		// 	id: 27,
+		// 	text: 'Partners',
+		// 	href: '/partners',
+		// },
 		{
 			id: 28,
 			text: 'Blog',
 			href: '/blog',
 		},
-		{
-			id: 29,
-			text: 'Single Post',
-			href: '/single_post/post_1',
-		},
-		{
-			id: 30,
-			text: 'Newsletter',
-			href: '/newsletter',
-		},
+		// {
+		// 	id: 29,
+		// 	text: 'Single Post',
+		// 	href: '/single_post/post_1',
+		// },
+		// {
+		// 	id: 30,
+		// 	text: 'Newsletter',
+		// 	href: '/newsletter',
+		// },
 	];
 
 	// console.log(profileShow)

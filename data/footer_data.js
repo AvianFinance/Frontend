@@ -1,4 +1,5 @@
-const footerMenuList = [
+const footerMenuList =
+[
   {
     id: 1,
     title: "Marketplace",
@@ -11,12 +12,7 @@ const footerMenuList = [
       },
       {
         id: 2,
-        href: "#",
-        text: "Rentable NFTs",
-      },
-      {
-        id: 3,
-        href: "#",
+        href: "http://localhost:3000/create",
         text: "Mint NFTs",
       }
     ],
@@ -27,24 +23,14 @@ const footerMenuList = [
     diffClass: "",
     list: [
       {
-        id: 1,
-        href: "#",
-        text: "About",
-      },
-      {
         id: 2,
-        href: "#",
-        text: "Contact Us",
-      },
-      {
-        id: 3,
-        href: "#",
+        href: "http://localhost:3000/blog",
         text: "Our Blog",
       },
       {
-        id: 4,
-        href: "#",
-        text: "FAQ",
+        id: 2,
+        href: "http://localhost:3000/help_center",
+        text: "Help Center",
       },
     ],
   },
@@ -55,12 +41,12 @@ const footerMenuList = [
     list: [
       {
         id: 1,
-        href: "#",
+        href: "http://localhost:3000/user/",
         text: "Author Profile",
       },
       {
         id: 2,
-        href: "#",
+        href: "http://localhost:3000/profile/user_avatar",
         text: "Edit Profile",
       }
     ],

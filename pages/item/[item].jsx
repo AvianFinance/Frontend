@@ -47,9 +47,11 @@ const Item = () => {
 			getNFTDetails(address,tokenId)
 				.then((res) => {
 					console.log(res)
-					setnftdata(res.data.nft)
-					setcollection(res.data.collection)
-					setlisting(res.data.listing ? res.data.listing[0] : null)
+					if(res.data){
+						setnftdata(res.data.nft)
+						setcollection(res.data.collection)
+						setlisting(res.data.listing ? res.data.listing[0] : null)
+					}
 				})
 			getNFTactivities(address,tokenId)
 				.then((res) => {

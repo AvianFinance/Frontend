@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { collection_activity_item_data } from '../../data/collection_data';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getNFTColactivities } from "../../api/nft";
 
-const Activity_item = () => {
+const Activity_item = (address) => {
 	const [filterVal, setFilterVal] = useState(null);
 	function onlyUnique(value, index, self) {
 		return self.indexOf(value) === index;
 	}
+
+	useEffect(() => {
+		getNFTColactivities(address.address)
+				.then((res) => {
+					console.log(res)
+				})
+	}, [address]);
 
 	const [data, setData] = useState(collection_activity_item_data);
 	const [filterData, setfilterData] = useState(

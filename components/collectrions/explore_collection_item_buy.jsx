@@ -122,7 +122,7 @@ const Explore_collection_item = ({itemFor, collections}) => {
 											</a>
 										</Link>
 									</div>
-									<span className="dark:text-jacarta-300 text-sm">{itemsCount} Items</span>
+									{/* <span className="dark:text-jacarta-300 text-sm">{itemsCount} Items</span> */}
 								</div>
 							</div>
 						</article>

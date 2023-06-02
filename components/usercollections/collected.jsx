@@ -58,6 +58,7 @@ const Collected = (collectedNFT) => {
             let	rent_listed_status
             let	sell_listed_status 
             let owner
+            let user
             if(item.tokenUriRes){
               image = item.tokenUriRes.image 
               title = item.tokenUriRes.name
@@ -66,6 +67,7 @@ const Collected = (collectedNFT) => {
               rent_listed_status = item.tokenUriRes.rent_listed_status,
               sell_listed_status = item.tokenUriRes.sell_listed_status,
               owner = item.tokenUriRes.owner
+              user = item.tokenUriRes.user
             } else {
               image = "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"
               title = "Unknown"
@@ -160,7 +162,7 @@ const Collected = (collectedNFT) => {
                       </button>
                     </div> : null
                   }
-                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
+                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user!==address) ? 
                     <div className="flex items-center justify-between">
                       {tokentype ==="ERC4907" ? <button
                         className="text-accent font-display text-sm font-semibold"
@@ -172,7 +174,7 @@ const Collected = (collectedNFT) => {
                       </button> : null}
                     </div> : null
                   }
-                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
+                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user!==address) ? 
                     <div className="flex items-center justify-between">
                       {tokentype ==="ERC4907" ? <button
                         className="text-accent font-display text-sm font-semibold"

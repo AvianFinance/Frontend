@@ -106,30 +106,34 @@ const Edit_user = () => {
 	};
 
 	const submit = async (e) => {
-
-		try {
-			let obj ={
-				name : userName.value,
-				bio: bio.value,
-				email: email.value, 
-				twitterLink: twitter.value,
-				instaLink: instagram.value,
-				site: website.value,
-				coverImage: coverePhoto.value,
-				profileImage: profilePhoto.value
+		if(userName.value !== ""){	
+			try {
+				let obj ={
+					name : userName.value,
+					bio: bio.value,
+					email: email.value, 
+					twitterLink: twitter.value,
+					instaLink: instagram.value,
+					site: website.value,
+					coverImage: coverePhoto.value,
+					profileImage: profilePhoto.value
+				}
+		
+				console.log(obj)
+		
+				await updateUser(address, obj)
+					.then((response) => {
+						console.log(response)
+					})
+				dispatch(showToast(["success","Profile Updated!"]))
+			} catch(error){
+				dispatch(showToast(["error",error.message]))
+				  // console.log(error.message)
 			}
-	
-			console.log(obj)
-	
-			await updateUser(address, obj)
-				.then((response) => {
-					console.log(response)
-				})
-			dispatch(showToast(["success","Profile Updated!"]))
-		} catch(error){
-			dispatch(showToast(["error",error.message]))
-      		// console.log(error.message)
+		} else {
+			dispatch(showToast(["error","Username is required"]))
 		}
+		
 	};
 
 	useEffect(() => {

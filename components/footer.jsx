@@ -1,8 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { footerMenuList, socialIcons } from "../data/footer_data";
+import { useAccount } from 'wagmi'
 
 const footer = () => {
+  const { address, isConnected } = useAccount()
   return (
     <>
       {/* <!-- Footer --> */}
@@ -70,11 +72,16 @@ const footer = () => {
                     const { id, href, text } = item;
                     return (
                       <li key={id}>
-                        <Link href={href}>
+                        
+                        {(single.id===3 && item.id===1) ? <Link href={href+"/"+address}>
                           <a className="hover:text-accent dark:hover:text-white">
                             {text}
                           </a>
-                        </Link>
+                        </Link> : <Link href={href}>
+                          <a className="hover:text-accent dark:hover:text-white">
+                            {text}
+                          </a>
+                        </Link>}
                       </li>
                     );
                   })}
@@ -83,13 +90,13 @@ const footer = () => {
             ))}
           </div>
 
-          <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
+          <div className="flex flex-col items-center justify-between py-8 sm:flex-row sm:space-y-0">
             <span className="dark:text-jacarta-400 text-sm">
-              <span>© {new Date().getFullYear()} Xhibiter — Made by</span>
+              <span>© {new Date().getFullYear()} Rentify — Made by</span>
               <Link href="https://themeforest.net/user/ib-themes">
                 <a className="hover:text-accent dark:hover:text-white">
                   {" "}
-                  ib-themes
+                  Rime Labs
                 </a>
               </Link>
             </span>
@@ -102,13 +109,13 @@ const footer = () => {
                   </a>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/tarms">
                   <a className="hover:text-accent dark:hover:text-white">
                     Privacy policy
                   </a>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

@@ -50,8 +50,9 @@ const Explore_collection = () => {
         .then((response) => {
           // console.log(response.data)
           setCollections(response.data)
-
-          filterVal === 0 ? setfiltered(response.data.upright) : setfiltered(response.data.inst)
+          if(response.data){
+            filterVal === 0 ? setfiltered(response.data.upright) : setfiltered(response.data.inst)
+          }
           setisLoading(true)
         })
     } else {

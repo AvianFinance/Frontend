@@ -259,6 +259,7 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 				className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				onClick={listNFTrentalINS}
 				type="button"
+				disabled={priceforday.checked === false}
 			>
 				List Rental
 			</button>
@@ -657,6 +658,7 @@ const Confirm_checkout = (payload) => {
         AvianRentMarket.abi,
         signer
     );
+	console.log(_marketplace)
 	
 	const buyNFT = async () => {
 		dispatch(setisloading())
@@ -664,14 +666,18 @@ const Confirm_checkout = (payload) => {
 		if(exploretype==="buy"){
 			try{
 				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, signer)
-
+				console.log(payload.payload.coll_addr)
+				console.log(payload.payload.token_id.toString())
+				console.log(parseInt((payload.payload.price.hex), 16).toString())
+				console.log(parseInt((payload.payload.price._hex), 16).toString())
 				const tx =  await mplace_contract.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
-					value: (payload.payload.price.hex) ? parseInt((payload.payload.price.hex), 16).toString(): parseInt((payload.payload.price._hex), 16).toString(),
+					value: (payload.payload.price.hex) ? parseInt((payload.payload.price.hex), 16).toString(): parseInt((payload.payload.price._hex), 16).toString()
 				})
-				// console.log(parseInt((payload.payload.price.hex), 16).toString())
-				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
-	
 				
+				// console.log(parseInt((payload.payload.price.hex), 16).toString())
+				// const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
+	
+				tx.wait(1)
 			
 				console.log("listening.........")
 			

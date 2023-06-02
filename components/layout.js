@@ -8,7 +8,7 @@ import RentalListModal from "./modal/rentallistModal";
 import InstallmentListModal from "./modal/installementlistModal";
 import WrapCollectionModal from "./modal/wrapcollectionModal";
 import DepositTokenModal from "./modal/deposittokenModal";
-import ToasterContainer from "./toast"
+import ToasterContainer from "./toast";
 
 export default function Layout({ children }) {
   return (
@@ -24,7 +24,7 @@ export default function Layout({ children }) {
       <DepositTokenModal/>
       <ToasterContainer/>
       <main>{children}</main>
-      <Footer />
+      <Footer/>
     </>
   );
 }

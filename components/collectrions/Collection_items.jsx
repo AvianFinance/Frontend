@@ -77,7 +77,7 @@ const Collection_items = ({collection, isloading, collectiondetails}) => {
 							</div> }
 						</TabPanel>
 						<TabPanel>
-							<Activity_item />
+							<Activity_item address={(collectiondetails !== null && collectiondetails !== undefined) ? collectiondetails._id : null}/>
 						</TabPanel>
 					</Tabs>
 				</div>

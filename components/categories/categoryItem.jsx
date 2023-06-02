@@ -46,6 +46,8 @@ const CategoryItem = (collection) => {
     }
 	}, [collection, exploretype, filterVal]);
 
+  console.log(nftitems)
+
   console.log(filtered)
   if(filtered.length>0){
     console.log(filtered)
@@ -147,11 +149,11 @@ const CategoryItem = (collection) => {
                     </a>
                   </Link>
   
-                  <Likes like={likes} />
+                  {/* <Likes like={likes} /> */}
   
                   <div className="absolute left-3 -bottom-3">
                     <div className="flex -space-x-2">
-                      <Link href={`/item/${item.coll_addr}&${item.token_id}`}>
+                      {/* <Link href={`/item/${item.coll_addr}&${item.token_id}`}>
                         <a>
                           <Tippy content={<span>creator: {creator}</span>}>
                             <img
@@ -173,7 +175,7 @@ const CategoryItem = (collection) => {
                             />
                           </Tippy>
                         </a>
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </figure>
@@ -187,21 +189,16 @@ const CategoryItem = (collection) => {
                   </Link>
   
                   {/* auction dropdown  */}
-                  <Auctions_dropdown classes="dark:hover:bg-jacarta-600 dropup hover:bg-jacarta-100 rounded-full" />
+                  {/* <Auctions_dropdown classes="dark:hover:bg-jacarta-600 dropup hover:bg-jacarta-100 rounded-full" /> */}
                 </div>
                 <div className="mt-2 text-sm">
                   <span className="dark:text-jacarta-200 text-jacarta-700 mr-1">
-                    {price} AVAX
+                    {Number(price).toFixed(2)} AVAX
                   </span>
                 </div>
   
-                {(address !== item.owner && address !== item.user ) ? <div className="mt-8 flex items-center justify-between">
-                  <button
-                    className="text-accent font-display text-sm font-semibold"
-                    onClick={() => dispatch(buyModalShow(item))}
-                  >
-                    {type === "rent" ? "Rent Now" : "Buy Now"}
-                  </button>
+                <div className="mt-8 flex items-center justify-between">
+                
                   <Link href={`/item/${item.coll_addr}&${item.token_id}`}>
                     <a className="group flex items-center">
                       <svg className="icon icon-history group-hover:fill-accent dark:fill-jacarta-200 fill-jacarta-500 mr-1 mb-[3px] h-4 w-4">
@@ -212,7 +209,13 @@ const CategoryItem = (collection) => {
                       </span>
                     </a>
                   </Link>
-                </div> : null}
+                  {(address !== item.owner) ? <button
+                    className="text-accent font-display text-sm font-semibold"
+                    onClick={() => dispatch(buyModalShow(item))}
+                  >
+                    {type === "rent" ? "Rent Now" : "Buy Now"}
+                  </button> : null}
+                </div> 
               </div>
             </article>
           );

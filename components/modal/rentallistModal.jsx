@@ -14,6 +14,7 @@ const BuyModal = () => {
 	// console.log(listrentmodal)
 	useEffect(() => {
 		setChecked(false)
+		setPriceForDay(0)
 	}, [listrentmodal]);
 
 	if(listrentalcontent){
@@ -44,7 +45,7 @@ const BuyModal = () => {
 							{/* <!-- Body --> */}
 							<div className="modal-body p-6">
 	
-								<div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
+								<div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-b py-4">
 									<figure className="mr-5 self-start">
 										<img
 											src={listrentalcontent ? listrentalcontent.tokenUriRes.image : "Unknown"}
@@ -101,12 +102,12 @@ const BuyModal = () => {
 
 									<div className="flex-1">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-											Price for Rental
+											Price for Upfront Rental
 										</label>
 										<input
 											type="text"
-											className="dark:bg-jacarta-700 px-4 dark:border-jacarta-600 focus:ring-accent border-jacarta-100 dark:placeholder-jacarta-300 h-12 w-full border border-r-0 focus:ring-inset dark:text-white"
-											placeholder="Daily Price for rental"
+											className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
+											placeholder="Set a listing price"
 											onChange={(e) => setPriceForDay(e.target.value)}
 											value={priceforday}
 										/>
@@ -134,7 +135,7 @@ const BuyModal = () => {
 									<input
 										type="checkbox"
 										id="buyNowTerms"
-										onClick={() => setChecked(true)}
+										onClick={() => setChecked(!checked)}
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 									/>
 									<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
@@ -149,7 +150,7 @@ const BuyModal = () => {
 	
 							<div className="modal-footer">
 								<div className="flex items-center justify-center space-x-4">
-									<ListRentals priceforday={priceforday} listrentalcontent={listrentalcontent? listrentalcontent :null} numofDays={numofDays} checked={checked}/>
+									<ListRentals priceforday={priceforday} listrentalcontent={listrentalcontent? listrentalcontent :null} numofDays={numofDays} checked={checked && priceforday >0}/>
 								</div>
 							</div>
 						</div>

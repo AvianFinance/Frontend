@@ -134,7 +134,7 @@ const User = () => {
 								<p className="dark:text-jacarta-300 mx-auto mb-2 max-w-xl text-lg">{UserData.bio}</p>
 								<span className="text-jacarta-400">Joined December {UserData.createdAt ? UserData.createdAt.split("-")[0] : "2023"}</span>
 
-								<div className="mt-6 flex items-center justify-center space-x-2.5 relative">
+								{/* <div className="mt-6 flex items-center justify-center space-x-2.5 relative">
 									<div className="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white">
 										<div className="js-likes relative inline-flex h-10 w-10 cursor-pointer items-center justify-center text-sm">
 											<button onClick={() => handleLikes()}>
@@ -154,7 +154,7 @@ const User = () => {
 									<Social_dropdown />
 
 									<Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white relative" />
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</section>

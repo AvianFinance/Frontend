@@ -13,7 +13,7 @@ const Hero_5 = () => {
 			.then((response) => {
 				setbasicInfo(response.data)
 			})
-	}, [basicInfo]);
+	}, []);
 
 	const dispatch = useDispatch();
 	return (

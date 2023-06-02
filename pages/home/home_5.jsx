@@ -8,6 +8,7 @@ import FilterCategoryItem from "../../components/categories/filterCategoryItem";
 import Download from "../../components/blog/download";
 
 const Home_5 = () => {
+  
   return (
     <>
       <Meta title="NFT Marketplace" />
