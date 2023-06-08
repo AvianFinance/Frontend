@@ -26,7 +26,7 @@ const BuyModal = () => {
 						<div className="modal-content">
 							<div className="modal-header">
 								<h5 className="modal-title" id="buyNowModalLabel">
-									Complete Listing
+									List for selling
 								</h5>
 								<button type="button" className="btn-close" onClick={() => dispatch(buylistModalHide())}>
 									<svg
