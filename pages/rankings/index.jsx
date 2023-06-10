@@ -189,7 +189,6 @@ const Index = () => {
 									icon,
 								} = item;
 								const itemLink = image.split('/').slice(-1).toString().replace('.jpg', '');
-								// console.log(item.category.art);
 
 								return (
 									<Link href={/user/ + itemLink} key={id}>

@@ -26,7 +26,6 @@ const Single_post = () => {
 						.map((item) => {
 							const { id, image, title, text, date, time, subImages, authorImage, authorName } =
 								item;
-							// console.log(image);
 							return (
 								<div className="container" key={id}>
 									<header className="mx-auto mb-16 max-w-lg text-center">

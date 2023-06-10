@@ -30,12 +30,10 @@ const User_items = (user_address) => {
 	const [lended, setlended] = useState([])
 	const [rented, setrented] = useState([])
 	const [listed, setlisted] = useState([])
-	// console.log(user_address.user_address)
+
 	useEffect(() => {
-		console.log(user_address.user_address)
 		getListed(user_address.user_address)
 			.then((response) => {
-				console.log("listed",response)
 				let listednfts = []
 				if(response.data){
 					response.data.map((data) => listednfts.push( {
@@ -51,12 +49,13 @@ const User_items = (user_address) => {
 						rent_listed_status: data.rent_listed_status,
 						inst_listed_status: data.inst_listed_status
 					}))
+				} else{
+					console.log("error in getListed")
 				}
 				setlisted(listednfts)
 			})
 		getLended(user_address.user_address)
 			.then((response) => {
-				console.log("lended", response)
 				let collectednfts = []
 				if(response.data){
 					response.data.map((data) => collectednfts.push( {
@@ -72,12 +71,13 @@ const User_items = (user_address) => {
 						token_address : data.coll_addr,
 						token_id : data.token_id
 					}))
+				} else {
+					console.log("error in getLended")
 				}
 				setlended(collectednfts)
 			})
 		getRented(user_address.user_address)
 			.then((response) => {
-				console.log("rented", response)
 				let collectednfts = []
 				if(response.data){
 					response.data.map((data) => collectednfts.push( {
@@ -93,13 +93,14 @@ const User_items = (user_address) => {
 						token_address : data.coll_addr,
 						token_id : data.token_id
 					}))
+				} else {
+					console.log("error in getRented")
 				}
 				setrented(collectednfts)
 			})
 	
 		getcollected(user_address.user_address)
 			.then((response) => {
-				console.log("collected", response)
 				let collectednfts = []
 				if(response.data){
 					response.data.map((data) => collectednfts.push( {
@@ -117,12 +118,13 @@ const User_items = (user_address) => {
 						token_address : data.coll_addr,
 						token_id : data.token_id
 					}))
+				} else {
+					console.log("error in getcollected")
 				}
 				setCollectedNFT(collectednfts)
 			})
 		getowned(user_address.user_address)
 			.then((response) => {
-				console.log("owned", response)
 				let ownednfts =[]
 				if(response.data){
 					response.data.map((data) => ownednfts.push( {
@@ -138,13 +140,19 @@ const User_items = (user_address) => {
 						token_address : data.coll_addr,
 						token_id : data.token_id
 					}))
+				} else {
+					console.log("error in getowned")
 				}
 				setOwnedNFT(ownednfts)
 			})
 		getcollections(user_address.user_address)
 			.then((response) => {
-				// console.log(response)
-				setcollections(response.data)
+				if (response.data){
+					setcollections(response.data)
+				} else {
+					console.log("error in getcollections")
+				}
+				
 			})
 	}, [user_address]);
 
@@ -186,7 +194,7 @@ const User_items = (user_address) => {
 			icon: 'activity',
 		},
 	];
-	// console.log(collectedNFT)
+	
 	if(collectedNFT.length>0){
 		return (
 			<>

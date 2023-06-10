@@ -17,7 +17,7 @@ const Collected = (collectedNFT) => {
   const { sortedtrendingCategoryItemData, isloading } = useSelector(
     (state) => state.counter
   );
-  console.log(collectedNFT.collectedNFT)
+  
   const dispatch = useDispatch();
   const { address, isConnected } = useAccount()
   const [islisting, setIslisting] = useState(false)

@@ -58,10 +58,8 @@ const Edit_user = () => {
 			  }
 		  );
 		  const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-		  console.log(ImgHash)
 		  return ImgHash
 		} catch (error) {
-		//   console.log("Error sending File to IPFS: ")
 		  console.log(error)
 		}
 
@@ -69,15 +67,12 @@ const Edit_user = () => {
 
 	const handleProfilePhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
-		console.log(file)
 		setProfilePhoto({value: file, errorVal:""});
-		// console.log({value: file, errorVal:""})
 	};
 
 	const handleCoverPhoto = async (e) => {
 		let file = await uploadtoPinata(e.target.files[0])
 		setCoverePhoto({value: file, errorVal:""});
-		// console.log({value: file, errorVal:""})
 	};
 
 	const handleChange = (e, item) => {
@@ -119,8 +114,6 @@ const Edit_user = () => {
 					profileImage: profilePhoto.value
 				}
 		
-				console.log(obj)
-		
 				await updateUser(address, obj)
 					.then((response) => {
 						console.log(response)
@@ -128,7 +121,6 @@ const Edit_user = () => {
 				dispatch(showToast(["success","Profile Updated!"]))
 			} catch(error){
 				dispatch(showToast(["error",error.message]))
-				  // console.log(error.message)
 			}
 		} else {
 			dispatch(showToast(["error","Username is required"]))
@@ -137,24 +129,34 @@ const Edit_user = () => {
 	};
 
 	useEffect(() => {
-		// console.log("should redirect to home page")
 		if(!isConnected){
 			router.push('/')
 		}
-		getUser(address)
-			.then((response) => {
-				console.log(response.data)
-				if (typeof(response.data) != "undefined" && response.data != null){
-					setuserName({value:response.data.name,errorVal:""})
-					setBio({value:response.data.bio,errorVal:""})
-					setemail({value:response.data.email,errorVal:""})
-					settwitter({value:response.data.twitterLink,errorVal:""})
-					setinstagram({value:response.data.instaLink,errorVal:""})
-					setwebsite({value:response.data.site,errorVal:""})
-					setProfilePhoto({value:response.data.profileImage,errorVal:""})
-					setCoverePhoto({value:response.data.coverImage,errorVal:""})
-				}
-			})
+		try{
+			getUser(address)
+				.then((response) => {
+					if(response.data){
+						if (typeof(response.data) != "undefined" && response.data != null){
+							setuserName({value:response.data.name,errorVal:""})
+							setBio({value:response.data.bio,errorVal:""})
+							setemail({value:response.data.email,errorVal:""})
+							settwitter({value:response.data.twitterLink,errorVal:""})
+							setinstagram({value:response.data.instaLink,errorVal:""})
+							setwebsite({value:response.data.site,errorVal:""})
+							setProfilePhoto({value:response.data.profileImage,errorVal:""})
+							setCoverePhoto({value:response.data.coverImage,errorVal:""})
+						}
+					} else {
+						console.log(response.error)
+						router.push("/404");
+					}
+					
+				})
+		} catch {
+			console.log("error in fetching data")
+			router.push('/')
+		}
+		
 	}, [isConnected, address]);
 
 	return (
@@ -165,7 +167,6 @@ const Edit_user = () => {
 				<div className="relative">
 					<img
 						src={coverePhoto ? coverePhoto.value : '/images/user/banner.jpg'}
-						// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
 						alt="banner"
 						className="h-[18.75rem] w-full object-cover"
 					/>
@@ -336,7 +337,6 @@ const Edit_user = () => {
 									<figure className="relative inline-block">
 										<img
 											src={profilePhoto ? profilePhoto.value : '/images/user/user_avatar.gif'}
-											// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
 											alt="collection avatar"
 											className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
 											height={140}

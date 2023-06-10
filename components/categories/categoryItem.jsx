@@ -30,12 +30,7 @@ const CategoryItem = (collection) => {
       setfiltered(nftitems.inst)
     }
   };
-  
-  // console.log(exploretype)
   useEffect(() => {
-		// console.log(collection)
-    // console.log(exploretype)
-    // console.log(collection.collection.collection)
     settype(exploretype)
     if(exploretype=="rent"){
       setItems(collection.collection.collection)
@@ -46,11 +41,7 @@ const CategoryItem = (collection) => {
     }
 	}, [collection, exploretype, filterVal]);
 
-  console.log(nftitems)
-
-  console.log(filtered)
   if(filtered.length>0){
-    console.log(filtered)
     return (
       <div>
           {exploretype=="rent" ? 
@@ -114,12 +105,10 @@ const CategoryItem = (collection) => {
           </div> : null }
           <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {filtered.map((item) => {
-          // console.log(item)
           const id = item._id
           const image = item.uri
           const title = item.name
           let price = 0
-          // console.log(item)
           if(type === "buy" && item.price !== null) {
             price = parseFloat((item.price.hex) * Math.pow(10, -18), 16).toString()
           } 
@@ -225,7 +214,7 @@ const CategoryItem = (collection) => {
       
     );
   } else {
-    console.log("hiii")
+    console.log("filtered length is null")
   }
   
 };

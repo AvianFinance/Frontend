@@ -13,7 +13,6 @@ const Listed = (collectedNFT, filterVal) => {
     (state) => state.counter
   );
   const dispatch = useDispatch();
-  console.log(collectedNFT)
   const [nfts, setNfts] = useState([]);
   let filtered
  
@@ -24,7 +23,6 @@ const Listed = (collectedNFT, filterVal) => {
   }
   else if(collectedNFT.filterVal === 1){
     filtered = collectedNFT.collectedNFT.filter((item) => {
-        // console.log(item)
         return item.sell_listed_status === true;
     });
   }

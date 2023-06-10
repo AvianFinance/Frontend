@@ -36,10 +36,14 @@ const Usercollection = () => {
         if (pid) {
             getCollectionTokens(address, pid)
                 .then((response) => {
-                    console.log(response.data)
-                    setcollection(response.data.tokens)
-                    setcollectiondetails(response.data.collection !== null ? response.data.collection : null)
-                    setisLoading(false)
+                    if(response.data){
+                        setcollection(response.data.tokens)
+                        setcollectiondetails(response.data.collection !== null ? response.data.collection : null)
+                        setisLoading(false)
+                    } else{
+                        console.log("error in getCollectionTokens")
+                    }
+                    
                 })
         }
     }, [pid, exploretype]);

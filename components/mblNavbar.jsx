@@ -53,7 +53,6 @@ const MblNavbar = ({ theme }) => {
 				dispatch(closeMblMenu());
 			}
 		});
-		// console.log(router.asPath)
 
 		if (router.asPath === '/') {
 			localStorage.setItem('navItemValue', 1);
@@ -352,8 +351,7 @@ const MblNavbar = ({ theme }) => {
 		// 	href: '/newsletter',
 		// },
 	];
-
-	// console.log(profileShow)
+	
 	return (
 		<div
 			className={

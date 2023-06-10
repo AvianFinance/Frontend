@@ -38,7 +38,6 @@ const Create = () => {
   const [isloading, setisLoading] = useState(true);
   const [isminting, setisminting] = useState(false);
   const router = useRouter();
-  console.log(propartiesModalValue)
 
   const fileTypes = [
     "JPG",
@@ -72,7 +71,6 @@ const Create = () => {
   }
 
   const handleChange = async (fileImg) => {
-    // console.log(fileImg)
     try {
       const formData = new FormData();
       formData.append("file", fileImg, fileImg.name);
@@ -90,58 +88,27 @@ const Create = () => {
             }
           }
       );
-      // console.log(resFile)
-      const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      // console.log(ImgHash);    
+      const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;   
       setIPFS({value: ImgHash, errorVal:""})
       dispatch(showToast(["success","Image Uploaded to IPFS"]))
     } catch (error) {
       dispatch(showToast(["error",error.message]))
-      // console.log(error.message)
     }
   };
-
-  // const sendMetadata = async (IPFSHash, nft_title, nft_desc, tokenId) => {
-
-  //   const API_KEY = "668b0b44d1e4a05bc600"
-  //   const API_SECRET = "974f70a719445d92a968a34fc3dea98ad2a4064f4ef7e0c9283a7c1b29af8e71"
-  //   const JSONBody = {
-  //       name: nft_title,
-  //       tokenId: tokenId,
-  //       image: `https://gateway.pinata.cloud/ipfs/${IPFSHash}/`,
-  //       description: nft_desc,
-  //       attributes: []
-  //   }
-  //   const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-  //   const response = await axios.post(
-  //       url,
-  //       JSONBody,
-  //       {
-  //           maxContentLength: "Infinity",
-  //           headers: {
-  //               'pinata_api_key': API_KEY,
-  //               'pinata_secret_api_key': API_SECRET
-
-  //           }
-  //       }
-  //   ).catch(function (error) {
-  //       console.log(error.response.data.error)
-  //   })
-  //   console.log(response.data.IpfsHash)
-  //   return response.data.IpfsHash
-  // }
 
   const getCollectionDetails = (waddress) => {
     getCollections(waddress)
       .then((response) => {
-        // console.log(response.data)
-        setCollections(response.data)
+        if (response.data){
+          setCollections(response.data)
+        } else {
+          console.log("error in getcollections")
+        }
+        
     })
-    console.log("collections",collections)
   }
 
   useEffect(() => {
-		console.log("recollected collection data")
 		getCollectionDetails(address)
 	}, [isConnected, address, propartiesModalValue]);
 
@@ -183,7 +150,6 @@ const Create = () => {
                 throw new Error(response.error.response.data.message)
               }
               responseipfs = response.data
-              console.log(responseipfs)
             })
         } catch(error){
           dispatch(showToast(["error","uploading failed"]))
@@ -198,9 +164,6 @@ const Create = () => {
   }
 
   const mintToken = async (ipfsUrl,token,contractaddress, responseipfs) => {
-    // console.log(ipfsUrl)
-    // console.log(token)
-    // console.log(address)
   
     let nft_contract
 
@@ -228,8 +191,6 @@ const Create = () => {
       "uri": ipfs.value,
       "minter": address
     }
-
-    // console.log(saveNFT)
 
     await mintNft(saveNFT)
 			.then((response) => {
@@ -458,260 +419,8 @@ const Create = () => {
                 ></textarea>
             </div>
   
-              {/* <!-- External Link --> */}
-              {/* <div className="mb-6">
-                <label
-                  htmlFor="item-external-link"
-                  className="font-display text-jacarta-700 mb-2 block dark:text-white"
-                >
-                  External link
-                </label>
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  We will include a link to this URL on this {"item's"} detail
-                  page, so that users can click to learn more about it. You are
-                  welcome to link to your own webpage with more details.
-                </p>
-                <input
-                  type="url"
-                  id="item-external-link"
-                  className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
-                  placeholder="https://yoursite.io/item/123"
-                />
-              </div> */}
-  
-              {/* <!-- Properties --> */}
-              {/* {popupItemData.map(({ id, name, text, icon }) => {
-                return (
-                  <div
-                    key={id}
-                    className="dark:border-jacarta-600 border-jacarta-100 relative border-b py-6"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex">
-                        <svg className="icon fill-jacarta-700 mr-2 mt-px h-4 w-4 shrink-0 dark:fill-white">
-                          <use xlinkHref={`/icons.svg#icon-${icon}`}></use>
-                        </svg>
-  
-                        <div>
-                          <label className="font-display text-jacarta-700 block dark:text-white">
-                            {name}
-                          </label>
-                          <p className="dark:text-jacarta-300">{text}</p>
-                        </div>
-                      </div>
-                      <button
-                        className="group dark:bg-jacarta-700 hover:bg-accent border-accent flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border bg-white hover:border-transparent"
-                        onClick={() => dispatch(showPropatiesModal())}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="fill-accent group-hover:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })} */}
   
               <Proparties_modal />
-  
-              {/* <!-- Properties --> */}
-  
-              {/* <!-- Unlockable Content --> */}
-              {/* <div className="dark:border-jacarta-600 border-jacarta-100 relative border-b py-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="fill-accent mr-2 mt-px h-4 w-4 shrink-0"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M7 10h13a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1V9a7 7 0 0 1 13.262-3.131l-1.789.894A5 5 0 0 0 7 9v1zm-2 2v8h14v-8H5zm5 3h4v2h-4v-2z" />
-                    </svg>
-  
-                    <div>
-                      <label className="font-display text-jacarta-700 block dark:text-white">
-                        Unlockable Content
-                      </label>
-                      <p className="dark:text-jacarta-300">
-                        Include unlockable content that can only be revealed by
-                        the owner of the item.
-                      </p>
-                    </div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    value="checkbox"
-                    name="check"
-                    className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
-                  />
-                </div>
-              </div> */}
-  
-              {/* <!-- Explicit & Sensitive Content --> */}
-              {/* <div className="dark:border-jacarta-600 border-jacarta-100 relative mb-6 border-b py-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="fill-jacarta-700 mr-2 mt-px h-4 w-4 shrink-0 dark:fill-white"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12.866 3l9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0zM11 16v2h2v-2h-2zm0-7v5h2V9h-2z" />
-                    </svg>
-  
-                    <div>
-                      <label className="font-display text-jacarta-700 dark:text-white">
-                        Explicit & Sensitive Content
-                      </label>
-  
-                      <p className="dark:text-jacarta-300">
-                        Set this item as explicit and sensitive content.
-                        <Tippy
-                          content={
-                            <span>
-                              Setting your asset as explicit and sensitive
-                              content, like pornography and other not safe for
-                              work (NSFW) content, will protect users with safe
-                              search while browsing Xhibiter
-                            </span>
-                          }
-                        >
-                          <span className="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="dark:fill-jacarta-300 fill-jacarta-500 ml-2 -mb-[2px] h-4 w-4"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                            </svg>
-                          </span>
-                        </Tippy>
-                      </p>
-                    </div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    value="checkbox"
-                    name="check"
-                    className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
-                  />
-                </div>
-              </div> */}
-  
-              {/* <!-- Supply --> */}
-              {/* <div className="mb-6">
-                <label
-                  htmlFor="item-supply"
-                  className="font-display text-jacarta-700 mb-2 block dark:text-white"
-                >
-                  Supply
-                </label>
-  
-                <div className="mb-3 flex items-center space-x-2">
-                  <p className="dark:text-jacarta-300 text-2xs">
-                    The number of items that can be minted. No gas cost to you!
-                    <Tippy
-                      content={
-                        <span>
-                          Setting your asset as explicit and sensitive content,
-                          like pornography and other not safe for work (NSFW)
-                          content, will protect users with safe search while
-                          browsing Xhibiter.
-                        </span>
-                      }
-                    >
-                      <span className="inline-block">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="dark:fill-jacarta-300 fill-jacarta-500 ml-1 -mb-[3px] h-4 w-4"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                        </svg>
-                      </span>
-                    </Tippy>
-                  </p>
-                </div>
-  
-                <input
-                  type="text"
-                  id="item-supply"
-                  className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
-                  placeholder="1"
-                />
-              </div> */}
-  
-              {/* <!-- Blockchain --> */}
-              
-  
-              {/* <!-- Freeze metadata --> */}
-              {/* <div className="mb-6">
-                <div className="mb-2 flex items-center space-x-2">
-                  <label
-                    htmlFor="item-freeze-metadata"
-                    className="font-display text-jacarta-700 block dark:text-white"
-                  >
-                    Freeze metadata
-                  </label>
-  
-                  <Tippy
-                    content={
-                      <span className="bg-jacarta-300">
-                        Setting your asset as explicit and sensitive content, like
-                        pornography and other not safe for work (NSFW) content,
-                        will protect users with safe search while browsing
-                        Xhibiter.
-                      </span>
-                    }
-                  >
-                    <span className="inline-block">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="dark:fill-jacarta-300 fill-jacarta-500 mb-[2px] h-5 w-5"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                      </svg>
-                    </span>
-                  </Tippy>
-                </div>
-  
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  Freezing your metadata will allow you to permanently lock and
-                  store all of this
-                  {"item's"} content in decentralized file storage.
-                </p>
-  
-                <input
-                  type="text"
-                  disabled
-                  id="item-freeze-metadata"
-                  className="dark:bg-jacarta-700 bg-jacarta-50 border-jacarta-100 dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 dark:text-white"
-                  placeholder="To freeze your metadata, you must create your item first."
-                />
-              </div> */}
   
               {/* <!-- Submit --> */}
               <button
@@ -945,260 +654,9 @@ const Create = () => {
                 ></textarea>
             </div>
   
-              {/* <!-- External Link --> */}
-              {/* <div className="mb-6">
-                <label
-                  htmlFor="item-external-link"
-                  className="font-display text-jacarta-700 mb-2 block dark:text-white"
-                >
-                  External link
-                </label>
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  We will include a link to this URL on this {"item's"} detail
-                  page, so that users can click to learn more about it. You are
-                  welcome to link to your own webpage with more details.
-                </p>
-                <input
-                  type="url"
-                  id="item-external-link"
-                  className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
-                  placeholder="https://yoursite.io/item/123"
-                />
-              </div> */}
-  
-              {/* <!-- Properties --> */}
-              {/* {popupItemData.map(({ id, name, text, icon }) => {
-                return (
-                  <div
-                    key={id}
-                    className="dark:border-jacarta-600 border-jacarta-100 relative border-b py-6"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex">
-                        <svg className="icon fill-jacarta-700 mr-2 mt-px h-4 w-4 shrink-0 dark:fill-white">
-                          <use xlinkHref={`/icons.svg#icon-${icon}`}></use>
-                        </svg>
-  
-                        <div>
-                          <label className="font-display text-jacarta-700 block dark:text-white">
-                            {name}
-                          </label>
-                          <p className="dark:text-jacarta-300">{text}</p>
-                        </div>
-                      </div>
-                      <button
-                        className="group dark:bg-jacarta-700 hover:bg-accent border-accent flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border bg-white hover:border-transparent"
-                        onClick={() => dispatch(showPropatiesModal())}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="fill-accent group-hover:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })} */}
-  
-              <Proparties_modal />
-  
-              {/* <!-- Properties --> */}
-  
-              {/* <!-- Unlockable Content --> */}
-              {/* <div className="dark:border-jacarta-600 border-jacarta-100 relative border-b py-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="fill-accent mr-2 mt-px h-4 w-4 shrink-0"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M7 10h13a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1V9a7 7 0 0 1 13.262-3.131l-1.789.894A5 5 0 0 0 7 9v1zm-2 2v8h14v-8H5zm5 3h4v2h-4v-2z" />
-                    </svg>
-  
-                    <div>
-                      <label className="font-display text-jacarta-700 block dark:text-white">
-                        Unlockable Content
-                      </label>
-                      <p className="dark:text-jacarta-300">
-                        Include unlockable content that can only be revealed by
-                        the owner of the item.
-                      </p>
-                    </div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    value="checkbox"
-                    name="check"
-                    className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
-                  />
-                </div>
-              </div> */}
-  
-              {/* <!-- Explicit & Sensitive Content --> */}
-              {/* <div className="dark:border-jacarta-600 border-jacarta-100 relative mb-6 border-b py-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="fill-jacarta-700 mr-2 mt-px h-4 w-4 shrink-0 dark:fill-white"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12.866 3l9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0zM11 16v2h2v-2h-2zm0-7v5h2V9h-2z" />
-                    </svg>
-  
-                    <div>
-                      <label className="font-display text-jacarta-700 dark:text-white">
-                        Explicit & Sensitive Content
-                      </label>
-  
-                      <p className="dark:text-jacarta-300">
-                        Set this item as explicit and sensitive content.
-                        <Tippy
-                          content={
-                            <span>
-                              Setting your asset as explicit and sensitive
-                              content, like pornography and other not safe for
-                              work (NSFW) content, will protect users with safe
-                              search while browsing Xhibiter
-                            </span>
-                          }
-                        >
-                          <span className="inline-block">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="dark:fill-jacarta-300 fill-jacarta-500 ml-2 -mb-[2px] h-4 w-4"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                            </svg>
-                          </span>
-                        </Tippy>
-                      </p>
-                    </div>
-                  </div>
-                  <input
-                    type="checkbox"
-                    value="checkbox"
-                    name="check"
-                    className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
-                  />
-                </div>
-              </div> */}
-  
-              {/* <!-- Supply --> */}
-              {/* <div className="mb-6">
-                <label
-                  htmlFor="item-supply"
-                  className="font-display text-jacarta-700 mb-2 block dark:text-white"
-                >
-                  Supply
-                </label>
-  
-                <div className="mb-3 flex items-center space-x-2">
-                  <p className="dark:text-jacarta-300 text-2xs">
-                    The number of items that can be minted. No gas cost to you!
-                    <Tippy
-                      content={
-                        <span>
-                          Setting your asset as explicit and sensitive content,
-                          like pornography and other not safe for work (NSFW)
-                          content, will protect users with safe search while
-                          browsing Xhibiter.
-                        </span>
-                      }
-                    >
-                      <span className="inline-block">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="dark:fill-jacarta-300 fill-jacarta-500 ml-1 -mb-[3px] h-4 w-4"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z"></path>
-                          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                        </svg>
-                      </span>
-                    </Tippy>
-                  </p>
-                </div>
-  
-                <input
-                  type="text"
-                  id="item-supply"
-                  className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
-                  placeholder="1"
-                />
-              </div> */}
-  
-              {/* <!-- Blockchain --> */}
               
   
-              {/* <!-- Freeze metadata --> */}
-              {/* <div className="mb-6">
-                <div className="mb-2 flex items-center space-x-2">
-                  <label
-                    htmlFor="item-freeze-metadata"
-                    className="font-display text-jacarta-700 block dark:text-white"
-                  >
-                    Freeze metadata
-                  </label>
-  
-                  <Tippy
-                    content={
-                      <span className="bg-jacarta-300">
-                        Setting your asset as explicit and sensitive content, like
-                        pornography and other not safe for work (NSFW) content,
-                        will protect users with safe search while browsing
-                        Xhibiter.
-                      </span>
-                    }
-                  >
-                    <span className="inline-block">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="dark:fill-jacarta-300 fill-jacarta-500 mb-[2px] h-5 w-5"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                      </svg>
-                    </span>
-                  </Tippy>
-                </div>
-  
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  Freezing your metadata will allow you to permanently lock and
-                  store all of this
-                  {"item's"} content in decentralized file storage.
-                </p>
-  
-                <input
-                  type="text"
-                  disabled
-                  id="item-freeze-metadata"
-                  className="dark:bg-jacarta-700 bg-jacarta-50 border-jacarta-100 dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 dark:text-white"
-                  placeholder="To freeze your metadata, you must create your item first."
-                />
-              </div> */}
+              <Proparties_modal />
   
               {/* <!-- Submit --> */}
               <button

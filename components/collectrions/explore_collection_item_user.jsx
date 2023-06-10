@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Feature_collections_data from '../../data/Feature_collections_data';
-import Collection_setting_dropdown from '../dropdown/collection_setting_dropdown';
 import { wrapCollectionModalShow } from "../../redux/counterSlice";
-import { getCollections } from '../../api/mint';
 
 const Explore_collection_item_user = ({ itemFor, collections }) => {
     const { sortedCollectionData, exploretype, wrapcollectionmodal } = useSelector((state) => state.counter);

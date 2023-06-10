@@ -26,7 +26,6 @@ const Collection_items = ({collection, isloading, collectiondetails}) => {
 		},
 	];
 	let val = collectiondetails ? collectiondetails.coverImage : "/images/gradient_light.jpg"
-	console.log(val)
 	return (
 		<>
 			<section className="relative py-10">

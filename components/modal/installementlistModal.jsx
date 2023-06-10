@@ -9,8 +9,7 @@ const InstallmentListModal = () => {
 	const dispatch = useDispatch();
 	const [priceforday, setPriceForDay] = useState()
 	const [checked, setChecked] = useState(false)
-	// console.log(listinstallmentcontent)
-	// console.log(listinstallmentmodal)
+	
 	useEffect(() => {
 		setChecked(false)
 		setPriceForDay(0)

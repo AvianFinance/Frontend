@@ -14,22 +14,29 @@ const Activity_item = (address) => {
 	const [alldata, setalldata] = useState([]);
 	const router = useRouter();
 	const fullLocation = window.location.href;
-	console.log(fullLocation);
 	useEffect(() => {
 		if (fullLocation.includes("user")){
-			console.log("user address",address.address)	
 			getUserActivities(address.address)
 				.then(async(res) => {
 					console.log(res.data)
-					setData(res.data)
-					setalldata(res.data)
+					if (res.data){
+						setData(res.data)
+						setalldata(res.data)
+					} else {
+						console.log("error in getUserActivities")
+					}
+					
 				})
 		} else {
 			console.log("collection address",address.address)
 			getNFTColactivities(address.address)
 				.then(async(res) => {
-					setData(res.data)
-					setalldata(res.data)
+					if(res.data){
+						setData(res.data)
+						setalldata(res.data)
+					} else {
+						console.log("error in getNFTColactivities")
+					}
 				})	
 		}
 	}, [address]);
@@ -44,18 +51,6 @@ const Activity_item = (address) => {
 			setData(alldata.filter((item) => item.basicEvent === category));	
 		}
 	};
-
-	// const setFilters = () => {
-	// 	if(filterData){
-	// 		let filters = []
-	// 		data.map(async(item) => {
-	// 				console.log(item.basicEvent)
-	// 				await filters.push(item.basicEvent)
-	// 		})
-	// 		let unique = filters.filter((item, i, ar) => ar.indexOf(item) === i);
-	// 		setfilterData(unique)
-	// 	}
-	// };
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

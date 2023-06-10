@@ -46,34 +46,22 @@ const Item = () => {
 			let tokenId = pid.split("&")[1]
 			getNFTDetails(address,tokenId)
 				.then((res) => {
-					console.log(res)
 					if(res.data){
 						setnftdata(res.data.nft)
 						setcollection(res.data.collection)
 						setlisting(res.data.listing ? res.data.listing[0] : null)
+					} else {
+						console.log("error in fetching nft details")
 					}
 				})
 			getNFTactivities(address,tokenId)
 				.then((res) => {
-					console.log(res)
-					// setactivities([{
-					// 	nftContract: "0xB4EF46b2F17000017534549366fB409a5c0aA8a4",
-					// 	tokenId: 5,
-					// 	event: "Upright",
-					// 	from: "Isuru",
-					// 	to: "Rosi",
-					// 	price: 0.2,
-					// 	createdAt: new Date()
-					// }, {
-					// 	nftContract: "0xB4EF46b2F17000017534549366fB409a5c0aA8a4",
-					// 	tokenId: 5,
-					// 	event: "Installment",
-					// 	from: "Isuru",
-					// 	to: "Meelan",
-					// 	price: 0.6,
-					// 	createdAt: new Date()
-					// }])
-					setactivities(res.data)
+					if (res.data){
+						setactivities(res.data)
+					} else{
+						console.log("error in getNFTactivities")
+					}
+					
 				})
 		}	
 	}, [pid])
@@ -99,7 +87,6 @@ const Item = () => {
 				provider
 			);
 
-			console.log("paying NFT installment...")
 			const tx = await mplace_contract.payNFTIns(tokencontract.address, nftdata.token_id,{
 				value: next_installement,
 			})
@@ -139,7 +126,6 @@ const Item = () => {
 		ownerName = "Wow Fans"
 		price = 100
 		auction_timer = nftdata.expiry ? parseInt((nftdata.expiry._hex), 16) : '636234213'
-		console.log(auction_timer)
 		tokentype = nftdata.token_type
 		rent_listed_status = nftdata.rent_listed_status
 		sell_listed_status = nftdata.sell_listed_status

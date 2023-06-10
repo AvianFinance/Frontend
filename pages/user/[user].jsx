@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Link from 'next/link';
-import Social_dropdown from '../../components/dropdown/Social_dropdown';
-import Auctions_dropdown from '../../components/dropdown/Auctions_dropdown';
-import user_data from '../../data/user_data';
 import User_items from '../../components/user/User_items';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Head from 'next/head';
 import Meta from '../../components/Meta';
 import {
 	useAccount,
@@ -24,18 +18,8 @@ const User = () => {
 	const [UserData, setUserData] = useState()
 	const router = useRouter();
 	const pid = router.query.user;
-	// console.log(pid);
 
-	const [likesImage, setLikesImage] = useState(false);
 	const [copied, setCopied] = useState(false);
-
-	const handleLikes = () => {
-		if (!likesImage) {
-			setLikesImage(true);
-		} else {
-			setLikesImage(false);
-		}
-	};
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -44,19 +28,16 @@ const User = () => {
 	}, [copied]);
 
 	useEffect(() => {
-		// console.log("should redirect to home page")
-		// console.log(address)
-		// if(!isConnected){
-		// 	router.push('/')
-		// }
 		getUser(pid)
 			.then((response) => {
-				// console.log(response.data)
-				setUserData(response.data)
+				if(response.data){
+					setUserData(response.data)
+				} else{
+					console.log("error in getUser")
+				}
 			})
 	}, [isConnected, pid]);
 
-	// console.log(UserData)
 	if(UserData){
 		return (
 			<>
@@ -69,7 +50,6 @@ const User = () => {
 					<div className="relative h-[18.75rem]">
 						<img
 							src={UserData.coverImage ? UserData.coverImage : '/images/user/banner.jpg'}
-							// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676640391/WhatsApp_Image_2023-02-17_at_18.56.00_wjszpo.jpg"}
 							alt="banner"
 							className="h-[18.75rem] w-full object-cover"
 						/>
@@ -81,7 +61,6 @@ const User = () => {
 							<figure className="relative h-40 w-40 dark:border-jacarta-600 rounded-xl border-[5px] border-white">
 								<img
 									src={UserData.profileImage ? UserData.profileImage : '/images/user/user_avatar.gif'}
-									// src={"https://res.cloudinary.com/isuruieee/image/upload/v1676639701/00073_ysx5m1.png"}
 									alt="collection avatar"
 									className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
 									height={300}

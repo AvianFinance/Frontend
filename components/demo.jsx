@@ -54,23 +54,3 @@ const Demo = () => {
 };
 
 export default Demo;
-
-// const container = $0;
-// const objectData = [];
-// const item = container.querySelectorAll('.border-jacarta-100');
-// item.forEach((el, i) => {
-// 	const title = el.querySelector('h3').innerText;
-// 	const desc = el.querySelector('p').innerText;
-// 	const experience = el.querySelector('span').innerText;
-// 	const id = i + 1;
-
-// 	const obj = {
-// 		title,
-// 		desc,
-// 		experience,
-// 		id,
-// 	};
-// 	objectData.push(obj);
-// });
-
-// console.log(objectData);

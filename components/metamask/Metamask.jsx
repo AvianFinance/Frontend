@@ -56,13 +56,7 @@ const Metamask_comp_text = () => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async () => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 					className="js-wallet bg-accent shadow-accent-volume hover:bg-accent-dark block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 				>
@@ -105,13 +99,7 @@ const Metamask_comp_login = () => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async () => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -209,7 +197,6 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 	const listNFTrentalINS = async () => {
 		dispatch(setisloading())
 		dispatch(installmentModalHide())
-		// console.log(priceforday)
 		try{
 			const mplace_contract = new ethers.Contract( // We will use this to interact with the AuctionManager
 				iexchange_token,
@@ -223,27 +210,17 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 				RimeRent.abi,
 				signer
 			);
-			// console.log("entereddd")
-			// console.log(priceforday.listinstallmentcontent)
-			// console.log(priceforday.listinstallmentcontent.token_id)
-			// console.log(priceforday.priceforday)
 			let tokenId = priceforday.listinstallmentcontent.token_id
-			// let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
 			const unitPrice = ethers.utils.parseEther(priceforday.priceforday.toString())
-
-			console.log("Approving Marketplace as operator of NFT...")
 			const approvalTx = await token_contract.approve(mplace_contract.address, tokenId)
 			await approvalTx.wait(1)
 
 			const mintedBy = await token_contract.ownerOf(tokenId)
 			const listingFee = (await mplace_contract.getListingFee()).toString();
 
-			console.log("Listing NFT...")
 			const tx = await mplace_contract.listInsBasedNFT(token_contract.address, tokenId, unitPrice, {
 				value: listingFee,
 			})
-
-			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
 			router.push(`/collection/explore_collection`)
 		}
@@ -273,13 +250,7 @@ const ListInstallment = (priceforday, listinstallmentcontent) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -322,12 +293,8 @@ const ListSell = (priceforday, listcontent) => {
 					signer
 				);	
 			}
-			
-
-			console.log(priceforday.listcontent.tokenUriRes.amplace_token)
 
 			let tokenID = priceforday.listcontent.token_id
-			console.log("Approving Marketplace as operator of NFT...")
 
 			const approvalTx = await nftContracts.approve(_marketplace.address, tokenID)
 			await approvalTx.wait(1)
@@ -336,7 +303,6 @@ const ListSell = (priceforday, listcontent) => {
 
 			const tx = await _marketplace.listItem(nftContracts.address, tokenID , price)
 
-			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
 			router.push(`/collection/explore_collection`)
 		} catch(error){
@@ -367,13 +333,7 @@ const ListSell = (priceforday, listcontent) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -408,7 +368,6 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 		dispatch(setisloading())
 		dispatch(rentlistModalHide())
 		try{
-			// console.log(priceforday.listrentalcontent)
 			let tokenID = priceforday.listrentalcontent.token_id
 			let n_days = priceforday.numofDays
 
@@ -418,15 +377,11 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 			await approvalTx.wait(1)
 
 			const listingFee = (await _marketplace.getListingFee()).toString();
-			// let sDate = Math.floor(Date.now()/1000) + (60*60);
-			// let eDate = sDate + (n_days*24*60*60);
 
-			console.log("Listing NFT...")
 			const tx = await _marketplace.listNFT(nftrentalsContracts.address, tokenID, price,{
 				value: listingFee,
 			})
 
-			console.log("listed")
 			dispatch(showToast(["success","NFT Listed!"]))
 			router.push(`/collection/explore_collection`)
 		} catch(error){
@@ -455,13 +410,7 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -473,8 +422,6 @@ const ListRentals = (priceforday, listrentalcontent, numofDays) => {
 };
 
 const PayRental = (payload, numofDays) => {
-	// console.log(payload.payload)
-	// console.log(payload.numofDays)
 
 	const { data: signer, isError } = useSigner()
 	const { address, connector, isConnected } = useAccount()
@@ -502,13 +449,9 @@ const PayRental = (payload, numofDays) => {
 					value: parseInt((payload.payload.price.hex), 16).toString(),
 				})
 	
-				// console.log(tx)
-	
 				const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
 				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, provider)
-			
-				console.log("listening.........")
 			
 				mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
 			
@@ -518,8 +461,6 @@ const PayRental = (payload, numofDays) => {
 						tokenId: tokenId,
 						price: price,
 					}
-	
-					console.log("Bought")
 			
 				})
 				dispatch(buyModalHide())
@@ -530,12 +471,6 @@ const PayRental = (payload, numofDays) => {
 			}	
 
 		} else {
-			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString()))
-			// console.log((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString())
-			// console.log(payload.payload.coll_addr)
-			// console.log(payload.payload.token_id.toString())
-			// console.log(parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays)
-			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()))
 			if(payload.payload.type=="UPRIGHT"){
 				try{
 					const tx =  await _marketplace.rentNFT(payload.payload.coll_addr, payload.payload.token_id.toString(),  payload.numofDays, {
@@ -543,23 +478,7 @@ const PayRental = (payload, numofDays) => {
 					})
 	
 					const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
-	
-					// const _marketplace = new ethers.Contract(amplace_token, AvianMarket.abi, provider)
-				
-					// console.log("listening.........")
-				
-					// _marketplace.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
-				
-					// 	let transferEvent ={
-					// 		buyer: buyer,
-					// 		nftAddress: nftAddress,
-					// 		tokenId: tokenId,
-					// 		price: price,
-					// 	}
-	
-					// 	console.log("Bought")
-				
-					// })	
+
 					dispatch(buyModalHide())		
 					dispatch(showToast(["success","NFT Rented!"]))
 					router.push(`/user/${address}`)
@@ -571,23 +490,18 @@ const PayRental = (payload, numofDays) => {
 			} else {
 				
 				try {
-					console.log(payload.payload)
-					console.log(payload.payload.token_id.toString())
-					console.log(payload.numofDays.toString())
 					let tokencontract = new ethers.Contract( // We will use this to interact with the AuctionManager
 						payload.payload.coll_addr,
 						RimeRent.abi,
 						provider
 					);
 					const firstIns = (await ins_mplace_contract.getNftInstallment(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString()));
-					console.log(firstIns)
-					console.log("Renting NFT...")
+
 					const tx = await ins_mplace_contract.rentINSNFT(tokencontract.address, payload.payload.token_id.toString(), payload.numofDays.toString(),{
 						value: firstIns,
 					})
 
 					await tx.wait(1)
-					console.log("NFT rented and first ins paid")
 					dispatch(buyModalHide())
 					dispatch(showToast(["success","NFT Rented!"]))
 					router.push(`/user/${address}`)
@@ -630,13 +544,7 @@ const PayRental = (payload, numofDays) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -655,14 +563,12 @@ const Confirm_checkout = (payload) => {
 	const dispatch = useDispatch();
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
 	const { exploretype } = useSelector((state) => state.counter);
-	console.log(payload)
 	const _marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
         rexchange_token,
         AvianRentMarket.abi,
         signer
     );
 	const router = useRouter();
-	console.log(_marketplace)
 	
 	const buyNFT = async () => {
 		dispatch(setisloading())
@@ -670,20 +576,11 @@ const Confirm_checkout = (payload) => {
 		if(exploretype==="buy"){
 			try{
 				const mplace_contract = new ethers.Contract(selxchange_token, AvianSellMarket.abi, signer)
-				console.log(payload.payload.coll_addr)
-				console.log(payload.payload.token_id.toString())
-				console.log(parseInt((payload.payload.price.hex), 16).toString())
-				console.log(parseInt((payload.payload.price._hex), 16).toString())
 				const tx =  await mplace_contract.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: (payload.payload.price.hex) ? parseInt((payload.payload.price.hex), 16).toString(): parseInt((payload.payload.price._hex), 16).toString()
 				})
-				
-				// console.log(parseInt((payload.payload.price.hex), 16).toString())
-				// const provider = new ethers.providers.WebSocketProvider(`wss://api.avax-test.network/ext/bc/C/ws`);
 	
 				tx.wait(1)
-			
-				console.log("listening.........")
 			
 				mplace_contract.on("ItemBought", (buyer, nftAddress, tokenId, price)=>{
 			
@@ -693,8 +590,6 @@ const Confirm_checkout = (payload) => {
 						tokenId: tokenId,
 						price: price,
 					}
-	
-					console.log("Bought")
 			
 				})
 				dispatch(showToast(["success","NFT Bought!"]))
@@ -703,8 +598,6 @@ const Confirm_checkout = (payload) => {
 				dispatch(showToast(["error",'Error while buying NFT']))
 			}	
 		} else {
-			// console.log(ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString()))
-			// console.log((parseInt((payload.payload.pricePerDay.hex), 16) * payload.numofDays).toString())
 			try {
 				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
@@ -745,13 +638,7 @@ const Confirm_checkout = (payload) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 				>
 					Connect 
@@ -810,13 +697,7 @@ const Metamask_comp_icon = ({ prop }) => {
 					disabled={!connector.ready}
 					key={connector.id}
 					onClick={async() => {
-						// register({ connector })
 						await connect({ connector })
-						// console.log(address)
-						// register(address)
-						// 	.then((response) => {
-						// 	console.log(response)
-						// 	})
 					}}
 					className={
 						prop.asPath === '/home/home_3'
@@ -843,149 +724,7 @@ const Metamask_comp_icon = ({ prop }) => {
 		)
 	}
 
-	// if (status === 'initializing')
-	// 	return (
-	// 		<div>
-	// 			<button
-	// 				className={
-	// 					prop.asPath === '/home/home_3'
-	// 						? 'js-wallet border-jacarta-100  focus:bg-accent group hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]'
-	// 						: 'js-wallet border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]'
-	// 				}
-	// 				// onClick={() => dispatch(walletModalShow())}
-	// 			>
-	// 				<svg
-	// 					xmlns="http://www.w3.org/2000/svg"
-	// 					viewBox="0 0 24 24"
-	// 					width="24"
-	// 					height="24"
-	// 					className={
-	// 						prop.asPath === '/home/home_3'
-	// 							? ' h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white'
-	// 							: 'fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white'
-	// 					}
-	// 				>
-	// 					<path fill="none" d="M0 0h24v24H0z"></path>
-	// 					<path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z"></path>
-	// 				</svg>
-	// 			</button>
-	// 		</div>
-	// 	);
-
-	// if (status === 'unavailable')
-	// 	return (
-	// 		<div>
-	// 			<button
-	// 				className={
-	// 					prop.asPath === '/home/home_3'
-	// 						? 'js-wallet border-jacarta-100  focus:bg-accent group hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]'
-	// 						: 'js-wallet border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]'
-	// 				}
-	// 				// onClick={() => dispatch(walletModalShow())}
-	// 			>
-	// 				<svg
-	// 					xmlns="http://www.w3.org/2000/svg"
-	// 					viewBox="0 0 24 24"
-	// 					width="24"
-	// 					height="24"
-	// 					className={
-	// 						prop.asPath === '/home/home_3'
-	// 							? ' h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white'
-	// 							: 'fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white'
-	// 					}
-	// 				>
-	// 					<path fill="none" d="M0 0h24v24H0z"></path>
-	// 					<path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z"></path>
-	// 				</svg>
-	// 			</button>
-	// 		</div>
-	// 	);
-
-	// if (status === 'notConnected')
-	// 	return (
-	// 		<button
-	// 			className={
-	// 				prop.asPath === '/home/home_3'
-	// 					? 'js-wallet border-jacarta-100  focus:bg-accent group hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]'
-	// 					: 'js-wallet border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]'
-	// 			}
-	// 			// onClick={() => dispatch(walletModalShow())}
-	// 			onClick={connect}
-	// 		>
-	// 			<svg
-	// 				xmlns="http://www.w3.org/2000/svg"
-	// 				viewBox="0 0 24 24"
-	// 				width="24"
-	// 				height="24"
-	// 				className={
-	// 					prop.asPath === '/home/home_3'
-	// 						? ' h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white'
-	// 						: 'fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white'
-	// 				}
-	// 			>
-	// 				<path fill="none" d="M0 0h24v24H0z"></path>
-	// 				<path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z"></path>
-	// 			</svg>
-	// 		</button>
-	// 	);
-
-	// if (status === 'connecting')
-	// 	return (
-	// 		<div>
-	// 			<button
-	// 				className={
-	// 					prop.asPath === '/home/home_3'
-	// 						? 'js-wallet border-jacarta-100  focus:bg-accent group hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]'
-	// 						: 'js-wallet border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]'
-	// 				}
-	// 				// onClick={() => dispatch(walletModalShow())}
-	// 			>
-	// 				<svg
-	// 					xmlns="http://www.w3.org/2000/svg"
-	// 					viewBox="0 0 24 24"
-	// 					width="24"
-	// 					height="24"
-	// 					className={
-	// 						prop.asPath === '/home/home_3'
-	// 							? ' h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white'
-	// 							: 'fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white'
-	// 					}
-	// 				>
-	// 					<path fill="none" d="M0 0h24v24H0z"></path>
-	// 					<path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z"></path>
-	// 				</svg>
-	// 			</button>
-	// 		</div>
-	// 	);
-
-	// if (status === 'connected')
-	// 	return (
-	// 		<div>
-	// 			<button
-	// 				className={
-	// 					prop.asPath === '/home/home_3'
-	// 						? 'js-wallet border-jacarta-100  focus:bg-accent group hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]'
-	// 						: 'js-wallet border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]'
-	// 				}
-	// 				onClick={() => dispatch(walletModalShow())}
-	// 			>
-	// 				<svg
-	// 					xmlns="http://www.w3.org/2000/svg"
-	// 					viewBox="0 0 24 24"
-	// 					width="24"
-	// 					height="24"
-	// 					className={
-	// 						prop.asPath === '/home/home_3'
-	// 							? ' h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white'
-	// 							: 'fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white'
-	// 					}
-	// 				>
-	// 					<path fill="none" d="M0 0h24v24H0z"></path>
-	// 					<path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z"></path>
-	// 				</svg>
-	// 			</button>
-	// 		</div>
-	// 	);
+	
 };
 
 export { Metamask_comp_text, Metamask_comp_icon, Metamask_comp_login, Confirm_checkout, PayRental, ListSell, ListRentals, ListInstallment };

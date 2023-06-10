@@ -8,10 +8,6 @@ import { hideToast } from '../redux/counterSlice';
 const ToasterContainer = () => {
     const { toaster, toastertype, toastermessage } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
-    
-    // console.log(toaster)
-    // console.log(toastertype)
-    // console.log(toastermessage)
 
     if (toaster){
         switch(toastertype) {
