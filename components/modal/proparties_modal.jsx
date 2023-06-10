@@ -60,38 +60,43 @@ const Proparties_modal = () => {
 		let token
 		let token_name = Name.value
 		let token_symbol = Symbol.value
-		
-		setisloading(true)
-		if(activeItem=="ERC721"){
-			token = new ethers.ContractFactory(AVFXGeneral.abi, AVFXGeneral.bytecode, signer)
-		} else {
-			token = new ethers.ContractFactory(AVFXRent.abi, AVFXRent.bytecode, signer)
-		}
-
-		const NFT = await token.deploy(token_name, token_symbol)
-
-		try{
-			await NFT.deployed()
-
-			// console.log(NFT.address)
-
-			let obj = {
-				"address" : NFT.address,
-				"name" : Name.value,
-				"symbol" : Symbol.value,
-				"tokenType" : activeItem,
-				"createdBy" : address
+		if(Name.value!==null, Symbol.token!==null, activeItem!==null){
+			setisloading(true)
+			if(activeItem=="ERC721"){
+				token = new ethers.ContractFactory(AVFXGeneral.abi, AVFXGeneral.bytecode, signer)
+			} else {
+				token = new ethers.ContractFactory(AVFXRent.abi, AVFXRent.bytecode, signer)
 			}
-			// console.log(obj)
 
-			await saveData(obj)
+			try{
+				const NFT = await token.deploy(token_name, token_symbol)
+
+				await NFT.deployed()
+
+				// console.log(NFT.address)
+
+				let obj = {
+					"address" : NFT.address,
+					"name" : Name.value,
+					"symbol" : Symbol.value,
+					"tokenType" : activeItem,
+					"createdBy" : address
+				}
+				// console.log(obj)
+
+				await saveData(obj)
+				setisloading(false)
+				dispatch(closePropatiesModal())
+				dispatch(showToast(["success","Collection created successfully"]))
+			} catch(error){
+				setisloading(false)
+				dispatch(closePropatiesModal())
+				dispatch(showToast(["error",error.reason]))
+			}
+		} else {
 			setisloading(false)
 			dispatch(closePropatiesModal())
-			dispatch(showToast(["success","Collection created successfully"]))
-		} catch(error){
-			setisloading(false)
-			dispatch(closePropatiesModal())
-			dispatch(showToast(["error",error.message]))
+			dispatch(showToast(["error","Please fill all the fields"]))
 		}
 	};
 
@@ -145,7 +150,7 @@ const Proparties_modal = () => {
 	
 									<div className="flex-1">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-											Name
+											Name<span className="text-red">*</span>
 										</label>
 										<input
 											type="text"
@@ -162,7 +167,7 @@ const Proparties_modal = () => {
 	
 									<div className="flex-1">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-											Symbol
+											Symbol<span className="text-red">*</span>
 										</label>
 										<input
 											type="text"
@@ -178,7 +183,7 @@ const Proparties_modal = () => {
 	
 									<div className="flex-1">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-											Token Type
+											Token Type<span className="text-red">*</span>
 										</label>
 										<div>
 											<div

@@ -162,7 +162,7 @@ const Collected = (collectedNFT) => {
                       </button>
                     </div> : null
                   }
-                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user!==address) ? 
+                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user===address) ? 
                     <div className="flex items-center justify-between">
                       {tokentype ==="ERC4907" ? <button
                         className="text-accent font-display text-sm font-semibold"
@@ -174,7 +174,7 @@ const Collected = (collectedNFT) => {
                       </button> : null}
                     </div> : null
                   }
-                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user!==address) ? 
+                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user===address) ? 
                     <div className="flex items-center justify-between">
                       {tokentype ==="ERC4907" ? <button
                         className="text-accent font-display text-sm font-semibold"

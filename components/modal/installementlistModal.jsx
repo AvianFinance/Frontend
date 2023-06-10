@@ -81,21 +81,32 @@ const InstallmentListModal = () => {
 								</div>
 	
 								{/* <!-- Total --> */}
+								<div className="mb-2 flex items-center justify-between">
 
-								<div className="relative my-3 flex items-center">
-
-									<div className="flex-1">
+									<div className="flex">
 										<label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
 											Price for Installment Based Rental
 										</label>
-										<input
-											type="text"
-											className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
-											placeholder="Set a listing price"
-											onChange={(e) => setPriceForDay(e.target.value)}
-											value={priceforday}
-										/>
+										
 									</div>
+								</div>
+								<div className="dark:border-jacarta-600 border-jacarta-100 relative mb-2 flex items-center overflow-hidden rounded-lg border">
+									<div className="border-jacarta-100 dark:bg-jacarta-600 bg-jacarta-50 flex flex-1 items-center self-stretch border-r px-2">
+										<span>
+											<svg className="icon icon-ETH mr-1 h-5 w-5">
+												<use xlinkHref="/icons.svg#icon-ETH"></use>
+											</svg>
+										</span>
+										<span className="font-display text-jacarta-700 text-sm dark:text-jacarta-200">AVAX</span>
+									</div>
+
+									<input
+										type="number"
+										className="dark:bg-jacarta-600 h-12 w-full flex-[3] border-0 focus:ring-inse dark:text-jacarta-200"
+										placeholder="Set a listing price"
+										onChange={(e) => setPriceForDay(e.target.value)}
+										value={priceforday}
+									/>
 								</div>
 								{/* <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
 									<span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
@@ -123,10 +134,7 @@ const InstallmentListModal = () => {
 										className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 									/>
 									<label htmlFor="buyNowTerms" className="dark:text-jacarta-200 text-sm">
-										By checking this box, I agree to {"Xhibiter's"}{' '}
-										<Link href="/tarms">
-											<a className="text-accent">Terms of Service</a>
-										</Link>
+									By checking this box, I agree to Terms of Service
 									</label>
 								</div>
 							</div>

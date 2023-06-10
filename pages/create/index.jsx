@@ -176,20 +176,23 @@ const Create = () => {
         }
 
         let responseipfs
-    
-        await uploadIPFS(obj)
-          .then((response) => {
-            if (response.error){
-              throw new Error(response.error.response.data.message)
-            }
-            responseipfs = response.data
-            console.log(responseipfs)
-          })
+        try{
+          await uploadIPFS(obj)
+            .then((response) => {
+              if (response.error){
+                throw new Error(response.error.response.data.message)
+              }
+              responseipfs = response.data
+              console.log(responseipfs)
+            })
+        } catch(error){
+          dispatch(showToast(["error","uploading failed"]))
+        }
         await mintToken(`https://gateway.pinata.cloud/ipfs/${responseipfs.ipfsHash.ipfsHash}`, responseipfs.token_type ,activeItem, responseipfs)
         dispatch(showToast(["success","NFT Minted!"]))
       }  
     } catch(error){
-      dispatch(showToast(["error",error.props]))
+      dispatch(showToast(["error",error.reason]))
     }
     setisLoading(true)
   }

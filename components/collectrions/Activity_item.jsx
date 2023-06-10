@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { collection_activity_item_data } from '../../data/collection_data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getNFTColactivities } from "../../api/nft";
@@ -9,17 +8,17 @@ const Activity_item = (address) => {
 	function onlyUnique(value, index, self) {
 		return self.indexOf(value) === index;
 	}
+	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		getNFTColactivities(address.address)
 				.then((res) => {
-					console.log(res)
+					setData(res.data)
 				})
 	}, [address]);
 
-	const [data, setData] = useState(collection_activity_item_data);
 	const [filterData, setfilterData] = useState(
-		collection_activity_item_data.map((item) => {
+		data.map((item) => {
 			const { category } = item;
 			return category;
 		})
@@ -28,7 +27,7 @@ const Activity_item = (address) => {
 	const [inputText, setInputText] = useState('');
 
 	const handleFilter = (category) => {
-		setData(collection_activity_item_data.filter((item) => item.category === category));
+		setData(data.filter((item) => item.category === category));
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -52,22 +51,17 @@ const Activity_item = (address) => {
 					{/* <!-- Records --> */}
 					<div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
 						{data.slice(0, 5).map((item) => {
-							const { id, image, title, price, time, category } = item;
-							const itemLink = image
-								.split('/')
-								.slice(-1)
-								.toString()
-								.replace('.jpg', '')
-								.replace('.gif', '')
-								.replace('_sm', '')
-								.replace('avatar', 'item');
+							console.log(item)
+							const { nftContract, uri, name, price, createdAt, basicEvent } = item;			
+							let priceVal = 	parseInt((price._hex), 16) * Math.pow(10, -18)
+							let createdattime = createdAt ? createdAt.split("-")[0] : null
 							return (
-								<Link href={`/item/${itemLink}`} key={id}>
+								<Link href={uri ? uri : "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"} key={nftContract}>
 									<a className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl relative flex items-center border bg-white p-8 transition-shadow hover:shadow-lg">
 										<figure className="mr-5 self-start">
-											<Image
-												src={image}
-												alt={title}
+											<img
+												src={uri ? uri : "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"}
+												alt={name}
 												height={50}
 												width={50}
 												objectFit="cover"
@@ -78,17 +72,17 @@ const Activity_item = (address) => {
 
 										<div>
 											<h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
-												{title}
+												{name}
 											</h3>
 											<span className="dark:text-jacarta-200 text-jacarta-500 mb-3 block text-sm">
-												{price}
+											{basicEvent} for {priceVal} AVAX 
 											</span>
-											<span className="text-jacarta-300 block text-xs">{time}</span>
+											<span className="text-jacarta-300 block text-xs">{createdattime}</span>
 										</div>
 
 										<div className="dark:border-jacarta-600 border-jacarta-100 ml-auto rounded-full border p-3">
 											<svg className="icon fill-jacarta-700 dark:fill-white h-6 w-6">
-												<use xlinkHref={`/icons.svg#icon-${category}`}></use>
+												<use xlinkHref={`/icons.svg#icon-${basicEvent}`}></use>
 											</svg>
 										</div>
 									</a>

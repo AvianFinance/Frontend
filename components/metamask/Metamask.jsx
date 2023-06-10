@@ -490,6 +490,7 @@ const PayRental = (payload, numofDays) => {
         AvianRentMarket.abi,
         signer
     );
+	const router = useRouter();
 
 	const ins_mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
 	
@@ -561,6 +562,7 @@ const PayRental = (payload, numofDays) => {
 					// })	
 					dispatch(buyModalHide())		
 					dispatch(showToast(["success","NFT Rented!"]))
+					router.push(`/user/${address}`)
 				} catch(error){
 					console.log(error)
 					dispatch(buyModalHide())
@@ -588,6 +590,7 @@ const PayRental = (payload, numofDays) => {
 					console.log("NFT rented and first ins paid")
 					dispatch(buyModalHide())
 					dispatch(showToast(["success","NFT Rented!"]))
+					router.push(`/user/${address}`)
 				} catch(error){
 					console.log(error)
 					dispatch(buyModalHide())
@@ -658,6 +661,7 @@ const Confirm_checkout = (payload) => {
         AvianRentMarket.abi,
         signer
     );
+	const router = useRouter();
 	console.log(_marketplace)
 	
 	const buyNFT = async () => {
@@ -694,6 +698,7 @@ const Confirm_checkout = (payload) => {
 			
 				})
 				dispatch(showToast(["success","NFT Bought!"]))
+				router.push(`/user/${address}`)
 			} catch(error){
 				dispatch(showToast(["error",'Error while buying NFT']))
 			}	
@@ -704,7 +709,8 @@ const Confirm_checkout = (payload) => {
 				const tx =  await _marketplace.buyItem(payload.payload.coll_addr, payload.payload.token_id.toString(), {
 					value: ethers.utils.parseEther((parseInt((payload.payload.pricePerDay.hex), 16) * Math.pow(10, -18) * payload.numofDays).toString()),
 				})
-				dispatch(showToast(["success","NFT Bought!"]))
+				dispatch(showToast(["success","NFT Rented!"]))
+				router.push(`/user/${address}`)
 			} catch(error){
 				dispatch(showToast(["error",'Error while buying NFT']))
 			}			

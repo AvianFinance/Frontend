@@ -54,7 +54,7 @@ const BidsModal = () => {
 
 								<input
 									type="number"
-									className="focus:ring-accent h-12 w-full flex-[3] border-0 focus:ring-inse dark:text-jacarta-700"
+									className="focus:ring-accent h-12 w-full flex-[3] border-0 focus:ring-inse dark:text-jacarta-600"
 									placeholder="Amount"
 									value={ETHAmount}
 									onChange={(e) => handleEThAmount(e)}
@@ -77,10 +77,7 @@ const BidsModal = () => {
 									className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
 								/>
 								<label htmlFor="terms" className="dark:text-jacarta-200 text-sm">
-									By checking this box, I agree to {"Xhibiter's"}{' '}
-									<a href="#" className="text-accent">
-										Terms of Service
-									</a>
+									By checking this box, I agree to Terms of Service
 								</label>
 							</div>
 						</div>

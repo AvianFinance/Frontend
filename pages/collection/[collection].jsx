@@ -141,7 +141,7 @@ const Collection = () => {
 				<div className="modal-content">
 					<div className="modal-header">
 					<h5 className="modal-title" id="addPropertiesLabel">
-						Processing for NFT Buying
+						{exploretype=="buy" ? 'Processing for NFT Buying' : 'Processing for NFT Renting'}
 					</h5>
 					</div>
 					<div className='modal-body p-6'>

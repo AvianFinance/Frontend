@@ -115,7 +115,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 							})}
 						</ul>
 						{/* dropdown */}
-						<Recently_added_dropdown data={sortText} dropdownFor="recently_added" />
+						{/* <Recently_added_dropdown data={sortText} dropdownFor="recently_added" /> */}
 					</div>
 		
 					{/* <!-- Grid --> */}
@@ -186,7 +186,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 							})}
 						</ul>
 						{/* dropdown */}
-						<Recently_added_dropdown data={sortText} dropdownFor="recently_added" />
+						{/* <Recently_added_dropdown data={sortText} dropdownFor="recently_added" /> */}
 					</div>
 		
 					{/* <!-- Grid --> */}
@@ -257,7 +257,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 							})}
 						</ul>
 						{/* dropdown */}
-						<Recently_added_dropdown data={sortText} dropdownFor="recently_added" />
+						{/* <Recently_added_dropdown data={sortText} dropdownFor="recently_added" /> */}
 					</div>
 		
 					{/* <!-- Grid --> */}
@@ -328,7 +328,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 							})}
 						</ul>
 						{/* dropdown */}
-						<Recently_added_dropdown data={sortText} dropdownFor="recently_added" />
+						{/* <Recently_added_dropdown data={sortText} dropdownFor="recently_added" /> */}
 					</div>
 		
 					{/* <!-- Grid --> */}
@@ -400,7 +400,7 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 								})}
 							</ul>
 							{/* dropdown */}
-							<Recently_added_dropdown data={sortText} dropdownFor="recently_added" />
+							{/* <Recently_added_dropdown data={sortText} dropdownFor="recently_added" /> */}
 						</div>
 			
 						{/* <!-- Grid --> */}
