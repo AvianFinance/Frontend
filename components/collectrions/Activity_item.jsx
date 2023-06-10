@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { getNFTColactivities } from "../../api/nft";
 
 const Activity_item = (address) => {
@@ -9,38 +10,46 @@ const Activity_item = (address) => {
 		return self.indexOf(value) === index;
 	}
 	const [data, setData] = useState([]);
+	const [filterData, setfilterData] = useState(["Mint", "List", "Buy", "Rent"]);
+	const [alldata, setalldata] = useState([]);
+	const router = useRouter();
 
 	useEffect(() => {
 		getNFTColactivities(address.address)
-				.then((res) => {
+				.then(async(res) => {
 					setData(res.data)
-				})
+					setalldata(res.data)
+				})	
 	}, [address]);
-
-	const [filterData, setfilterData] = useState(
-		data.map((item) => {
-			const { category } = item;
-			return category;
-		})
-	);
 
 	const [inputText, setInputText] = useState('');
 
 	const handleFilter = (category) => {
-		setData(data.filter((item) => item.category === category));
+		setData(alldata.filter((item) => item.basicEvent === category));
 	};
+
+	// const setFilters = () => {
+	// 	if(filterData){
+	// 		let filters = []
+	// 		data.map(async(item) => {
+	// 				console.log(item.basicEvent)
+	// 				await filters.push(item.basicEvent)
+	// 		})
+	// 		let unique = filters.filter((item, i, ar) => ar.indexOf(item) === i);
+	// 		setfilterData(unique)
+	// 	}
+	// };
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const newArray = collection_activity_item_data.filter((item) => {
-			return item.title.toLowerCase().includes(inputText);
+		const newArray = alldata.filter((item) => {
+			if(item.name){
+				return item.name.toLowerCase().includes(inputText.toLowerCase());
+			}
 		});
 		setData(newArray);
 		setInputText('');
 	};
-
-	useEffect(() => {
-		setfilterData(filterData.filter(onlyUnique));
-	}, []);
 
 	return (
 		<>
@@ -51,12 +60,11 @@ const Activity_item = (address) => {
 					{/* <!-- Records --> */}
 					<div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
 						{data.slice(0, 5).map((item) => {
-							console.log(item)
 							const { nftContract, uri, name, price, createdAt, basicEvent } = item;			
 							let priceVal = 	parseInt((price._hex), 16) * Math.pow(10, -18)
 							let createdattime = createdAt ? createdAt.split("-")[0] : null
 							return (
-								<Link href={uri ? uri : "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"} key={nftContract}>
+								<Link href={`http://localhost:3000/item/${item.nftContract}&${item.tokenId}`} key={nftContract}>
 									<a className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl relative flex items-center border bg-white p-8 transition-shadow hover:shadow-lg">
 										<figure className="mr-5 self-start">
 											<img
@@ -82,7 +90,9 @@ const Activity_item = (address) => {
 
 										<div className="dark:border-jacarta-600 border-jacarta-100 ml-auto rounded-full border p-3">
 											<svg className="icon fill-jacarta-700 dark:fill-white h-6 w-6">
-												<use xlinkHref={`/icons.svg#icon-${basicEvent}`}></use>
+												{basicEvent ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
+												{basicEvent ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
+												{basicEvent ==="Buy" || basicEvent==="Rent" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 											</svg>
 										</div>
 									</a>
@@ -122,7 +132,7 @@ const Activity_item = (address) => {
 							Filters
 						</h3>
 						<div className="flex flex-wrap">
-							{filterData.map((category, i) => {
+							{filterData ? filterData.map((category, i) => {
 								return (
 									<button
 										className={
@@ -143,12 +153,14 @@ const Activity_item = (address) => {
 													: 'icon fill-jacarta-700 mr-2 h-4 w-4 group-hover:fill-white dark:fill-white'
 											}
 										>
-											<use xlinkHref={`/icons.svg#icon-${category}`}></use>
+											{category ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
+											{category ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
+											{category ==="Buy" || category==="Rent" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 										</svg>
 										<span className="text-2xs font-medium capitalize">{category}</span>
 									</button>
 								);
-							})}
+							}) : null}
 						</div>
 					</aside>
 				</div>
