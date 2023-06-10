@@ -7,3 +7,5 @@ export const getNFTDetails = (address, tokenID) => getRequest(`${BASE_URL}/${add
 export const getNFTactivities = (address, tokenID) => getRequest(`${BASE_URL}/activity/${address}/${tokenID}`);
 
 export const getNFTColactivities = (address) => getRequest(`${BASE_URL}/colactivity/${address}`);
+
+export const getUserActivities = (address) => getRequest(`${BASE_URL}/profile/${address}`);

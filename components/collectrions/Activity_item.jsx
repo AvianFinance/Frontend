@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { getNFTColactivities } from "../../api/nft";
+import { getNFTColactivities, getUserActivities } from "../../api/nft";
 
 const Activity_item = (address) => {
 	const [filterVal, setFilterVal] = useState(null);
@@ -10,22 +10,39 @@ const Activity_item = (address) => {
 		return self.indexOf(value) === index;
 	}
 	const [data, setData] = useState([]);
-	const [filterData, setfilterData] = useState(["Mint", "List", "Buy", "Rent"]);
+	const [filterData, setfilterData] = useState(["All", "Mint", "List", "Transfer"]);
 	const [alldata, setalldata] = useState([]);
 	const router = useRouter();
-
+	const fullLocation = window.location.href;
+	console.log(fullLocation);
 	useEffect(() => {
-		getNFTColactivities(address.address)
+		if (fullLocation.includes("user")){
+			console.log("user address",address.address)	
+			getUserActivities(address.address)
+				.then(async(res) => {
+					console.log(res.data)
+					setData(res.data)
+					setalldata(res.data)
+				})
+		} else {
+			console.log("collection address",address.address)
+			getNFTColactivities(address.address)
 				.then(async(res) => {
 					setData(res.data)
 					setalldata(res.data)
 				})	
+		}
 	}, [address]);
 
 	const [inputText, setInputText] = useState('');
 
 	const handleFilter = (category) => {
-		setData(alldata.filter((item) => item.basicEvent === category));
+		if (category === 'All') {
+			setData(alldata);
+			return;
+		} else{
+			setData(alldata.filter((item) => item.basicEvent === category));	
+		}
 	};
 
 	// const setFilters = () => {
@@ -59,12 +76,12 @@ const Activity_item = (address) => {
 				<div className="lg:flex">
 					{/* <!-- Records --> */}
 					<div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
-						{data.slice(0, 5).map((item) => {
+						{data.slice(0, 5).map((item, index) => {
 							const { nftContract, uri, name, price, createdAt, basicEvent } = item;			
 							let priceVal = 	parseInt((price._hex), 16) * Math.pow(10, -18)
 							let createdattime = createdAt ? createdAt.split("-")[0] : null
 							return (
-								<Link href={`http://localhost:3000/item/${item.nftContract}&${item.tokenId}`} key={nftContract}>
+								<Link href={`http://localhost:3000/item/${item.nftContract}&${item.tokenId}`} key={index}>
 									<a className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl relative flex items-center border bg-white p-8 transition-shadow hover:shadow-lg">
 										<figure className="mr-5 self-start">
 											<img
@@ -90,9 +107,10 @@ const Activity_item = (address) => {
 
 										<div className="dark:border-jacarta-600 border-jacarta-100 ml-auto rounded-full border p-3">
 											<svg className="icon fill-jacarta-700 dark:fill-white h-6 w-6">
+												{basicEvent ==="All" ? <use xlinkHref={`/icons.svg#icon-bids`}></use> : null}
 												{basicEvent ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
 												{basicEvent ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
-												{basicEvent ==="Buy" || basicEvent==="Rent" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
+												{basicEvent ==="Transfer" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 											</svg>
 										</div>
 									</a>
@@ -153,9 +171,10 @@ const Activity_item = (address) => {
 													: 'icon fill-jacarta-700 mr-2 h-4 w-4 group-hover:fill-white dark:fill-white'
 											}
 										>
+											{category ==="All" ? <use xlinkHref={`/icons.svg#icon-bids`}></use> : null}
 											{category ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
 											{category ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
-											{category ==="Buy" || category==="Rent" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
+											{category ==="Transfer" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 										</svg>
 										<span className="text-2xs font-medium capitalize">{category}</span>
 									</button>

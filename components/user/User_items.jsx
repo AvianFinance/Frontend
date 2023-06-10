@@ -281,7 +281,7 @@ const User_items = (user_address) => {
 							{/* Activity */}
 							<TabPanel>
 								<div>
-									<Activity_item />
+									<Activity_item address={user_address.user_address}/>
 								</div>
 							</TabPanel>
 	
