@@ -40,10 +40,10 @@ const footer = () => {
 
               {/* <!-- Socials --> */}
               <div className="flex space-x-5">
-                {socialIcons.map((item) => {
+                {socialIcons.map((item, index6) => {
                   const { id, href, text } = item;
                   return (
-                    <Link href={href} key={id}>
+                    <Link href={href} key={index6}>
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -59,21 +59,21 @@ const footer = () => {
               </div>
             </div>
 
-            {footerMenuList.map((single) => (
+            {footerMenuList.map((single, index7) => (
               <div
                 className={`col-span-full sm:col-span-3 md:col-span-2 ${single.diffClass}`}
-                key={single.id}
+                key={index7}
               >
                 <h3 className="font-display text-jacarta-700 mb-6 text-sm dark:text-white">
                   {single.title}
                 </h3>
                 <ul className="dark:text-jacarta-300 flex flex-col space-y-1">
-                  {single.list.map((item) => {
+                  {single.list.map((item,index5) => {
                     const { id, href, text } = item;
                     return (
-                      <li key={id}>
+                      <li key={index5}>
                         
-                        {(single.id===3 && item.id===1) ? <Link href={href+"/"+address}>
+                        {(single.id===3 && item.id===1) ? <Link href={href+address}>
                           <a className="hover:text-accent dark:hover:text-white">
                             {text}
                           </a>

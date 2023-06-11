@@ -16,7 +16,6 @@ const Trending_categories_items = (filterName,collectedNFT) => {
 	const dispatch = useDispatch();
 	const { trendingCategorySorText } = useSelector((state) => state.counter);
 	const [filterVal, setFilterVal] = useState(0);
-	// console.log(filterName)
 
 	const handleFilter = (category) => {
 		if (category !== 'all') {

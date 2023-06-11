@@ -73,8 +73,6 @@ const Proparties_modal = () => {
 
 				await NFT.deployed()
 
-				// console.log(NFT.address)
-
 				let obj = {
 					"address" : NFT.address,
 					"name" : Name.value,
@@ -82,7 +80,6 @@ const Proparties_modal = () => {
 					"tokenType" : activeItem,
 					"createdBy" : address
 				}
-				// console.log(obj)
 
 				await saveData(obj)
 				setisloading(false)

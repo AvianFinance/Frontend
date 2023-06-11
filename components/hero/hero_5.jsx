@@ -8,10 +8,14 @@ import {getBasicData} from '../../api/landing'
 const Hero_5 = () => {
 	const [basicInfo, setbasicInfo] = useState(0)
 	useEffect(() => {
-		console.log('hero5 called1')
 		getBasicData()
 			.then((response) => {
-				setbasicInfo(response.data)
+				if (response.data){
+					setbasicInfo(response.data)
+				} else {
+					console.log("error in getBasicData")
+				}
+				
 			})
 	}, []);
 
@@ -93,8 +97,6 @@ const Hero_5 = () => {
 										.toString()
 										.replace('_2lg.jpg', '')
 										.replace('.gif', '');
-
-									// console.log(itemLink)
 									return (
 										<div
 											className={

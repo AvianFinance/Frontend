@@ -17,10 +17,7 @@ const User_collection_token = ({ collection, collectiondetails }) => {
     const [collectionData, setcollectionData] = useState()
     const { address } = useAccount()
 
-    console.log("Rendering user collection token details in profile")
-
     useEffect(() => {
-        console.log(collectiondetails)
         setItems(collection)
         setcollectionData(collectiondetails)
     }, [collection]);

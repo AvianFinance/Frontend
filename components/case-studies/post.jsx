@@ -3,7 +3,6 @@ import React from 'react';
 import { case_studies_data } from '../../data/case-studies_data';
 
 const Post = ({ url }) => {
-	// console.log(url);
 	return (
 		<div>
 			{/* <!-- Post --> */}
@@ -11,7 +10,6 @@ const Post = ({ url }) => {
 				{case_studies_data
 					.filter((item) => item.href === url)
 					.map((item) => {
-						console.log(item.href);
 						const { id, img, title } = item;
 						return (
 							<div className="container" key={id}>

@@ -9,8 +9,6 @@ const BuyModal = () => {
 	const [priceforday, setPriceForDay] = useState()
 	const [checked, setChecked] = useState(false)
 
-	// console.log(listcontent)
-	// console.log(listbuymodal)
 	useEffect(() => {
 		setChecked(false)
 		setPriceForDay(0)

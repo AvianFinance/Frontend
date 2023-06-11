@@ -48,20 +48,24 @@ const Explore_collection = () => {
     if (exploretype==="rent"){
       getrentbuylistings()
         .then((response) => {
-          // console.log(response.data)
           setCollections(response.data)
           if(response.data){
             filterVal === 0 ? setfiltered(response.data.upright) : setfiltered(response.data.inst)
+          } else {
+            console.log("error in getrentbuylistings")
           }
           setisLoading(true)
         })
     } else {
       getbuylistings()
         .then((response) => {
-          // console.log(response.data)
-          setCollections(response.data)
-          setfiltered(response.data)
-          setisLoading(true)
+          if(response.data){
+            setCollections(response.data)
+            setfiltered(response.data)
+            setisLoading(true)
+          } else {
+            console.log("error in getbuylistings")
+          }
         })
     }
 	},[exploretype, filterVal]);

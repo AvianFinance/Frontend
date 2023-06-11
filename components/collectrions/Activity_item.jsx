@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getNFTColactivities } from "../../api/nft";
+import { useRouter } from 'next/router';
+import { getNFTColactivities, getUserActivities } from "../../api/nft";
 
 const Activity_item = (address) => {
 	const [filterVal, setFilterVal] = useState(null);
@@ -9,38 +10,58 @@ const Activity_item = (address) => {
 		return self.indexOf(value) === index;
 	}
 	const [data, setData] = useState([]);
-
+	const [filterData, setfilterData] = useState(["All", "Mint", "List", "Transfer"]);
+	const [alldata, setalldata] = useState([]);
+	const router = useRouter();
+	const fullLocation = window.location.href;
 	useEffect(() => {
-		getNFTColactivities(address.address)
-				.then((res) => {
-					setData(res.data)
+		if (fullLocation.includes("user")){
+			getUserActivities(address.address)
+				.then(async(res) => {
+					console.log(res.data)
+					if (res.data){
+						setData(res.data)
+						setalldata(res.data)
+					} else {
+						console.log("error in getUserActivities")
+					}
+					
 				})
+		} else {
+			console.log("collection address",address.address)
+			getNFTColactivities(address.address)
+				.then(async(res) => {
+					if(res.data){
+						setData(res.data)
+						setalldata(res.data)
+					} else {
+						console.log("error in getNFTColactivities")
+					}
+				})	
+		}
 	}, [address]);
-
-	const [filterData, setfilterData] = useState(
-		data.map((item) => {
-			const { category } = item;
-			return category;
-		})
-	);
 
 	const [inputText, setInputText] = useState('');
 
 	const handleFilter = (category) => {
-		setData(data.filter((item) => item.category === category));
+		if (category === 'All') {
+			setData(alldata);
+			return;
+		} else{
+			setData(alldata.filter((item) => item.basicEvent === category));	
+		}
 	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const newArray = collection_activity_item_data.filter((item) => {
-			return item.title.toLowerCase().includes(inputText);
+		const newArray = alldata.filter((item) => {
+			if(item.name){
+				return item.name.toLowerCase().includes(inputText.toLowerCase());
+			}
 		});
 		setData(newArray);
 		setInputText('');
 	};
-
-	useEffect(() => {
-		setfilterData(filterData.filter(onlyUnique));
-	}, []);
 
 	return (
 		<>
@@ -50,13 +71,12 @@ const Activity_item = (address) => {
 				<div className="lg:flex">
 					{/* <!-- Records --> */}
 					<div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
-						{data.slice(0, 5).map((item) => {
-							console.log(item)
+						{data.slice(0, 5).map((item, index) => {
 							const { nftContract, uri, name, price, createdAt, basicEvent } = item;			
 							let priceVal = 	parseInt((price._hex), 16) * Math.pow(10, -18)
 							let createdattime = createdAt ? createdAt.split("-")[0] : null
 							return (
-								<Link href={uri ? uri : "https://res.cloudinary.com/isuruieee/image/upload/v1676888531/125451487-not-available-stamp-seal-watermark-with-distress-style-blue-vector-rubber-print-of-not-available_alfwie.webp"} key={nftContract}>
+								<Link href={`http://localhost:3000/item/${item.nftContract}&${item.tokenId}`} key={index}>
 									<a className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl relative flex items-center border bg-white p-8 transition-shadow hover:shadow-lg">
 										<figure className="mr-5 self-start">
 											<img
@@ -82,7 +102,10 @@ const Activity_item = (address) => {
 
 										<div className="dark:border-jacarta-600 border-jacarta-100 ml-auto rounded-full border p-3">
 											<svg className="icon fill-jacarta-700 dark:fill-white h-6 w-6">
-												<use xlinkHref={`/icons.svg#icon-${basicEvent}`}></use>
+												{basicEvent ==="All" ? <use xlinkHref={`/icons.svg#icon-bids`}></use> : null}
+												{basicEvent ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
+												{basicEvent ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
+												{basicEvent ==="Transfer" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 											</svg>
 										</div>
 									</a>
@@ -122,7 +145,7 @@ const Activity_item = (address) => {
 							Filters
 						</h3>
 						<div className="flex flex-wrap">
-							{filterData.map((category, i) => {
+							{filterData ? filterData.map((category, i) => {
 								return (
 									<button
 										className={
@@ -143,12 +166,15 @@ const Activity_item = (address) => {
 													: 'icon fill-jacarta-700 mr-2 h-4 w-4 group-hover:fill-white dark:fill-white'
 											}
 										>
-											<use xlinkHref={`/icons.svg#icon-${category}`}></use>
+											{category ==="All" ? <use xlinkHref={`/icons.svg#icon-bids`}></use> : null}
+											{category ==="List" ? <use xlinkHref={`/icons.svg#icon-listing`}></use> : null}
+											{category ==="Mint" ? <use xlinkHref={`/icons.svg#icon-purchases`}></use> : null}
+											{category ==="Transfer" ? <use xlinkHref={`/icons.svg#icon-transfer`}></use> : null}
 										</svg>
 										<span className="text-2xs font-medium capitalize">{category}</span>
 									</button>
 								);
-							})}
+							}) : null}
 						</div>
 					</aside>
 				</div>

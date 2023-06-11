@@ -40,13 +40,11 @@ const WrapCollectionModal = () => {
     }
 
     const deployWrapper = async (e) => {
-        console.log(wrapcollectioncontent._id + " , " + Name.value + " , " + Symbol.value)
         const WrapperToken = new ethers.ContractFactory(RentWrapper.abi, RentWrapper.bytecode, signer);
         setisloading(true)
         try {
             const Wrapper = await WrapperToken.deploy(wrapcollectioncontent._id, Name.value, Symbol.value);
             await Wrapper.deployed()
-            console.log("Rentable 4907 Wrapper deployed to:", Wrapper.address, "for the 721 :", wrapcollectioncontent._id);
 
             let wrappedCollection = {
                 "address": Wrapper.address,
@@ -56,7 +54,7 @@ const WrapCollectionModal = () => {
                 "createdBy": address,
                 "baseCollection": wrapcollectioncontent._id
             }
-            console.log("Saving wrapper : " + wrappedCollection)
+            
             saveWrapCollectionData(wrappedCollection)
             setisloading(false)
             setName("");

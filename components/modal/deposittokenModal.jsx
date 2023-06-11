@@ -19,7 +19,6 @@ const DepositTokenModal = () => {
     const [Symbol, setSymbol] = useState({ value: "", errorVal: "" });
     const [isloading, setisloading] = useState(false);
 
-    console.log(deposittokencontent)
 
     const saveWrapedNftData = async (data) => {
         await depositNFT(data)
@@ -32,8 +31,6 @@ const DepositTokenModal = () => {
         const wrapper_address = deposittokencontent.coll.wrappedCollection
         const tokenId = deposittokencontent.nft.token_id
 
-        console.log("Depositing " + wrapper_address + " , "+ tokenId)
-
         setisloading(true)
         try {
             const wrapper_contract = new ethers.Contract(wrapper_address, WrapperContract.abi, signer)
@@ -41,16 +38,12 @@ const DepositTokenModal = () => {
 
             const token_contract = new ethers.Contract(base_contract_address, RentContract.abi, signer)
 
-            console.log("Approving Wrapper as operator of NFT...")
             const approvalTx = await token_contract.approve(wrapper_address, tokenId)
             await approvalTx.wait(1)
-
-            console.log("Wrapping and depositing NFT...")
             const tx = await wrapper_contract.deposit(tokenId)
 
             await tx.wait(1)
 
-            console.log(tx)
             let wrappedNft = {
                 "coll_addr": wrapper_address,
                 "token_id" : tokenId,
@@ -61,7 +54,7 @@ const DepositTokenModal = () => {
                 "owner": address,
                 "baseCollection": deposittokencontent.nft.coll_addr
             }
-            console.log(wrappedNft)
+            
             saveWrapedNftData(wrappedNft)
             setisloading(false)
             dispatch(deposittokenModalHide())

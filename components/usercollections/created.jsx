@@ -12,7 +12,7 @@ const Created = (collectedNFT) => {
   const { sortedtrendingCategoryItemData } = useSelector(
     (state) => state.counter
   );
-  // console.log(collectedNFT)
+
   let filtered
  
   if(collectedNFT.filterVal == 1){
@@ -57,7 +57,7 @@ const Created = (collectedNFT) => {
 						rent_listed_status = true,
 						sell_listed_status = true
           }
-          // console.log(listed_status)
+          
           const itemLink = item.token_address + '&' + item.token_id
           return (
             <article key={id}>
@@ -130,7 +130,6 @@ const Created = (collectedNFT) => {
       </div>
     );   
   } else {
-    // console.log("no dataaaaa")
     return (
       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
         {sortedtrendingCategoryItemData.map((item) => {

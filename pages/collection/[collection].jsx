@@ -45,19 +45,25 @@ const Collection = () => {
 		if (pid && exploretype === "rent") {
 			getrentalcollection(pid)
 				.then((response) => {
-					// console.log(response.data)
-					setcollection(response.data)
-					setcollectiondetails((typeof(response.data) !== "undefined" && response.data.collection !== null) ? response.data.collection : nill)
-					setisLoading(false)
+					if(response.data){
+						setcollection(response.data)
+						setcollectiondetails((typeof(response.data) !== "undefined" && response.data.collection !== null) ? response.data.collection : nill)
+						setisLoading(false)
+					} else {
+						console.log("error in getrentalcollection")
+					}
 				})
 		}
 		if (pid && exploretype === "buy") {
 			getbuycollection(pid)
 				.then((response) => {
-					// console.log(response.data)
-					setcollectiondetails(response.data.collection)
-					setcollection(response.data.token)
-					setisLoading(false)
+					if (response.data){
+						setcollectiondetails(response.data.collection)
+						setcollection(response.data.token)
+						setisLoading(false)
+					} else{
+						console.log("error in getbuycollection")
+					}
 				})
 		}
 	}, [pid, exploretype]);
@@ -65,7 +71,7 @@ const Collection = () => {
 	let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : null
 	let collectionaddress = collectiondetails ? collectiondetails._id : null
 	let name = collectiondetails ? collectiondetails.name : null
-	console.log(val)
+
 	return (
 		<>
 			<Meta title={`collection || Xhibiter | NFT Marketplace Next.js Template`} />

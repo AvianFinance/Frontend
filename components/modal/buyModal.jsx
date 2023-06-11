@@ -12,11 +12,9 @@ const BuyModal = () => {
 	const { data: signer, isError } = useSigner()
 	const [numofDays, setnumofDays] = useState(0)
 	const [checked, setChecked] = useState(false)
-	// console.log(collectionsdata)
 
 	useEffect(() => {
 		setChecked(false)
-		console.log("checked----------", checked)
 		setnumofDays(0)
 	}, [buyModal]);
 
@@ -130,8 +128,6 @@ const BuyModal = () => {
 			</div>
 		);
 	} else {
-		// console.log(collectionsdata)
-		// if(!isloading){
 			return (
 				<div>
 					{/* <!-- Buy Now Modal --> */}
@@ -270,28 +266,6 @@ const BuyModal = () => {
 					</div>
 				</div>
 			);
-		// } else {
-		// 	return (
-		// 		<div>
-		// 			<div className={buyModal ? 'modal fade show block' : 'modal fade'}>
-		// 				<div className="modal-dialog max-w-xxl">
-		// 					<div className="modal-content">
-		// 						<div className="modal-header">
-		// 							<h5 className="modal-title" id="addPropertiesLabel">
-		// 								Waiting for Completion of transaction
-		// 							</h5>
-		// 						</div>
-		// 						  <div className='modal-body p-6'>
-		// 						  <div className="flex justify-center items-center">
-		// 							  <CircularProgress/>
-		// 						  </div>
-		// 						</div>
-		// 					</div>
-		// 				</div>
-		// 			</div>
-		// 		</div>
-		// 	)
-		// }
 		
 	}
 	

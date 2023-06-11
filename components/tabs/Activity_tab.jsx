@@ -4,7 +4,6 @@ import Link from 'next/link';
 import UserId from '../../components/userId';
 
 const Activity_tab = (activities) => {
-	console.log(activities)
 	return (
 		<>
 			{/* <!-- Activity --> */}

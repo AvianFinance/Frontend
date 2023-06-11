@@ -35,7 +35,6 @@ const ItemsTabs = (nftdata, activities) => {
 		// 	icon: 'price',
 		// },
 	];
-	// console.log(nftdata)
 	return (
 		<>
 			<div className="scrollbar-custom mt-14 overflow-x-auto rounded-lg">

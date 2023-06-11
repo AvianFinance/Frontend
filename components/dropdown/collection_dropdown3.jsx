@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const Collection_dropdown3 = ({ data, collection , activeItem, setActiveItem}) => {
-	// console.log(activeItem)
 	const [dropdown, setDropdown] = useState(false);
 	const handleDropdown = () => {
 		window.addEventListener('click', (w) => {

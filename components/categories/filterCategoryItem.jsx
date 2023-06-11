@@ -7,7 +7,6 @@ import { updateTrendingCategoryItemData } from '../../redux/counterSlice';
 
 const FilterCategoryItem = (collection) => {
 	const dispatch = useDispatch();
-	// console.log(collection)
 	useEffect(() => {
 		dispatch(updateTrendingCategoryItemData(trendingCategoryData.slice(0, 8)));
 	}, []);
