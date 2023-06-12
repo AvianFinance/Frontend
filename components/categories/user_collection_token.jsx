@@ -37,6 +37,13 @@ const User_collection_token = ({ collection, collectiondetails }) => {
                         .toString()
                         .replace(".jpg", "")
                         .replace(".gif", "");
+
+                    const shouldRenderArticle = address === item.owner
+
+                    if (!shouldRenderArticle) {
+                        return null; // Skip rendering the article div
+                    }
+
                     return (
                         <article key={id}>
                             <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
