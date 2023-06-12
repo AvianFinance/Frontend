@@ -28,6 +28,7 @@ const Collection = () => {
 	const [collection, setcollection] = useState([])
 	const [collectiondetails, setcollectiondetails] = useState()
 	const [copied, setCopied] = useState(false);
+	console.log(exploretype)
 
 	const handleLikes = () => {
 		if (!likesImage) {
@@ -71,7 +72,6 @@ const Collection = () => {
 	let createdat = collectiondetails ? collectiondetails.createdAt.split("-")[0] : null
 	let collectionaddress = collectiondetails ? collectiondetails._id : null
 	let name = collectiondetails ? collectiondetails.name : null
-
 	return (
 		<>
 			<Meta title={`collection || Xhibiter | NFT Marketplace Next.js Template`} />
