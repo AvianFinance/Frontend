@@ -5,10 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import Feature_collections_data from '../../data/Feature_collections_data';
 import { wrapCollectionModalShow } from "../../redux/counterSlice";
 
+import {
+    useAccount,
+} from 'wagmi'
+
 const Explore_collection_item_user = ({ itemFor, collections }) => {
     const { sortedCollectionData, exploretype, wrapcollectionmodal } = useSelector((state) => state.counter);
     const [itemData, setItemData] = useState(null);
     const dispatch = useDispatch();
+    const { address } = useAccount()
 
     useEffect(() => {
         setItemData(collections);
@@ -120,7 +125,7 @@ const Explore_collection_item_user = ({ itemFor, collections }) => {
 
                                 <div className="mt-8 flex items-center justify-between">
                                     <span className="dark:text-jacarta-200 text-sm">{item.tokenType}</span>
-                                    {(item.tokenType === "ERC721" && !item.wrappedStatus) ?
+                                    {(item.tokenType === "ERC721" && !item.wrappedStatus && address === item.createdBy ) ?
                                         <button
                                             type="button"
                                             className="text-accent font-display text-sm font-semibold"
