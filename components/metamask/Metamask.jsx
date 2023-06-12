@@ -300,6 +300,7 @@ const ListSell = (priceforday, listcontent) => {
 			await approvalTx.wait(1)
 
 			let price = (priceforday.priceforday * Math.pow(10, 18)).toString()
+			console.log(price)
 
 			const tx = await _marketplace.listItem(nftContracts.address, tokenID , price)
 

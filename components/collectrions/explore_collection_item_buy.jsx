@@ -95,7 +95,7 @@ const Explore_collection_item = ({itemFor, collections}) => {
 									</a>
 								</Link>
 		
-								<div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
+								{item.CreatedBy ? <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
 									<div className="flex flex-wrap items-center">
 										<Link href={"/user/"+item.createdBy.toString()}>
 											<a className="mr-2 shrink-0">
@@ -110,7 +110,7 @@ const Explore_collection_item = ({itemFor, collections}) => {
 										</Link>
 									</div>
 									{/* <span className="dark:text-jacarta-300 text-sm">{itemsCount} Items</span> */}
-								</div>
+								</div> : null}
 							</div>
 						</article>
 					);
