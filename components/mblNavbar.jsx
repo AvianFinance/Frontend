@@ -163,6 +163,8 @@ const MblNavbar = ({ theme }) => {
 			setnavText('collection');
 		} else if (navItemValue === 33) {
 			setnavText('create');
+		} else if (navItemValue === 34) {
+			setnavText('usercollection');
 		}
 		else if (navItemValue === 34) {
 			setnavText('usercollection');
