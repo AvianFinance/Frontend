@@ -40,28 +40,36 @@ const WrapCollectionModal = () => {
     }
 
     const deployWrapper = async (e) => {
-        const WrapperToken = new ethers.ContractFactory(RentWrapper.abi, RentWrapper.bytecode, signer);
-        setisloading(true)
+        setisloading(false)
         try {
-            const Wrapper = await WrapperToken.deploy(wrapcollectioncontent._id, Name.value, Symbol.value);
-            await Wrapper.deployed()
+            if(Name.value == "" | Symbol.value == "" ) {
+                dispatch(showToast(["error","Provide all the required details"]))
+            } else {
+                setisloading(true)
+                const WrapperToken = new ethers.ContractFactory(RentWrapper.abi, RentWrapper.bytecode, signer);
+                const Wrapper = await WrapperToken.deploy(wrapcollectioncontent._id, Name.value, Symbol.value);
+                await Wrapper.deployed()
 
-            let wrappedCollection = {
-                "address": Wrapper.address,
-                "name": Name.value,
-                "symbol": Symbol.value,
-                "tokenType": "ERC4907",
-                "createdBy": address,
-                "baseCollection": wrapcollectioncontent._id
+                let wrappedCollection = {
+                    "address": Wrapper.address,
+                    "name": Name.value,
+                    "symbol": Symbol.value,
+                    "tokenType": "ERC4907",
+                    "createdBy": address,
+                    "baseCollection": wrapcollectioncontent._id
+                }
+                
+                saveWrapCollectionData(wrappedCollection)
+                setisloading(false)
+                setName("");
+                setSymbol("")
+                dispatch(wrapCollectionModalHide())
+                dispatch(showToast(["success", "Wrapper collection created successfully"]))
+                // Delay the router.push() by 1 second (adjust the delay time as needed)
+                setTimeout(() => {
+                    router.push(`/user/${address}`);
+                }, 1000); // 1000 milliseconds = 1 second
             }
-            
-            saveWrapCollectionData(wrappedCollection)
-            setisloading(false)
-            setName("");
-            setSymbol("")
-            dispatch(wrapCollectionModalHide())
-            dispatch(showToast(["success", "Wrapper collection created successfully"]))
-            router.reload(window.location.pathname)
         } catch (error) {
             setisloading(false)
             dispatch(wrapCollectionModalHide())
@@ -96,7 +104,7 @@ const WrapCollectionModal = () => {
                                 {/* <!-- Body --> */}
                                 <div className="modal-body p-6">
 
-                                    <div className="dark:border-jacarta-600 border-jacarta-100 relative flex justify-center items-center border-b py-1">
+                                    {/* <div className="dark:border-jacarta-600 border-jacarta-100 relative flex justify-center items-center border-b py-1">
                                         <figure className="self-center">
                                             <img
                                                 src={wrapcollectioncontent ? wrapcollectioncontent.coverImage : null}
@@ -107,7 +115,7 @@ const WrapCollectionModal = () => {
                                                 maxheight="80px"
                                             />
                                         </figure>
-                                    </div>
+                                    </div> */}
                                     {/* <!-- Collection ID --> */}
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
@@ -127,7 +135,7 @@ const WrapCollectionModal = () => {
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
                                             <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-                                                New token name
+                                                New collection name<span className="text-red">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -135,6 +143,7 @@ const WrapCollectionModal = () => {
                                                 placeholder="Enter token name..."
                                                 onChange={(e) => handleChange(e, "Name")}
                                                 value={Name.value}
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -143,7 +152,7 @@ const WrapCollectionModal = () => {
                                     <div className="relative my-3 flex items-center">
                                         <div className="flex-1">
                                             <label className="font-display text-jacarta-700 mb-3 block text-base font-semibold dark:text-white">
-                                                New token symbol
+                                                New collection symbol<span className="text-red">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -151,6 +160,7 @@ const WrapCollectionModal = () => {
                                                 placeholder="Enter token symbol..."
                                                 onChange={(e) => handleChange(e, "Symbol")}
                                                 value={Symbol.value}
+                                                required
                                             />
                                         </div>
                                     </div>
