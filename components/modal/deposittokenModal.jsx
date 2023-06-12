@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -18,6 +19,7 @@ const DepositTokenModal = () => {
     const [Name, setName] = useState({ value: "", errorVal: "" });
     const [Symbol, setSymbol] = useState({ value: "", errorVal: "" });
     const [isloading, setisloading] = useState(false);
+    const router = useRouter()
 
 
     const saveWrapedNftData = async (data) => {
@@ -59,6 +61,7 @@ const DepositTokenModal = () => {
             setisloading(false)
             dispatch(deposittokenModalHide())
             dispatch(showToast(["success", "Token Deposited Successfully"]))
+            router.push(`/user/${address}`);
         } catch (error) {
             setisloading(false)
             dispatch(deposittokenModalHide())
