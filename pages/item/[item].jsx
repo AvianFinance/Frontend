@@ -24,6 +24,7 @@ import { isMounted } from "../../scripts/isMounted"
 import RimeRent from "../../contracts/AVFXRent.sol/AVFXRent.json"
 import AIE_Proxy from "../../contracts/AIEProxy.sol/AIE_Proxy.json"
 import { iexchange_token }  from "../../utils/contracts";
+import AvianRentMarket from "../../contracts/ERC4907.sol/ERC4907.json"
 
 const Item = () => {
 	const mounted = isMounted()
@@ -39,17 +40,36 @@ const Item = () => {
 	const [ activities, setactivities] = useState()
 	const { data: signer, isError } = useSigner()
 	const provider = new ethers.providers.JsonRpcProvider("https://api.avax-test.network/ext/bc/C/rpc")
+	let _marketplace = null
+	const [expirytime, setexprytime] = useState(null)
+	let next_installement
 
 	useEffect(() => {
 		if(pid){
 			let address = pid.split("&")[0]
 			let tokenId = pid.split("&")[1]
 			getNFTDetails(address,tokenId)
-				.then((res) => {
+				.then(async (res) => {
 					if(res.data){
-						setnftdata(res.data.nft)
-						setcollection(res.data.collection)
-						setlisting(res.data.listing ? res.data.listing[0] : null)
+						console.log(res.data)
+						if(res.dat){
+							if(res.data.nft.token_type === "ERC4907"){
+								_marketplace = new ethers.Contract( // We will use this to interact with the AuctionManager
+									res.data.nft.coll_addr,
+									AvianRentMarket.abi,
+									provider
+								);
+								console.log(_marketplace)
+								let expiration= await _marketplace.userExpires(res.data.nft.token_id)
+								expirytime = parseInt((expiration._hex), 16)
+								setexprytime(expirytime)
+	
+							}
+							setnftdata(res.data.nft)
+							setcollection(res.data.collection)
+							setlisting(res.data.listing ? res.data.listing[0] : null)
+						}
+						
 					} else {
 						console.log("error in fetching nft details")
 					}
@@ -64,9 +84,7 @@ const Item = () => {
 					
 				})
 		}	
-	}, [pid])
-
-	let next_installement
+	}, [pid, expirytime])
 
 	const calInstallment = async () => {
 		let mplace_contract = new ethers.Contract(iexchange_token, AIE_Proxy.abi, signer)
@@ -75,7 +93,10 @@ const Item = () => {
 			RimeRent.abi,
 			provider
 		);
-		next_installement = (await mplace_contract.getNftInstallment(tokencontract.address, nftdata.token_id, 1)).toString();
+		next_installement = (await mplace_contract.getNftInstallment(tokencontract.address, nftdata.token_id, 1));
+		next_installement = next_installement
+		console.log("next_installement", next_installement.toString())
+		console.log("next_installement", next_installement ** Math.pow(10, -18))
 	}
 
 	const buyNFT = async () => {
@@ -87,12 +108,16 @@ const Item = () => {
 				provider
 			);
 
-			const tx = await mplace_contract.payNFTIns(tokencontract.address, nftdata.token_id,{
-				value: next_installement,
+			await mplace_contract.payNFTIns(tokencontract.address, nftdata.token_id,{
+				value: next_installement.toString(),
 			})
+			
 			dispatch(showToast(["success","Installment Paid!"]))
+			router.push(`/user/${nftdata.coll_addr}`)
 		} catch(error){
-			dispatch(showToast(["error",error]))
+			console.log(error.reason)
+			dispatch(showToast(["error",error.reason]))
+			router.push(`/item/${nftdata.coll_addr}`)
 		}	
 	}
 
@@ -253,15 +278,7 @@ const Item = () => {
 												</div>
 	
 												{/* <!-- Likes / Actions --> */}
-												<div className="ml-auto flex items-stretch space-x-2 relative">
-													<Likes
-														like={likes}
-														classes="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 flex items-center space-x-1 rounded-xl border bg-white py-2 px-4"
-													/>
-	
-													{/* <!-- Actions --> */}
-													<Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white" />
-												</div>
+												
 											</div>
 	
 											{/* <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
@@ -304,20 +321,24 @@ const Item = () => {
 														</h1>							
 													</div>
 
-													{(rent_listed_status === false && typeof(nftdata.expiry) !== "undefined" && typeof(listing) === "undefined") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">													
-														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
-															Rental expires in
-														</span>
-														<Items_Countdown_timer time={auction_timer} />
-													</div> : null}
-	
-													{/* <!-- Countdown --> */}
-													{(inst_listed_status === false && typeof(listing) !== "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
-														<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
-															Rental should pay with in
-														</span>
-														<Items_Countdown_timer time={+auction_timer} />
-													</div> : null}
+													{tokentype==="ERC4907" ? 
+													<>
+														{(rent_listed_status === false && typeof(nftdata.expiry) !== "undefined" && typeof(listing) === "undefined") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">													
+															<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
+																Rental expires in
+															</span>
+															<Items_Countdown_timer time={expirytime ? expirytime.toString() : null} />
+														</div> : null}
+		
+														{/* <!-- Countdown --> */}
+														{(inst_listed_status === false && typeof(listing) !== "undefined" && listing.inst_status === "PAYING") ?  <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
+															<span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
+																Installment due in
+															</span>
+															<Items_Countdown_timer time={expirytime ? expirytime.toString() : null} />
+														</div> : null}
+													</> : null}
+													
 												</div>
 												<p className="dark:text-jacarta-300 mb-10">{text}</p>
 
@@ -393,16 +414,16 @@ const Item = () => {
 													</div>
 												</div>
 	
-												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING" && owner !== address) ? <Link href="#">
+												{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING") && user===address ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={buyNFT}
 													>
-														Pay Next Installment
+														Pay Next Installment ( {next_installement ? parseFloat(next_installement) ** Math.pow(10, -18) : null} AVAX )
 													</button>
 												</Link> : null}
 
-												{(inst_listed_status === true && owner !== address) ? <Link href="#">
+												{/* {(inst_listed_status === true && owner !== address) ? <Link href="#">
 													<button
 														className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 														onClick={() => dispatch(buyModalShow(item))}
@@ -451,7 +472,7 @@ const Item = () => {
 													>
 														List as sell
 													</button>}
-												</> : null}
+												</> : null} */}
 
 												{/* {(tokentype === "721" && sell_listed_status === true && owner === address ) ? <Link href="#">
 													<button
@@ -471,8 +492,8 @@ const Item = () => {
 					</div>
 				</section>
 				{/* <!-- end item --> */}
-	
-				<More_items address={collection._id}/>
+{/* 	
+				<More_items address={collection._id}/> */}
 			</>
 		);
 	} else{
@@ -559,15 +580,7 @@ const Item = () => {
 												</div>
 	
 												{/* <!-- Likes / Actions --> */}
-												<div className="ml-auto flex items-stretch space-x-2 relative">
-													<Likes
-														like={likes}
-														classes="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 flex items-center space-x-1 rounded-xl border bg-white py-2 px-4"
-													/>
-	
-													{/* <!-- Actions --> */}
-													<Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white" />
-												</div>
+												
 											</div>
 	
 											<h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
@@ -746,8 +759,8 @@ const Item = () => {
 					</div>
 				</section>
 				{/* <!-- end item --> */}
-	
-				<More_items />
+{/* 	
+				<More_items /> */}
 			</>
 		);
 	}

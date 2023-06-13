@@ -150,7 +150,7 @@ const Collected = (collectedNFT) => {
                       {bidCount}/{bidLimit}
                     </span>
                   </div> */}
-                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address) ? 
+                  {(!sell_listed_status && !rent_listed_status && !inst_listed_status && owner===address && user===address) ? 
                     <div className="flex items-center justify-between">
                       <button
                         className="text-accent font-display text-sm font-semibold"

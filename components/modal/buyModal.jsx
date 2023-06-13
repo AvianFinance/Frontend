@@ -214,10 +214,10 @@ const BuyModal = () => {
 												Number of Days to rent
 											</label>
 											<input
-												type="text"
+												type="number"
 												className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
 												placeholder="Number of Days to rent"
-												onChange={(e) => setnumofDays(e.target.value)}
+												onChange={(e) => setnumofDays(parseInt(e.target.value))}
 												value={numofDays}
 											/>
 										</div>
