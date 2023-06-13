@@ -20,7 +20,7 @@ const CategoryItem = (collection) => {
   const { exploretype } = useSelector((state) => state.counter);
   const [type, settype] = useState();
   const [nftitems, setItems] = useState([]);
-  const [filterVal, setFilterVal] = useState();
+  const [filterVal, setFilterVal] = useState(0);
   const [filtered, setfiltered] = useState([])
   const { address } = useAccount()
 
