@@ -74,7 +74,7 @@ const Collection = () => {
 	let name = collectiondetails ? collectiondetails.name : null
 	return (
 		<>
-			<Meta title={`collection || Xhibiter | NFT Marketplace Next.js Template`} />
+			<Meta title={`collection || Arctix | NFT Marketplace Next.js Template`} />
 
 			<div className="pt-[5.5rem] lg:pt-24">
 				{/* <!-- Banner --> */}

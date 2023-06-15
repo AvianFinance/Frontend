@@ -18,8 +18,10 @@ const footer = () => {
                 <a className="mb-6 inline-block">
                   <img
                     src="/images/logo.png"
-                    className="max-h-7 dark:hidden"
-                    alt="Xhibiter | NFT Marketplace"
+                    className="max-h-12 dark:hidden"
+                    alt="Arctix | NFT Marketplace"
+                    max-width = '100%'
+                    height = 'auto'
                   />
                 </a>
               </Link>
@@ -28,8 +30,8 @@ const footer = () => {
                 <a className=" mb-6 inline-block">
                   <img
                     src="/images/logo_white.png"
-                    className="hidden max-h-7 dark:block mb-6"
-                    alt="Xhibiter | NFT Marketplace"
+                    className="hidden max-h-12 dark:block mb-6"
+                    alt="Arctix | NFT Marketplace"
                   />
                 </a>
               </Link>

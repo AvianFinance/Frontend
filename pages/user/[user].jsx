@@ -41,7 +41,7 @@ const User = () => {
 	if(UserData){
 		return (
 			<>
-				<Meta title="User || Xhibiter | NFT Marketplace Next.js Template" />
+				<Meta title="User || Arctix | NFT Marketplace Next.js Template" />
 				{/* <!-- Profile --> */}
 
 

@@ -71,13 +71,13 @@ const Navbar = () => {
 									<a className="shrink-0 lg:mr-14">
 										<img
 											src="/images/logo.png"
-											className="max-h-7 dark:hidden"
-											alt="Xhibiter | NFT Marketplace"
+											className="max-h-12 dark:hidden"
+											alt="Arctix | NFT Marketplace"
 										/>
 										<img
 											src="/images/logo_white.png"
-											className="hidden max-h-7 dark:block"
-											alt="Xhibiter | NFT Marketplace"
+											className="hidden max-h-12 dark:block"
+											alt="Arctix | NFT Marketplace"
 										/>
 									</a>
 								</Link>
@@ -100,15 +100,15 @@ const Navbar = () => {
 
 							<Link href="/">
 								<a className="shrink-0 block dark:hidden">
-									<img src="/images/logo.png" alt="" className="max-h-7 h-auto" />
+									<img src="/images/logo.png" alt="" className="max-h-12 h-auto" />
 								</a>
 							</Link>
 							<Link href="/">
 								<a className="shrink-0 hidden dark:block">
 									<img
 										src="/images/logo_white.png"
-										className="max-h-7 h-auto"
-										alt="Xhibiter | NFT Marketplace"
+										className="max-h-12 h-auto"
+										alt="Arctix | NFT Marketplace"
 									/>
 								</a>
 							</Link>
@@ -235,13 +235,13 @@ const Navbar = () => {
 									<a className="shrink-0 lg:mr-14">
 										<img
 											src="/images/logo.png"
-											className="max-h-7 dark:hidden"
-											alt="Xhibiter | NFT Marketplace"
+											className="max-h-12 dark:hidden"
+											alt="Arctix | NFT Marketplace"
 										/>
 										<img
 											src="/images/logo_white.png"
-											className="hidden max-h-7 dark:block"
-											alt="Xhibiter | NFT Marketplace"
+											className="hidden max-h-12 dark:block"
+											alt="Arctix | NFT Marketplace"
 										/>
 									</a>
 								</Link>
@@ -268,8 +268,8 @@ const Navbar = () => {
 
 										<img
 											src="/images/logo_white.png"
-											className="max-h-7 h-auto"
-											alt="Xhibiter | NFT Marketplace"
+											className="max-h-12 h-auto"
+											alt="Arctix | NFT Marketplace"
 										/>
 									</a>
 								</Link>
@@ -280,8 +280,8 @@ const Navbar = () => {
 
 										<img
 											src="/images/logo_white.png"
-											className="max-h-7 h-auto hidden dark:block"
-											alt="Xhibiter | NFT Marketplace"
+											className="max-h-12 h-auto hidden dark:block"
+											alt="Arctix | NFT Marketplace"
 										/>
 									</a>
 								</Link>

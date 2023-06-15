@@ -15,15 +15,15 @@ const Accordion = ({ data }) => {
 			<h2 className="font-display text-jacarta-700 mb-10 text-center text-xl font-medium dark:text-white">
 				Frequently asked questions
 			</h2>
-			<p className="text-jacarta-300 mx-auto mb-10 max-w-md text-center text-lg">
+			{/* <p className="text-jacarta-300 mx-auto mb-10 max-w-md text-center text-lg">
 				Join our community now to get free updates and also alot of freebies are waiting for you Or{' '}
 				<br />
 				<Link href="/contact">
 					<a className="text-accent">Contact Support</a>
 				</Link>
-			</p>
+			</p> */}
 
-			<div className="accordion mx-auto max-w-[35rem]" id="accordionFAQ">
+			<div className="accordion mx-auto max-w-[60rem]" id="accordionFAQ">
 				{data.map((item) => {
 					const { id, title, text } = item;
 					return (

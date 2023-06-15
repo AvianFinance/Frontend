@@ -11,7 +11,7 @@ const Help_center = () => {
   const bgImage = "/images/page-title/knowledge_base_banner.jpg";
   return (
     <div>
-      <Meta title="Help Center || Xhibiter | NFT Marketplace Next.js Template" />
+      <Meta title="Help Center || Arctix | NFT Marketplace Next.js Template" />
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Page Title --> */}
 
@@ -27,12 +27,12 @@ const Help_center = () => {
             />
           </picture>
           <div className="container">
-            <h2 className="font-display text-jacarta-700 mb-10 text-center text-xl font-medium dark:text-white">
+            {/* <h2 className="font-display text-jacarta-700 mb-10 text-center text-xl font-medium dark:text-white">
               Or browse categories
-            </h2>
+            </h2> */}
 
             {/* <!-- Categories --> */}
-            <div className="mb-16 grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
+            {/* <div className="mb-16 grid grid-cols-1 gap-7 sm:grid-cols-2 md:grid-cols-3">
               {help_center_data.map((item) => {
                 const { id, title, text } = item;
                 return (
@@ -46,7 +46,7 @@ const Help_center = () => {
                   </Link>
                 );
               })}
-            </div>
+            </div> */}
             {/* <!-- end categories --> */}
 
             <Accordion data={accordion_data} />

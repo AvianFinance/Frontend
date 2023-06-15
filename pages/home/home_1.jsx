@@ -11,7 +11,7 @@ import Meta from '../../components/Meta';
 const Home_1 = () => {
 	return (
 		<main>
-			<Meta title="Home 1 || Xhibiter | NFT Marketplace Next.js Template" />
+			<Meta title="Home 1 || Arctix | NFT Marketplace Next.js Template" />
 			<Hero />
 			<Bids />
 			<Top_collection />

@@ -1,11 +1,11 @@
 {
-  "name": "xhibiter-v1",
+  "name": "Arctix-v1",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "PORT=8002 next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "PORT=8002 next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -59,5 +59,8 @@
   },
   "overrides": {
     "autoprefixer": "10.4.5"
+  },
+  "server": {
+    "port": 8080
   }
 }
