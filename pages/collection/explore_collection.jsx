@@ -147,7 +147,7 @@ const Explore_collection = () => {
                 })}
               </ul>
               {/* dropdown */}
-              <Collection_dropdown />
+              {/* <Collection_dropdown /> */}
             </div> : null}
   
             {/* <!-- Grid --> */}

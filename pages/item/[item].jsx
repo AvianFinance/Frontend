@@ -427,12 +427,19 @@ const Item = () => {
 													</div>
 		
 													{(inst_listed_status === false && typeof(listing) != "undefined" && listing.inst_status === "PAYING") && user===address ? <Link href="#">
-														<button
+														{/* <button
 															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
 															onClick={buyNFT}
 															disabled={isLoading}
 														>
 															Pay Next Installment {(next_installement ** Math.pow(10, -18))} AVAX 
+														</button> */}
+														<button
+															className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+															onClick={buyNFT}
+															disabled={isLoading}
+														>
+															Pay Next Installment 
 														</button>
 													</Link> : null}
 	

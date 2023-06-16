@@ -51,8 +51,8 @@ const Edit_user = () => {
 				maxContentLength: "Infinity",
 				headers: {
 					"Content-Type": `multipart/form-data;boundary=${formData._boundary}`,
-					'pinata_api_key': "41030e487dd2d2b59e17",
-					'pinata_secret_api_key': "fd927ccf934300824234a5eda1ff3300ca5ff101e15b5442e7190c12d4f955af" ,
+					'pinata_api_key': "47f7e9259ff696e4678d",
+					'pinata_secret_api_key': "617b7e690d835deec904fbb0a5ed5ced9573e392500dccca1e23b8bf386ca455" ,
 	
 				}
 			  }

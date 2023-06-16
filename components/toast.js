@@ -9,7 +9,7 @@ const ToasterContainer = () => {
     const { toaster, toastertype, toastermessage } = useSelector((state) => state.counter);
 	const dispatch = useDispatch();
 
-    if (toaster){
+    if (toaster && toastermessage){
         switch(toastertype) {
 			case "error":
 				toast.error(toastermessage, {
