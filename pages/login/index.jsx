@@ -43,7 +43,7 @@ const Login = () => {
               <a className="relative inline-block py-36">
                 <img
                   src="/images/logo_white.png"
-                  className="inline-block max-h-7"
+                  className="inline-block max-h-12"
                   alt="Xhibiter | NFT Marketplace"
                 />
               </a>

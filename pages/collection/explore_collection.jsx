@@ -84,7 +84,7 @@ const Explore_collection = () => {
   
           <div className="container">
             <HeadLine
-              text="Explore Collections"
+              text={exploretype === "rent" ? "Rent Explore Collections" : "Buy Explore Collections"}
               classes="font-display text-jacarta-700 py-16 text-center text-4xl font-medium dark:text-white"
             />
   
