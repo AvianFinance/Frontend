@@ -89,12 +89,12 @@ const Collection = () => {
 				{/* <!-- end banner --> */}
 
 				{/* <!-- Profile --> */}
-				<div className="container py-5">
+				<div className="container">
 					<div className="text-center">
-						<h2 className="font-display text-jacarta-700 mb-2 text-4xl font-medium dark:text-white">
-							<span className="text-md font-display font-semibold">{exploretype === "rent" ? "Rent From      " : "Buy From    "}</span><span className="text-accent font-display font-semibold">{name ? name : null}</span>
+						<h2 className="font-display text-jacarta-700 mb-2 text-4xl font-medium dark:text-white pb-5 pt-5">
+							<span className=" font-display font-semibold">{exploretype === "rent" ? "Rent From      " : "Buy From    "}</span><span className="text-accent font-display font-semibold">{name ? name : null}</span>
 						</h2>
-						{collectionaddress ? <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 mb-8 inline-flex items-center justify-center rounded-full border bg-white py-1.5 px-4">
+						{collectionaddress ? <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100  inline-flex items-center justify-center rounded-full border bg-white py-1.5 px-4">
 							<Tippy content="ETH">
 								<svg className="icon h-4 w-4 mr-1">
 									<use xlinkHref="/icons.svg#icon-ETH"></use>
