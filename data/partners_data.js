@@ -42,10 +42,10 @@ const works_data = [
 		title: 'Gas-free Marketplace',
 	},
 	{
-		id: '4Advertise Xhibiter',
-		text: 'Advertise Xhibiter',
+		id: '4Advertise Arctix',
+		text: 'Advertise Arctix',
 		icon: 'advertise',
-		title: 'Advertise Xhibiter',
+		title: 'Advertise Arctix',
 	},
 	{
 		id: '5Earn 20% Commission Per Sale!',

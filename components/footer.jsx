@@ -19,7 +19,9 @@ const footer = () => {
                   <img
                     src="/images/logo.png"
                     className="max-h-12 dark:hidden"
-                    alt="Xhibiter | NFT Marketplace"
+                    alt="Arctix | NFT Marketplace"
+                    max-width = '100%'
+                    height = 'auto'
                   />
                 </a>
               </Link>

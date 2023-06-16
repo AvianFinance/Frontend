@@ -376,8 +376,8 @@ const MblNavbar = ({ theme }) => {
 
 						<img
 							src="/images/logo_white.png"
-							alt="Xhibiter | NFT Marketplace"
-							className="max-h-7 dark:block hidden"
+							alt="Arctix | NFT Marketplace"
+							className="max-h-12 dark:block hidden"
 						/>
 					</a>
 				</Link>

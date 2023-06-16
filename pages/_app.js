@@ -50,7 +50,7 @@ function App({ Component, pageProps }) {
 
 	return (
 		<>
-			<Meta title="Home 1 || Xhibiter | NFT Marketplace Next.js Template" />
+			<Meta title="Home 1 || Arctix | NFT Marketplace Next.js Template" />
 			
 			<WagmiConfig client={client} suppressHydrationWarning="true">
 				<Provider store={store}>
