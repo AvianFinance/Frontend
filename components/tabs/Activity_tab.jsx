@@ -9,7 +9,7 @@ const Activity_tab = (activities) => {
 			{/* <!-- Activity --> */}
 			<div className="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
 				{/* <!-- Filter --> */}
-				<div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 bg-light-base border border-b-0 px-4 pt-5 pb-2.5">
+				{/* <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 bg-light-base border border-b-0 px-4 pt-5 pb-2.5">
 					<div className="flex flex-wrap">
 						<button className="dark:border-jacarta-600 dark:bg-jacarta-700 group dark:hover:bg-accent hover:bg-accent border-jacarta-100 mr-2.5 mb-2.5 inline-flex items-center rounded-xl border bg-white px-4 py-3 hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
 							<svg
@@ -64,7 +64,7 @@ const Activity_tab = (activities) => {
 							<span className="text-2xs font-medium">Installment</span>
 						</button>
 					</div>
-				</div>
+				</div> */}
 
 				<div
 					role="table"
@@ -100,10 +100,9 @@ const Activity_tab = (activities) => {
 					{activities.activities.map((item, index) => {
 						const { event, from, to, price, createdAt } = item;
 
-						let date = new Date(createdAt),
-						mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-						day = ("0" + date.getDate()).slice(-2);
-						let createdDate =  [date.getFullYear(), mnth, day].join("-");
+						let date = new Date(createdAt)
+						let createdDate =  date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+						console.log(createdDate)
 
 						return (
 							<div className="flex" role="row" key={index}>
@@ -166,7 +165,7 @@ const Activity_tab = (activities) => {
 											title="Opens in a new window"
 											data-tippy-content="March 13 2022, 2:32 pm"
 										>
-											<span className="mr-1">{createdDate ? createdAt : null}</span>
+											<span className="mr-1">{createdDate ? createdDate : null}</span>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												viewBox="0 0 24 24"

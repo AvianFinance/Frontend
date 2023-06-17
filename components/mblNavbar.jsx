@@ -424,129 +424,7 @@ const MblNavbar = ({ theme }) => {
 			{/* <!-- Primary Nav --> */}
 			<nav className="navbar w-full">
 				<ul className="flex flex-col lg:flex-row">
-					{/* <li className="js-nav-dropdown group relative">
-						<button
-							className={
-								router.asPath === '/home/home_3'
-									? 'dropdown-toggle font-display hover:text-accent focus:text-accent flex items-center justify-between py-3.5 text-base text-jacarta-700 dark:lg:text-jacarta-700 lg:text-white lg:px-5 w-full'
-									: 'dropdown-toggle text-jacarta-700 font-display hover:text-accent focus:text-accent dark:hover:text-accent dark:focus:text-accent flex items-center justify-between py-3.5 text-base dark:text-white lg:px-5 w-full'
-							}
-							onClick={(e) => handleItemDropdown(e)}
-						>
-							<span className={navText === 'home' ? 'text-accent' : ''}>Home</span>
-
-							<i className="lg:hidden">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 24 24"
-									width="24"
-									height="24"
-									className="h-4 w-4 dark:fill-white"
-								>
-									<path fill="none" d="M0 0h24v24H0z"></path>
-									<path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-								</svg>
-							</i>
-						</button>
-
-						<ul className="dropdown-menu dark:bg-jacarta-800 left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative">
-							{homenavData.map(({ id, text, url, New }) => {
-								return (
-									<li key={id}>
-										<Link href={url}>
-											<a
-												className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-												onClick={() => {
-													dispatch(closeMblMenu());
-													localStorage.setItem('navItemValue', id);
-												}}
-											>
-												<span
-													className={
-														navItemValue === id
-															? 'font-display text-accent text-sm'
-															: 'font-display text-jacarta-700 text-sm dark:text-white'
-													}
-												>
-													{text}
-												</span>
-												{New && (
-													<span className="rounded bg-green py-1 px-2 text-xs font-bold uppercase leading-none text-white ml-4">
-														new
-													</span>
-												)}
-											</a>
-										</Link>
-									</li>
-								);
-							})}
-						</ul>
-					</li> */}
-					{/* <li className="js-nav-dropdown group relative">
-						<button
-							className={
-								router.asPath === '/home/home_3'
-									? 'dropdown-toggle font-display  hover:text-accent focus:text-accent flex items-center justify-between py-3.5 text-base lg:text-white text-jacarta-700 dark:text-white lg:px-5 w-full'
-									: 'dropdown-toggle text-jacarta-700 font-display hover:text-accent focus:text-accent dark:hover:text-accent dark:focus:text-accent flex items-center justify-between py-3.5 text-base dark:text-white lg:px-5 w-full'
-							}
-							onClick={(e) => handleItemDropdown(e)}
-						>
-							<span className={navText === 'pages' ? 'text-accent' : ''}>Pages</span>
-
-							<i className="lg:hidden">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 24 24"
-									width="24"
-									height="24"
-									className="h-4 w-4 dark:fill-white"
-								>
-									<path fill="none" d="M0 0h24v24H0z"></path>
-									<path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-								</svg>
-							</i>
-						</button>
-						<ul
-							className="dropdown-menu left-0 top-[85%] z-10 hidden grid-flow-row grid-cols-[repeat(2,_1fr)]
-							gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform
-							group-hover:visible group-hover:opacity-100 dark:bg-jacarta-800 lg:invisible
-							lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-2 lg:opacity-0 lg:shadow-2xl
-							lg:group-hover:translate-y-2 relative"
-						>
-							{pageTextData.map(({ id, text, href, New }) => {
-								return (
-									<li key={id}>
-										<Link href={href}>
-											<a
-												className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
-												onClick={() => {
-													dispatch(closeMblMenu());
-													setNavItemValue(id);
-													localStorage.setItem('navItemValue', id);
-												}}
-											>
-												<span
-													className={
-														navItemValue === id
-															? 'font-display text-accent text-sm'
-															: 'font-display text-jacarta-700 text-sm dark:text-white'
-													}
-												>
-													{text}
-												</span>
-												{New && (
-													<span className="rounded bg-green py-1 px-2 text-xs font-bold uppercase leading-none text-white ml-4">
-														new
-													</span>
-												)}
-											</a>
-										</Link>
-									</li>
-								);
-							})}
-						</ul>
-					</li> */}
-					<li className="js-nav-dropdown nav-item dropdown group relative">
+					<li className="group">
 						<button
 							className={
 								router.asPath === '/home/home_3'
@@ -657,7 +535,7 @@ const MblNavbar = ({ theme }) => {
 							</li>
 						</ul>
 					</li>
-					<li className="js-nav-dropdown group relative">
+					<li className="group">
 						<button
 							className={
 								router.asPath === '/home/home_3'
@@ -737,7 +615,176 @@ const MblNavbar = ({ theme }) => {
 			</nav>
 
 			{/* <!-- Mobile Connect Wallet / Socials --> */}
-			<div className="mt-10 w-full lg:hidden">
+			<div className="w-full lg:hidden">
+				<ul className="flex flex-col lg:flex-row">
+					<li className="group">
+						<button
+							className={
+								router.asPath === '/home/home_3'
+									? 'dropdown-toggle font-display hover:text-accent focus:text-accent flex items-center justify-between text-base lg:text-white text-jacarta-700 dark:text-white lg:px-5 w-full'
+									: 'dropdown-toggle text-jacarta-700 font-display hover:text-accent focus:text-accent dark:hover:text-accent dark:focus:text-accent flex items-center justify-between text-base dark:text-white lg:px-5 w-full'
+							}
+							onClick={(e) => handleItemDropdown(e)}
+						>
+							<span className={navText === 'collection' ? 'text-accent' : ''}>Explore</span>
+
+							<i className="lg:hidden">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									width="24"
+									height="24"
+									className="h-4 w-4 dark:fill-white"
+								>
+									<path fill="none" d="M0 0h24v24H0z"></path>
+									<path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
+								</svg>
+							</i>
+						</button>
+						<ul
+							className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col  gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute  lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
+							aria-labelledby="navDropdown-1"
+						>
+							{/* <li>
+								<Link href="/collection/explore_collection">
+									<a
+										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
+										onClick={() => {
+											dispatch(closeMblMenu());
+											localStorage.setItem('navItemValue', 31);
+										}}
+									>
+										<span className="bg-light-base mr-3 rounded-xl p-[0.375rem]">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="24"
+												height="24"
+												className="fill-jacarta-700 h-4 w-4"
+											>
+												<path fill="none" d="M0 0h24v24H0z"></path>
+												<path d="M22 12.999V20a1 1 0 0 1-1 1h-8v-8.001h9zm-11 0V21H3a1 1 0 0 1-1-1v-7.001h9zM11 3v7.999H2V4a1 1 0 0 1 1-1h8zm10 0a1 1 0 0 1 1 1v6.999h-9V3h8z"></path>
+											</svg>
+										</span>
+										<span className="font-display text-jacarta-700 text-sm dark:text-white">
+											All NFTs
+										</span>
+									</a>
+								</Link>
+							</li> */}
+							<li>
+								<Link href="/collection/explore_collection">
+									<a
+										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
+										onClick={() => {
+											dispatch(explorecollections("rent"));
+											localStorage.setItem('navItemValue', 31);
+										}}
+									>
+										<span className="mr-3 rounded-xl bg-[#E4FCF4] p-[0.375rem]">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="24"
+												height="24"
+												className="h-4 w-4 fill-[#10B981]"
+											>
+												<path fill="none" d="M0 0h24v24H0z"></path>
+												<path d="M12 2c5.522 0 10 3.978 10 8.889a5.558 5.558 0 0 1-5.556 5.555h-1.966c-.922 0-1.667.745-1.667 1.667 0 .422.167.811.422 1.1.267.3.434.689.434 1.122C13.667 21.256 12.9 22 12 22 6.478 22 2 17.522 2 12S6.478 2 12 2zm-1.189 16.111a3.664 3.664 0 0 1 3.667-3.667h1.966A3.558 3.558 0 0 0 20 10.89C20 7.139 16.468 4 12 4a8 8 0 0 0-.676 15.972 3.648 3.648 0 0 1-.513-1.86zM7.5 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM12 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
+											</svg>
+										</span>
+										<span className="font-display text-jacarta-700 text-sm dark:text-white">
+											Rent
+										</span>
+									</a>
+								</Link>
+							</li>
+							<li>
+								<Link href="/collection/explore_collection">
+									<a
+										className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
+										onClick={() => {
+											dispatch(explorecollections("buy"));
+											localStorage.setItem('navItemValue', 31);
+										}}
+									>
+										<span className="mr-3 rounded-xl bg-[#FDF7EE] p-[0.375rem]">
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												width="24"
+												height="24"
+												className="h-4 w-4 fill-[#FEB240]"
+											>
+												<path fill="none" d="M0 0h24v24H0z"></path>
+												<path d="M17.5 2a4.5 4.5 0 0 1 2.951 7.897c.355.967.549 2.013.549 3.103A9 9 0 1 1 3.55 9.897a4.5 4.5 0 1 1 6.791-5.744 9.05 9.05 0 0 1 3.32 0A4.494 4.494 0 0 1 17.5 2zm0 2c-.823 0-1.575.4-2.038 1.052l-.095.144-.718 1.176-1.355-.253a7.05 7.05 0 0 0-2.267-.052l-.316.052-1.356.255-.72-1.176A2.5 2.5 0 1 0 4.73 8.265l.131.123 1.041.904-.475 1.295A7 7 0 1 0 19 13c0-.716-.107-1.416-.314-2.083l-.112-.33-.475-1.295 1.04-.904A2.5 2.5 0 0 0 17.5 4zM10 13a2 2 0 1 0 4 0h2a4 4 0 1 1-8 0h2z"></path>
+											</svg>
+										</span>
+										<span className="font-display text-jacarta-700 text-sm dark:text-white">
+											Buy
+										</span>
+									</a>
+								</Link>
+							</li>
+						</ul>
+					</li>
+					<li className="group">
+						<button
+							className={
+								router.asPath === '/home/home_3'
+									? 'dropdown-toggle font-display focus:text-accent hover:text-accent flex items-center justify-between py-3.5 text-base lg:text-white text-jacarta-700 dark:text-white lg:px-5 w-full'
+									: 'dropdown-toggle text-jacarta-700 font-display hover:text-accent focus:text-accent dark:hover:text-accent dark:focus:text-accent flex items-center justify-between py-3.5 text-base dark:text-white lg:px-5 w-full'
+							}
+							onClick={(e) => handleItemDropdown(e)}
+						>
+							<span className={navText === 'resources' ? 'text-accent' : ''}>Resources</span>
+
+							<i className="lg:hidden">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									width="24"
+									height="24"
+									className="h-4 w-4 dark:fill-white"
+								>
+									<path fill="none" d="M0 0h24v24H0z"></path>
+									<path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
+								</svg>
+							</i>
+						</button>
+						<ul
+							className="dropdown-menu dark:bg-jacarta-800 left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
+							aria-labelledby="navDropdown-4"
+						>
+							{resourcesData.map(({ id, text, href }) => {
+								return (
+									<li key={id}>
+										<Link href={href}>
+											<a
+												className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors"
+												onClick={() => {
+													dispatch(closeMblMenu());
+													setNavItemValue(id);
+													localStorage.setItem('navItemValue', id);
+												}}
+											>
+												<span
+													className={
+														navItemValue === id
+															? 'font-display text-accent text-sm'
+															: 'font-display text-jacarta-700 text-sm dark:text-white'
+													}
+												>
+													{text}
+												</span>
+											</a>
+										</Link>
+									</li>
+								);
+							})}
+						</ul>
+					</li>
+				</ul>
 				<Metamask_comp_text />
 
 				<hr className="dark:bg-jacarta-600 bg-jacarta-100 my-5 h-px border-0" />
